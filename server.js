@@ -9,9 +9,9 @@ app.use(cors());
 
 // API key configuration
 const apiKeys = {
-         movie: '48170e08d31ae025a5278d4a18dd2e4d',
-         tv: '48170e08d31ae025a5278d4a18dd2e4d',
-         games: 'edb74483e47826757e454d9131b7945ac39b71a4'
+         movie: 'XXXX',
+         tv: 'XXXX',
+         games: 'XXXX'
 };
 
 // Search route
