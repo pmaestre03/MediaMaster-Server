@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
+const externalKeys = require('./apiKeys.js');
 
 const app = express();
 const port = 8000;
@@ -9,9 +10,9 @@ app.use(cors());
 
 // API key configuration
 const apiKeys = {
-         movie: 'XXXX',
-         tv: 'XXXX',
-         games: 'XXXX'
+         movie: externalKeys.movie,
+         tv: externalKeys.tv,
+         games: externalKeys.games
 };
 
 // Search route
