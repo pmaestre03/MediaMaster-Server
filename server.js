@@ -16,6 +16,10 @@ const apiKeys = {
          games: externalKeys.games
 };
 
+app.get('/', (req, res) => {
+    res.send('¡Hola, mundo!');
+});
+
 // Search route
 app.get('/api/search', (req, res) => {
          const { category, query } = req.query;
