@@ -5,6 +5,7 @@ const externalKeys = require('./apiKeys.js');
 
 const app = express();
 const port = 3000;
+const host = '0.0.0.0'; // Esto escuchará en todas las interfaces de red
 
 app.use(cors());
 
@@ -155,6 +156,6 @@ app.get('/api/details', (req, res) => {
          //console.log('Detalles URL:', detailsURLs[category]);
 });
 
-app.listen(port, () => {
-         console.log(`Server is running on http://localhost:${port}`);
+app.listen(port, host, () => {
+         console.log(`Server is running on http://${host}:${port}`);
 });
