@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, please refer to the docs:
+            https://cordova.apache.org/docs/en/latest/
+        Some notes:
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.gstatic.com https://ajax.googleapis.com https://kit.fontawesome.com data: https://musicbrainz.org gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://ajax.googleapis.com 'unsafe-inline'; media-src *; img-src * 'self' data: content:;">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+        <meta name="color-scheme" content="light dark">
+        <link rel="stylesheet" href="css/index.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/smoothness/jquery-ui.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+        <title>MEDIA MASTER</title>
+    </head>
+    <body class="index-body">
+        <main>
+            <div class="left-container">
+                <h1 class="title">MEDIA</h1>
+                <h1 class="subtitle">Welcome to MEDIA MASTER – Your Ultimate Personalized Entertainment Hub!</h1>
+                <!--<h1 class="description">
+                    WHETHER YOU'RE A CINEPHILE, GAMER, BOOKWORM, OR ALL OF THE ABOVE, MEDIA MASTER IS YOUR ULTIMATE COMPANION FOR EXPLORING, 
+                    ORGANIZING, AND ENJOYING ENTERTAINMENT IN A WHOLE NEW WAY. JOIN THE COMMUNITY TODAY AND UNLOCK A WORLD OF ENDLESS POSSIBILITIES!
+                </h1>-->
+                <h2 class="nav-header">Join us</h2>
+                <nav>
+                    <a href="">Log in</a>
+                    <a href="">Sign up</a>
+                </nav>
+            </div>
+            <div class="right-container">
+                <h1 class="title">MASTER</h1>
+
+                <div class="search-container">
+                    <input type="text" id="question" name="question" required class="form__input" placeholder="Search your favorite movies, games and books">
+                    <label for="question" class="form__label">Search your favorite movies, series, games and books</label>
+                </div>
+
+                <div id="categorySelect" class="radio-image-group">
+                    <input type="radio" name="category" id="movies" value="movie" hidden checked>
+                    <label for="movies">
+                        <img src="img/camera.png" alt="Movies" />
+                    </label>
+
+                    <input type="radio" name="category" id="series" value="tv" hidden>
+                    <label for="series">
+                        <img src="img/tv.png" alt="Series" />
+                    </label>
+
+                    <input type="radio" name="category" id="games" value="games" hidden>
+                    <label for="games">
+                        <img src="img/gamepad.png" alt="Video Games" />
+                    </label>
+
+                    <input type="radio" name="category" id="books" value="books" hidden>
+                    <label for="books">
+                        <img src="img/book.png" alt="Books" />
+                    </label>
+                </div>
+
+                <div id="details" class="infoDetails"></div>
+                
+                <footer>
+                    <p>© 2024 Developed by Geanfranco Biagi | Pau Maestre | Isaac Furió</p>
+                </footer>
+            </div>
+        </main>
+        <script src="cordova.js"></script>
+        <script src="js/index.js"></script>
+    </body>
+</html>

@@ -7,7 +7,11 @@ const app = express();
 const port = 3000;
 const host = '0.0.0.0'; // Esto escuchará en todas las interfaces de red
 
+// Usa cors en todos los directorios 
 app.use(cors());
+
+// Configura express para servir archivos estáticos desde el directorio "public"
+app.use(express.static('public'));
 
 // API key configuration
 const apiKeys = {
@@ -17,7 +21,7 @@ const apiKeys = {
 };
 
 app.get('/', (req, res) => {
-    res.send('¡Hola, mundo!');
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Search route
