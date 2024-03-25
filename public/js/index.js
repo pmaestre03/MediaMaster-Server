@@ -4,6 +4,7 @@ $(document).ready(function () {
             source: function (request, response) {
                 var category = $("input[name='category']:checked").val();
                 var query = $("#searchInfo").val();
+                console.log(query); 
                 if (query.length >= 2) {
                     // Mostrar el indicador de carga
                     $("#loadingIndicator").show();
@@ -121,15 +122,19 @@ $(document).ready(function () {
                         '<p><strong>Genres:</strong> ' + data.genres.map(genre => genre.name).join(', ') + '</p>' +
                         '<p><strong>Franchises:</strong> ' + data.franchises.map(franchises => franchises.name).join(', ') + '</p>';
                 }
-                html += '<select id="listas">' +
+                html += 
+                    /* '<select id="listas">' +
                     '<option value="favourites">Favourites</option>' +
                     '<option value="2">Pendientes</option>' +
                     '</select> <button id="saveLists">Save</button>' +
+                    */
                     '</div>' +
                     '</div>' +
                     '</div>';
                 $("#details").html(html);
                 $("#searchInfo").val('');
+                $("footer").css("position", "relative");
+                $("footer").css("width", "auto");
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log("Error en la solicitud:", jqXHR);
