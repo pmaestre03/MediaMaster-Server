@@ -9,7 +9,7 @@ $(document).ready(function () {
                     // Mostrar el indicador de carga
                     $("#loadingIndicator").show();
                     $.ajax({
-                        url: 'http://mediamaster.ieti.site/api/search?category=' + category + '&query=' + query,
+                        url: 'https://mediamaster.ieti.site/api/search?category=' + category + '&query=' + query,
                         dataType: "json",
                         success: function (data) {
                             // Ocultar el indicador de carga
@@ -58,11 +58,11 @@ $(document).ready(function () {
         var category = $("input[name='category']:checked").val();
         var infoURL = '';
         if (category === 'movie' || category === 'tv') {
-            infoURL = "http://mediamaster.ieti.site/api/details?category=" + category + "&id=" + selectedInfo.id;
+            infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + selectedInfo.id;
         } else if (category === 'books') {
             infoURL = "https://www.googleapis.com/books/v1/volumes?q=" + selectedInfo.id;
         } else if (category === 'games') {
-            infoURL = "http://mediamaster.ieti.site/api/details?category=" + category + "&id=" + selectedInfo.id;
+            infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + selectedInfo.id;
         }
 
         $.ajax({
