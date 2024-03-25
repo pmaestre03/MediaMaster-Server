@@ -133,8 +133,15 @@ $(document).ready(function () {
                     '</div>';
                 $("#details").html(html);
                 $("#searchInfo").val('');
-                $("footer").css("position", "relative");
-                $("footer").css("width", "auto");
+                var detailsContainer = document.querySelector('.details-container');
+                var height = detailsContainer.offsetHeight;
+                if (height > 700) {
+                    document.querySelector('footer').style.position = 'relative';
+                    document.querySelector('footer').style.width = 'auto';
+                } else {
+                    document.querySelector('footer').style.position = 'absolute';
+                    document.querySelector('footer').style.width = '50%';
+                }
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log("Error en la solicitud:", jqXHR);
