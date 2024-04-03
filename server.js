@@ -2,6 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 const externalKeys = require('./apiKeys.js');
+const mysql = require('mysql2');
 
 const app = express();
 const port = 3000;
@@ -12,6 +13,14 @@ app.use(cors());
 
 // Configura express para servir archivos estáticos desde el directorio "public"
 app.use(express.static('public'));
+
+// Conexion base de datos
+const connection = mysql.createConnection({
+    host: 'localhost', // Cambia esto por tu host si es diferente
+    user: 'usuario', // Cambia esto por el nombre de usuario de tu base de datos
+    password: 'contraseña', // Cambia esto por la contraseña de tu base de datos
+    database: 'mediamaster' // Cambia esto por el nombre de tu base de datos
+});
 
 // API key configuration
 const apiKeys = {
@@ -25,7 +34,36 @@ app.get('/', (req, res) => {
 });
 
 app.get('/dashboard', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+    const userMail = req.headers['user-mail'];
+    const userId = req.headers['user-id'];
+
+    // Verificar si se proporcionaron user_mail y user_id
+    if (!userMail || !userId) {
+        res.status(403).send('Forbidden');
+    } else {
+        // Enviar el archivo dashboard.html al cliente
+        res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+    }
+});
+
+app.post('/viewUserLists', (req, res) => {
+    connection.connect((err) => {
+        if (err) {
+          console.error('Error al conectar a la base de datos:', err);
+          return;
+        }
+        console.log('Conexión establecida correctamente.');
+        
+        // Ejecutar consultas u otras operaciones aquí OJOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO FALTA ID TE QUEDASTE AQUI COMPROBAR EL REQ HEADERS 
+        connection.query('SELECT * FROM lists WHERE ', (err, results, fields) => {
+            if (err) {
+              console.error('Error al ejecutar la consulta:', err);
+              return;
+            }
+            console.log('Resultados de la consulta:', results);
+            // Puedes trabajar con los resultados aquí
+        });
+    });
 });
 
 // Search route
