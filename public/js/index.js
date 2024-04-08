@@ -182,7 +182,7 @@ $(document).ready(function () {
 
          function loginUser(email, password) {
                   $.ajax({
-                           url: 'http://mediamaster.ieti.site/login',
+                           url: 'https://mediamaster.ieti.site/login',
                            method: 'POST',
                            data: {
                                     email: email,
