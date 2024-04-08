@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.get('/dashboard', (req, res) => {
+app.get('/dashboard', (req, res) => { // OJO CAMBIAR ESTO A POST CUANDO ACABES LA PRUEBA Y ESTE EN PRODUCCION
     const userMail = req.headers['user-mail'];
     const userId = req.headers['user-id'];
 
@@ -47,6 +47,9 @@ app.get('/dashboard', (req, res) => {
 });
 
 app.post('/viewUserLists', (req, res) => {
+    const userMail = req.headers['user-mail'];
+    const userId = req.headers['user-id'];
+
     connection.connect((err) => {
         if (err) {
           console.error('Error al conectar a la base de datos:', err);
@@ -54,14 +57,14 @@ app.post('/viewUserLists', (req, res) => {
         }
         console.log('Conexión establecida correctamente.');
         
-        // Ejecutar consultas u otras operaciones aquí OJOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO FALTA ID TE QUEDASTE AQUI COMPROBAR EL REQ HEADERS 
-        connection.query('SELECT * FROM lists WHERE ', (err, results, fields) => {
+        // Ejecutar consultas u otras operaciones aquí 
+        connection.query('SELECT * FROM lists WHERE creator_id = ?', [userId], (err, results, fields) => {
             if (err) {
               console.error('Error al ejecutar la consulta:', err);
               return;
             }
             console.log('Resultados de la consulta:', results);
-            // Puedes trabajar con los resultados aquí
+            res.json(results);
         });
     });
 });
