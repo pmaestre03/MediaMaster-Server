@@ -2,17 +2,21 @@ const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 const externalKeys = require('./apiKeys.js');
-
+const mysql = require('mysql2');
+const bodyParser = require('body-parser');
 const app = express();
-const port = 3000;
+const port = 3000 ;
 const host = '0.0.0.0'; // Esto escuchará en todas las interfaces de red
+const path = require('path');
 
 // Usa cors en todos los directorios 
 app.use(cors());
+app.use(bodyParser.json());
 
 // Configura express para servir archivos estáticos desde el directorio "public"
 app.use(express.static('public'));
-
+app.use(express.json()); // Agrega este middleware para analizar el cuerpo de la solicitud en formato JSON
+app.use(express.urlencoded({ extended: true }));
 // API key configuration
 const apiKeys = {
          movie: externalKeys.movie,
@@ -20,8 +24,29 @@ const apiKeys = {
          games: externalKeys.games
 };
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// MYSQL Connection
+const connection = mysql.createConnection({
+         host: 'localhost',
+         user: 'super',
+         password: 'e1ce1uy7nc173?',
+         database: 'mediaMaster'
+});
+
+app.post('/', (req, res) => {
+         const user_mail = req.body.user_mail;
+         const user_id = req.body.user_id;
+         console.log('User Mail:', user_mail);
+         console.log('User ID:', user_id);
+         console.log('Request Body:', req.body);
+         if (user_mail !== null && user_mail !== '') {
+                  res.redirect('/search');
+         } else {
+                  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+         }
+});
+
+app.get('/search', (req, res) => {
+         res.sendFile(path.join(__dirname, 'public', 'search.html'));
 });
 
 // Search route
@@ -78,12 +103,12 @@ app.get('/api/search', (req, res) => {
                            } else if (category === 'games') {
                                     // Aquí se debe manejar la respuesta de búsqueda de juegos para incluir las imágenes correctamente
                                     resultsWithImages = response.data.results.map(result => {
-                                        //console.log('Result:', result.image); // Agrega un console.log para mostrar las imágenes de los juegos
-                                        return {
-                                            id: result.id,
-                                            label: result.name,
-                                            image: result.image ? result.image.original : null // Ajusta aquí según la estructura real de los datos de respuesta
-                                        };
+                                             //console.log('Result:', result.image); // Agrega un console.log para mostrar las imágenes de los juegos
+                                             return {
+                                                      id: result.id,
+                                                      label: result.name,
+                                                      image: result.image ? result.image.original : null // Ajusta aquí según la estructura real de los datos de respuesta
+                                             };
                                     });
                            } else {
                                     // Mapea los resultados para incluir la URL de la imagen
@@ -162,6 +187,54 @@ app.get('/api/details', (req, res) => {
 
          // Agrega un console.log para mostrar la URL completa de la consulta
          //console.log('Detalles URL:', detailsURLs[category]);
+});
+
+app.post('/login', (req, res) => {
+         const { email, password } = req.body;
+         connection.query(
+                  'SELECT * FROM users WHERE user_mail = ? AND user_password = ?',
+                  [email, password],
+                  (error, results) => {
+                           if (error) {
+                                    res.status(500).json({ error: 'Internal server error' });
+                           } else {
+                                    if (results.length > 0) {
+                                             res.json({ success: true, userData: results});
+                                    } else {
+                                             res.json({ success: false });
+                                    }
+                           }
+                  }
+         );
+});
+
+app.post('/register', (req, res) => {
+         const { email, user, password } = req.body;
+         connection.query(
+                  'SELECT * FROM users WHERE user_mail = ?', [email],
+                  (error, results) => {
+                           if (error) {
+                                    res.status(500).json({ error: 'Internal server error' });
+                           } else {
+                                    if (results.length > 0) {
+                                             res.json({ success: false, message: 'User already exists' });
+                                    } else {
+                                             connection.query(
+                                                      'INSERT INTO users (user_mail, user_name, user_password) VALUES (? , ? , ?)',
+                                                      [email, user, password],
+                                                      (error, results) => {
+                                                               if (error) {
+                                                                        res.status(500).json({ error: 'Internal server error' });
+                                                               } else {
+                                                                        res.json({ success: true });
+                                                               }
+                                                      }
+                                             );
+                                    }
+                           }
+                  }
+
+         );
 });
 
 app.listen(port, host, () => {
