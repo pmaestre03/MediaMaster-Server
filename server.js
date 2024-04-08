@@ -2,6 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 const externalKeys = require('./apiKeys.js');
+const mysqlCredentials = require('./mysqlCredentials.js');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const app = express();
@@ -20,10 +21,10 @@ app.use(express.urlencoded({ extended: true }));
 
 // Conexion base de datos
 const connection = mysql.createConnection({
-    host: 'localhost', // Cambia esto por tu host si es diferente
-    user: 'usuario', // Cambia esto por el nombre de usuario de tu base de datos
-    password: 'contraseña', // Cambia esto por la contraseña de tu base de datos
-    database: 'mediamaster' // Cambia esto por el nombre de tu base de datos
+    host: mysqlCredentials.host, // Cambia esto por tu host si es diferente
+    user: mysqlCredentials.user, // Cambia esto por el nombre de usuario de tu base de datos
+    password: mysqlCredentials.password, // Cambia esto por la contraseña de tu base de datos
+    database: mysqlCredentials.database // Cambia esto por el nombre de tu base de datos
 });
 // API key configuration
 const apiKeys = {
