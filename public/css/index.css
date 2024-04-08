@@ -407,3 +407,15 @@ INDEX.HTML
 .infoDetails {
     color: #067202;
 }
+
+.login-body {
+         background-color: #043603;
+         align-items: center;
+         text-align: center;
+}
+
+.register-body {
+         background-color: #ffffff;
+         color: #000000;
+         text-align: center;
+}
