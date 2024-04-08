@@ -182,7 +182,7 @@ $(document).ready(function () {
 
          function loginUser(email, password) {
                   $.ajax({
-                           url: 'http://localhost:3000/login',
+                           url: 'http://mediamaster.ieti.site/login',
                            method: 'POST',
                            data: {
                                     email: email,
@@ -193,7 +193,7 @@ $(document).ready(function () {
                                     if (data.success) {
                                              localStorage.setItem('user_id', data.userData[0].user_id);
                                              localStorage.setItem('user_mail', email);
-                                             window.location.href = 'http://localhost:3000/';
+                                             window.location.href = 'http://mediamaster.ieti.site/';
                                     } else {
                                              document.getElementById('error').innerHTML = 'User or Password incorrect';
                                     }
@@ -222,7 +222,7 @@ $(document).ready(function () {
          function registerUser(email, user, password) {
                   console.log(email, user, password);
                   $.ajax({
-                           url: 'http://localhost:3000/register',
+                           url: 'http://mediamaster.ieti.site/register',
                            method: 'POST',
                            data: {
                                     email: email,
