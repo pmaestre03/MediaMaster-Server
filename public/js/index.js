@@ -193,8 +193,8 @@ $(document).ready(function () {
                                     if (data.success) {
                                              localStorage.setItem('user_id', data.userData[0].user_id);
                                              localStorage.setItem('user_mail', email);
-                                             //window.location.href = 'http://mediamaster.ieti.site/';
-                                             fetch('/dashboard', {
+                                             //window.location.href = 'https://mediamaster.ieti.site/';
+                                             fetch('https://mediamaster.ieti.site/dashboard', {
                                                 method: 'POST',
                                                 headers: {
                                                   'Content-Type': 'application/json',
