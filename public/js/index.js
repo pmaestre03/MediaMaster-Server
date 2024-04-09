@@ -195,7 +195,7 @@ $(document).ready(function () {
                                              localStorage.setItem('user_mail', email);
                                              //window.location.href = 'https://mediamaster.ieti.site/';
                                              fetch('https://mediamaster.ieti.site/dashboard', {
-                                                method: 'POST',
+                                                method: 'GET',
                                                 headers: {
                                                   'Content-Type': 'application/json',
                                                   'user-mail': email,

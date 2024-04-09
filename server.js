@@ -97,7 +97,7 @@ app.post('/viewUserLists', (req, res) => {
     });
 });
 
-app.post('/dashboard', (req, res) => { // OJO CAMBIAR ESTO A POST CUANDO ACABES LA PRUEBA Y ESTE EN PRODUCCION
+app.get('/dashboard', (req, res) => { // OJO CAMBIAR ESTO A POST CUANDO ACABES LA PRUEBA Y ESTE EN PRODUCCION
     const userMail = req.headers['user-mail'];
     const userId = req.headers['user-id'];
 
