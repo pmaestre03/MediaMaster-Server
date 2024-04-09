@@ -198,8 +198,8 @@ $(document).ready(function () {
                                                 method: 'POST',
                                                 headers: {
                                                   'Content-Type': 'application/json',
-                                                  'user-mail': userMail,
-                                                  'user-id': userId
+                                                  'user-mail': email,
+                                                  'user-id': data.userData[0].user_id
                                                 }
                                               })
                                               .then(response => {
