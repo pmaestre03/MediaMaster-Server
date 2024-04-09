@@ -193,7 +193,24 @@ $(document).ready(function () {
                                     if (data.success) {
                                              localStorage.setItem('user_id', data.userData[0].user_id);
                                              localStorage.setItem('user_mail', email);
-                                             window.location.href = 'http://mediamaster.ieti.site/';
+                                             //window.location.href = 'http://mediamaster.ieti.site/';
+                                             fetch('/dashboard', {
+                                                method: 'POST',
+                                                headers: {
+                                                  'Content-Type': 'application/json',
+                                                  'user-mail': userMail,
+                                                  'user-id': userId
+                                                }
+                                              })
+                                              .then(response => {
+                                                if (!response.ok) {
+                                                  throw new Error('Failed to fetch');
+                                                }
+                                                // Manejar la respuesta del servidor
+                                              })
+                                              .catch(error => {
+                                                console.error('Error:', error);
+                                              });
                                     } else {
                                              document.getElementById('error').innerHTML = 'User or Password incorrect';
                                     }

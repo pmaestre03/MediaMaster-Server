@@ -10,7 +10,7 @@ $(function() {
 
     // esto se tendra que automatizar despues de hacer login
     /*fetch('/dashboard', {
-        method: 'GET',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'user-mail': userMail,
