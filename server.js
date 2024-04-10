@@ -19,17 +19,6 @@ app.use(express.static('public'));
 app.use(express.json()); // Agrega este middleware para analizar el cuerpo de la solicitud en formato JSON
 app.use(express.urlencoded({ extended: true }));
 
-// avisar al navegador que NO use cache mientras estemos en desarrollo
-app.use((req, res, next) => {
-    // Configurar encabezados para evitar el almacenamiento en caché
-    res.setHeader('Cache-Control', 'no-cache, no-store');
-    res.setHeader('Pragma', 'no-cache');
-    res.setHeader('Expires', '0');
-
-    // Continuar con el manejo de la solicitud
-    next();
-});
-
 // Conexion base de datos
 const connection = mysql.createConnection({
     host: mysqlCredentials.host, // Cambia esto por tu host si es diferente
