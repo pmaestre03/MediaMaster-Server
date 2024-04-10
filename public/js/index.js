@@ -1,24 +1,27 @@
-var user_id = localStorage.getItem('user_id');
 var user_mail = localStorage.getItem('user_mail');
+var user_id = localStorage.getItem('user_id');
 
-if (user_id && user_mail) {
-         window.location.href = 'http://localhost:3000/search';
-}
+if (user_mail || user_id) {
+    window.location.href = 'https://mediamaster.ieti.site/dashboard';
+} 
 
-$(document).ready(function () {
+$(document).ready(function () {   
 
-
-         function LoggedUser() {
-                  $.ajax({
-                           url: 'http://localhost:3000/',
-                           type: 'POST',
-                           headers: {
-                                    'Content-Type': 'application/json',
-                                    user_mail: user_mail,
-                                    user_id: user_id
-                           },
+         fetch('/', {
+                  method: 'POST',
+                  headers: {
+                           'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({ user_mail: user_mail, user_id: user_id })
+         })
+                  .then(response => {
+                           if (response.ok) {
+                                    console.log('Datos del localStorage enviados correctamente.');
+                           } else {
+                                    console.error('Error al enviar los datos del localStorage.');
+                           }
                   })
-         };
+         
 
          LoggedUser();
 

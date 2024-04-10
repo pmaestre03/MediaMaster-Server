@@ -45,6 +45,9 @@ jspm_packages/
 # Api keys file
 apiKeys.js
 
+# Mysql credentials
+mysqlCredentials.js
+
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 
