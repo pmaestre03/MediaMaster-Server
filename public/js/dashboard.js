@@ -6,10 +6,6 @@ if (!userMail || !userId) {
   window.location.href = 'https://mediamaster.ieti.site/';
 }
 
-console.log(userMail);
-console.log(userId);
-console.log(userName);
-
 $(function() {
   $("#welcome_messagge").text("Welcome, " + userName);
 
