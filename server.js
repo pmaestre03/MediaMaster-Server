@@ -52,17 +52,8 @@ app.get('/search', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'search.html'));
 });
 
-app.get('/dashboard', (req, res) => { // OJO CAMBIAR ESTO A POST CUANDO ACABES LA PRUEBA Y ESTE EN PRODUCCION
-    const userMail = req.headers['user-mail'];
-    const userId = req.headers['user-id'];
-
-    // Verificar si se proporcionaron user_mail y user_id
-    if (!userMail || !userId) {
-        res.status(403).send('Forbidden');
-    } else {
-        // Enviar el archivo dashboard.html al cliente
-        res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
-    }
+app.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
 });
 
 app.post('/viewUserLists', (req, res) => {
