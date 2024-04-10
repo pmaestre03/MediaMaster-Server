@@ -193,7 +193,7 @@ $(document).ready(function () {
                                     if (data.success) {
                                              localStorage.setItem('user_id', data.userData[0].user_id);
                                              localStorage.setItem('user_mail', email);
-                                             //window.location.href = 'https://mediamaster.ieti.site/';
+                                             window.location.href = 'https://mediamaster.ieti.site/';
                                     } else {
                                              document.getElementById('error').innerHTML = 'User or Password incorrect';
                                     }
