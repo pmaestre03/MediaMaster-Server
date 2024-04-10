@@ -1,26 +1,16 @@
-var user_id = localStorage.getItem('user_id');
 var user_mail = localStorage.getItem('user_mail');
-
-if (user_id && user_mail) {
-         window.location.href = 'http://localhost:3000/search';
+var user_id = localStorage.getItem('user_id');
+var user_name = localStorage.getItem('user_name');
+if (!user_mail && !user_id) {
+         window.location.href = 'http://localhost:3000/login';
 }
-
 $(document).ready(function () {
-
-
-         function LoggedUser() {
-                  $.ajax({
-                           url: 'http://localhost:3000/',
-                           type: 'POST',
-                           headers: {
-                                    'Content-Type': 'application/json',
-                                    user_mail: user_mail,
-                                    user_id: user_id
-                           },
-                  })
-         };
-
-         LoggedUser();
+         $("#welcome").append('Welcome, ' + user_name + '!')
+         $("#signOut").click(function () {
+                  localStorage.removeItem('user_mail');
+                  localStorage.removeItem('user_id');
+                  window.location.href = 'http://localhost:3000/login';
+         });
 
          $("#search-container").on('input', '#searchInfo', function () {
                   $("#searchInfo").autocomplete({
@@ -76,13 +66,14 @@ $(document).ready(function () {
          });
 
          function searchItem(selectedItem) {
+                  $("#addToLists").css('display', 'none');
                   var selectedInfo = selectedItem ? selectedItem : $("#searchInfo").val();
                   $("#details").empty();
                   var category = $("input[name='category']:checked").val();
                   var infoURL = '';
                   if (category === 'movie' || category === 'tv') {
                            infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + selectedInfo.id;
-                  } else if (category === 'books') {  
+                  } else if (category === 'books') {
                            infoURL = "http://localhost:3000/api/details?category=" + category + "&id=" + selectedInfo.id;
                   } else if (category === 'games') {
                            infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + selectedInfo.id;
@@ -111,7 +102,7 @@ $(document).ready(function () {
                                                                '<img src="' + largeImageUrl + '" alt="' + data.name + ' Poster">' +
                                                                '<div class="description">' + data.overview + '</div>' +
                                                                '</div>' +
-                                                               '<div class="additional-info">' +
+                                                               '<div id="additional-info" class="additional-info">' +
                                                                '<p><strong>Genres:</strong> ' + genres + '</p>' +
                                                                '<p><strong>Release Date:</strong> ' + releaseDate + '</p>' +
                                                                '<p><strong>Companies:</strong> ' + companies + '</p>';
@@ -128,7 +119,7 @@ $(document).ready(function () {
                                                       '<img src="' + largeImageUrl + '" alt="' + volumeInfo.title + ' Poster">' +
                                                       '<div class="description">' + volumeInfo.description + '</div>' +
                                                       '</div>' +
-                                                      '<div class="additional-info">' +
+                                                      '<div id="additional-info"  class="additional-info">' +
                                                       '<p><strong>Authors:</strong> ' + (volumeInfo.authors ? volumeInfo.authors.join(', ') : 'Unknown') + '</p>' +
                                                       '<p><strong>Published Date:</strong> ' + volumeInfo.publishedDate + '</p>' +
                                                       '<p><strong>Publisher:</strong> ' + (volumeInfo.publisher ? volumeInfo.publisher : 'Unknown') + '</p>';
@@ -140,34 +131,26 @@ $(document).ready(function () {
                                                       '<img src="' + largeImageUrl + '" alt="' + data.name + ' Poster">' +
                                                       '<div class="description">' + data.description + '</div>' +
                                                       '</div>' +
-                                                      '<div class="additional-info">' +
+                                                      '<div id="additional-info"  class="additional-info">' +
                                                       '<p><strong>Release Date:</strong> ' + data.release_date + '</p>' +
                                                       '<p><strong>Genres:</strong> ' + data.genres.map(genre => genre.name).join(', ') + '</p>' +
                                                       '<p><strong>Franchises:</strong> ' + data.franchises.map(franchises => franchises.name).join(', ') + '</p>';
                                     }
-                                    html +=
-                                             /* '<select id="listas">' +
+                                    console.log(category);
+                                    html += '<button id="saveItem" value="' + selectedInfo.id + '">Add to list</button></div></div>';
+                                    $("#details").append(html);
+                                    showListsAndAddToLists(selectedInfo.id, category);
+                                    closeLists();
+
+                                    /*
+                                              '<select id="listas">' +
                                              '<option value="favourites">Favourites</option>' +
                                              '<option value="2">Pendientes</option>' +
                                              '</select> <button id="saveLists">Save</button>' +
                                              */
-                                             '</div>' +
-                                             '</div>' +
-                                             '</div>';
-                                    $("#details").html(html);
+
                                     $("#searchInfo").val('');
-                                    var detailsContainer = document.querySelector('.details-container');
-                                    var height = detailsContainer.offsetHeight;
-                                    if (height > 650) {
-                                             // Aplicar estilos cuando la altura de la ventana es mayor que 650px
-                                             document.querySelector('footer').style.position = 'relative';
-                                             document.querySelector('footer').style.width = 'auto';
-                                    } else {
-                                             // Aplicar estilos cuando la altura de la ventana es menor o igual a 650px
-                                             document.querySelector('footer').style.position = 'absolute';
-                                             document.querySelector('footer').style.width = '50%';
-                                    }
-                          },
+                           },
                            error: function (jqXHR, textStatus, errorThrown) {
                                     console.log("Error en la solicitud:", jqXHR);
                                     console.log("Texto del estado:", textStatus);
@@ -176,4 +159,105 @@ $(document).ready(function () {
                   });
          }
 
+         function getUsersList(user_mail, user_id) {
+                  $.ajax({
+                           url: 'http://localhost:3000/viewUserLists',
+                           type: 'POST',
+                           headers: {
+                                    'Content-Type': 'application/json',
+                                    user_mail: user_mail,
+                                    user_id: user_id
+                           },
+                  })
+                           .done(function (data) {
+                                    listas = data;
+                                    $("#myLists").empty();
+                                    html = '<form action="" method="" id="addElementOnList">';
+                                    data.forEach(function (list) {
+                                             html += "<div id=allLists>"
+                                             $("#myLists").append('<p><a href="" value="' + list.list_id + '">' + list.list_name + '</p>');
+                                             html += '<label><input type="checkbox" name="list" value="' + list.list_id + '"> ' + list.list_name + '</label><br>';
+                                    });
+
+                                    html += '</div><input type="submit" value="saveElement" id="saveToList"><input type="submit" value="close" id="closeListsView"></form>';
+                                    $("#addToLists").append(html);
+                           });
+         }
+
+         function showListsAndAddToLists(item_id, category) {
+                  // Desvincular controladores de eventos previos
+                  $("#saveItem").off('click');
+                  $("#saveToList").off('click');
+                  $("#closeListsView").off('click');
+
+                  $("#saveItem").on('click', function (event) {
+                           console.log(item_id);
+                           $("#addToLists").css('display', 'block');
+                           $("main").css('filter', 'blur(5px)');
+                           $("main").addClass('disable-buttons');
+                  });
+
+                  $("#saveToList").on('click', function (event) {
+                           event.preventDefault();
+                           $("input[name='list']:checked").each(function () {
+                                    console.log($(this).val());
+                                    if (category === 'books') {
+                                             category_id = 'book_id';
+                                    } else if (category === 'movie') {
+                                             category_id = 'movie_id';
+                                    } else if (category === 'tv') {
+                                             category_id = 'serie_id';
+                                    } else if (category === 'games') {
+                                             category_id = 'game_id';
+                                    }
+                                    saveItem($(this).val(), category_id, item_id);
+                           });
+                  });
+
+                  $("#closeListsView").on('click', function (event) {
+                           event.preventDefault();
+                           $("main").css('filter', 'blur(0)');
+                           $("#addToLists").css('display', 'none');
+                           $("main").removeClass('disable-buttons');
+                  });
+         }
+
+         function closeLists() {
+                  $("#closeListsView").on('click', function (event) {
+                           event.preventDefault();
+                           $("main").css('filter', 'blur(0)');
+                           $("#addToLists").css('display', 'none');
+                           $("main").removeClass('disable-buttons');
+                  });
+         }
+
+         function saveItem(list_id, category, item_id) {
+                  console.log(list_id, category, item_id);
+                  $.ajax({
+                           url: 'http://localhost:3000/addMediaToList',
+                           type: 'POST',
+                           headers: {
+                                    'Content-Type': 'application/json'
+                           },
+                           data: JSON.stringify({
+                                    list_id: list_id,
+                                    category: category,
+                                    item_id: item_id
+                           })
+                  })
+                           .done(function (data) {
+                                    console.log(data);
+                                    // Cerrar la ventana de listas y desactivar los checkboxes
+                                    closeLists();
+                                    $("input[name='list']").prop('checked', false);
+                                    // Limpiar las variables
+                                    list_id = null;
+                                    item_id = null;
+                                    category = null;
+                                    closeLists();
+                           });
+         }
+
+
+         getUsersList(user_mail, user_id);
 });

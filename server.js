@@ -5,7 +5,7 @@ const externalKeys = require('./apiKeys.js');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const app = express();
-const port = 3000 ;
+const port = 3000;
 const host = '0.0.0.0'; // Esto escuchará en todas las interfaces de red
 const path = require('path');
 
@@ -33,20 +33,32 @@ const connection = mysql.createConnection({
 });
 
 app.post('/', (req, res) => {
-         const user_mail = req.body.user_mail;
-         const user_id = req.body.user_id;
-         console.log('User Mail:', user_mail);
-         console.log('User ID:', user_id);
-         console.log('Request Body:', req.body);
-         if (user_mail !== null && user_mail !== '') {
+         const user_mail = req.headers['user_mail'];
+         const user_id = req.headers['user_id'];
+         //console.log('User Mail:', user_mail);
+         //console.log('User ID:', user_id);
+         //console.log('Request Body:', req.headers);
+         if (user_mail !== undefined && user_id !== undefined) {
                   res.redirect('/search');
          } else {
-                  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+                  res.redirect('/index');
          }
+});
+
+app.get('/index', (req, res) => {
+         res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.get('/search', (req, res) => {
          res.sendFile(path.join(__dirname, 'public', 'search.html'));
+});
+
+app.get('/login', (req, res) => {
+         res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+app.get('/register', (req, res) => {
+         res.sendFile(path.join(__dirname, 'public', 'register.html'));
 });
 
 // Search route
@@ -140,6 +152,7 @@ app.get('/api/details', (req, res) => {
                   movie: `https://api.themoviedb.org/3/${category}/${id}`,
                   tv: `https://api.themoviedb.org/3/${category}/${id}`,
                   games: `http://www.gamespot.com/api/games/`,
+                  books: `https://www.googleapis.com/books/v1/volumes?q=${id}`
          };
 
          let params = {};
@@ -154,21 +167,16 @@ app.get('/api/details', (req, res) => {
                            filter: `id:${id}`,
                            format: 'json',
                   };
-         } else if (category === 'books') {
-                  // Aquí, para libros, simplemente enviamos el ID del libro a la respuesta
-                  res.json({ id: id });
-                  return; // Salir de la función para evitar que continúe ejecutando el código siguiente
          }
-
          axios.get(detailsURLs[category], {
                   params: params
          })
                   .then(response => {
                            let responseData = response.data;
-                           if (category === 'games') {
-                                    responseData = responseData.results[0]; // Ajuste aquí
-                           }
 
+                           if (category === 'games' || category === 'books') {
+                                    responseData = responseData.items[0]; // Aquí se selecciona el primer elemento del arreglo
+                           }
                            // Incluye la URL de la imagen grande en la respuesta JSON
                            let imageUrl = null;
                            if (category === 'movie' || category === 'tv') {
@@ -176,14 +184,17 @@ app.get('/api/details', (req, res) => {
                            } else if (category === 'games') {
                                     // Verifica si la propiedad 'original' está presente en el objeto de imagen
                                     imageUrl = responseData.image && responseData.image.original ? responseData.image.original : null;
+                           } else if (category === 'books') {
+                                    imageUrl = responseData.volumeInfo.imageLinks ? responseData.volumeInfo.imageLinks.thumbnail : null;
                            }
                            responseData.imageUrl = imageUrl;
-
+                           console.log('Response Data:', responseData); // Agrega un console.log para mostrar la respuesta de los detalles
                            res.json(responseData);
                   })
                   .catch(error => {
                            res.status(500).json({ error: 'Internal server error' });
                   });
+
 
          // Agrega un console.log para mostrar la URL completa de la consulta
          //console.log('Detalles URL:', detailsURLs[category]);
@@ -199,7 +210,8 @@ app.post('/login', (req, res) => {
                                     res.status(500).json({ error: 'Internal server error' });
                            } else {
                                     if (results.length > 0) {
-                                             res.json({ success: true, userData: results});
+                                             res.json({ success: true, userData: results });
+                                             //console.log(results)
                                     } else {
                                              res.json({ success: false });
                                     }
@@ -236,6 +248,83 @@ app.post('/register', (req, res) => {
 
          );
 });
+
+app.post('/viewUserLists', (req, res) => {
+         const userMail = req.headers['user_mail'];
+         const userId = req.headers['user_id'];
+
+         connection.connect((err) => {
+                  if (err) {
+                           console.error('Error al conectar a la base de datos:', err);
+                           return;
+                  }
+                  console.log('Conexión establecida correctamente.');
+
+                  // Ejecutar consultas u otras operaciones aquí 
+                  connection.query('SELECT * FROM lists WHERE creator_id = ?', [userId], (err, results, fields) => {
+                           if (err) {
+                                    console.error('Error al ejecutar la consulta:', err);
+                                    return;
+                           }
+                           //console.log('Resultados de la consulta:', results);
+                           res.json(results);
+                  });
+         });
+});
+
+app.post('/addMediaToList', (req, res) => {
+         const { list_id, category, item_id } = req.body;
+
+         // Verificar si ya existe el item_id en la lista para la categoría dada
+         connection.query(
+                  `SELECT ${category} FROM lists WHERE list_id = ?`,
+                  [list_id],
+                  (error, results) => {
+                           if (error) {
+                                    res.status(500).json({ error: 'Internal server error' });
+                           } else {
+                                    // Si la consulta no devuelve resultados o la categoría es nula, significa que el item_id no existe
+                                    if (results.length === 0 || results[0][category] === null || !results[0][category].includes(item_id)) {
+                                             // No existe el item_id en la lista, proceder con la actualización
+                                             if (results.length === 0 || results[0][category] === null) {
+                                                      // No hay elementos en la categoría, insertar el nuevo elemento simplemente
+                                                      connection.query(
+                                                               `UPDATE lists SET ${category} = ? WHERE list_id = ?`,
+                                                               [item_id, list_id],
+                                                               (error, results) => {
+                                                                        if (error) {
+                                                                                 res.status(500).json({ error: 'Internal server error' });
+                                                                        } else {
+                                                                                 res.json({ success: true });
+                                                                        }
+                                                               }
+                                                      );
+                                             } else {
+                                                      // Hay elementos en la categoría, concatenar el nuevo elemento con comas
+                                                      const existingItems = results[0][category];
+                                                      const updatedItems = `${existingItems},${item_id}`;
+
+                                                      connection.query(
+                                                               `UPDATE lists SET ${category} = ? WHERE list_id = ?`,
+                                                               [updatedItems, list_id],
+                                                               (error, results) => {
+                                                                        if (error) {
+                                                                                 res.status(500).json({ error: 'Internal server error' });
+                                                                        } else {
+                                                                                 res.json({ success: true });
+                                                                        }
+                                                               }
+                                                      );
+                                             }
+                                    } else {
+                                             // El item_id ya existe en la lista, enviar una respuesta indicando que no se realizó ninguna acción
+                                             res.json({ success: false, message: 'El item_id ya existe en la lista.' });
+                                    }
+                           }
+                  }
+         );
+});
+
 
 app.listen(port, host, () => {
          console.log(`Server is running on http://${host}:${port}`);

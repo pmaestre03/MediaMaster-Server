@@ -17,7 +17,7 @@ INDEX.HTML
 ========================================================================================*/
 .index-body main {
          display: grid;
-         grid-template-columns: 1fr 1fr;
+         grid-template-columns: 1fr 5fr;
          /* Divide en dos columnas iguales */
          height: 100vh;
          /* Altura del contenedor igual a la altura de la ventana */
@@ -27,6 +27,10 @@ INDEX.HTML
          position: relative;
          width: 100%;
          height: 100%;
+         text-align: center;
+         display: flex;
+         flex-direction: column;
+         justify-content: space-between;
 }
 
 .index-body main .left-container::after {
@@ -65,7 +69,7 @@ INDEX.HTML
 .index-body main .left-container .title {
          font-family: "Anta", sans-serif;
          font-size: 80px;
-         text-align: right;
+         text-align: center;
          font-weight: bold;
          /* Peso de fuente de ejemplo */
          color: transparent;
@@ -172,7 +176,6 @@ INDEX.HTML
          transform-origin: 0 0;
          /* Used later for transitions */
          transition: all 500ms;
-
          -webkit-user-select: none;
          /* Safari */
          -ms-user-select: none;
@@ -185,7 +188,7 @@ INDEX.HTML
          /* This is crucial because if this line doesn't exist, users can
         click on the label, instead of the input field. That's bad UX! */
          pointer-events: none;
-         padding-left: 101px;
+         padding-left: 32%;
 }
 
 .index-body main .right-container .radio-image-group {
@@ -243,8 +246,18 @@ INDEX.HTML
 
 .index-body main .left-container nav {
          display: flex;
+         flex-direction: column;
          justify-content: center;
+         align-self: end;
+}
 
+.index-body main .left-container nav {
+         display: flex;
+         justify-content: flex-end;
+         align-self: end;
+         flex-direction: column;
+         flex-wrap: wrap;
+         align-items: center;
 }
 
 .index-body main .left-container nav a {
@@ -269,13 +282,7 @@ INDEX.HTML
          text-align: center;
 }
 
-.index-body main .left-container nav a:first-child {
-         margin-right: 6px;
-}
 
-.index-body main .left-container nav a:last-child {
-         margin-left: 6px;
-}
 
 .index-body main .left-container nav a:hover {
          background-color: rgb(212, 212, 212);
@@ -289,10 +296,11 @@ INDEX.HTML
 .index-body footer {
          position: absolute;
          bottom: 0;
-         width: 50%;
+         width: auto;
          /* Asegura que el pie de página ocupe todo el ancho del contenedor */
-         text-align: center;
+         text-align: right;
          /* Centra el texto del pie de página */
+         left: 45%;
 }
 
 /* Search functionality */
@@ -304,11 +312,11 @@ INDEX.HTML
          display: flex;
          flex-direction: column;
          align-items: center;
-         margin: 20px auto;
+         margin: 100px auto;
          padding: 10px;
          border: 1px solid #ccc;
          border-radius: 5px;
-         max-width: 600px;
+         max-width: 1250px;
 }
 
 .details-container h2 {
@@ -442,4 +450,87 @@ INDEX.HTML
          background-color: #ffffff;
          color: #000000;
          text-align: center;
+}
+
+#categorySelect {
+         margin-top: 50px;
+}
+
+#options {
+         margin-bottom: 10px;
+}
+
+#options nav a {
+         text-align: center;
+         margin-bottom: 10px;
+}
+
+#myList {
+         max-height: 60%;
+         overflow-y: auto;
+}
+
+a {
+         color: white;
+         text-decoration: none;
+}
+
+a:visited {
+         color: white;
+}
+
+#addToLists {
+         background-color: #ffffff;
+         color: black;
+         display: none;
+         justify-content: center;
+         /* Centra horizontalmente */
+         align-items: center;
+         /* Centra verticalmente */
+         position: fixed;
+         /* Permite que el div se mantenga en la misma posición en la pantalla incluso cuando se desplaza */
+         top: 50%;
+         /* Coloca el div a la mitad de la pantalla verticalmente */
+         left: 50%;
+         /* Coloca el div a la mitad de la pantalla horizontalmente */
+         transform: translate(-50%, -50%);
+         /* Centra exactamente en el medio */
+         border: 1px solid white;
+         width: 500px;
+         height: 250px;
+         padding: 20px;
+         overflow-y: auto;
+}
+
+#allLists {
+         
+}
+
+#saveToList {
+         margin-top: 40%;
+         margin-left: 40%;
+}
+
+#signOut {
+         background-color: red;
+}
+
+
+@media (prefers-color-scheme: dark) {
+         #addToLists {
+                  background-color: #121212;
+                  /* Fondo oscuro */
+                  color: #ffffff;
+                  /* Texto claro */
+         }
+}
+
+#myLists  a {
+         padding: 7.5px;
+         background-color: rgba(0, 0, 0, 0.5);
+         border-radius: 10px;
+}
+
+.disable-buttons {
+         pointer-events: none;
 }
