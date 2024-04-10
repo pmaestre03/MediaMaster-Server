@@ -28,9 +28,12 @@ $(function() {
           $("#myList").append("<li>Series: " + list.serie_id + "</li>");
           $("#myList").append("<li>Books: " + list.book_id + "</li>");
           $("#myList").append("<li>Games: " + list.game_id + "</li>");
+          $("#myList").append("<li>========================================</li>");
         });
       });
   }
+
+  getUsersList(userMail, userId);
 });
 
 
