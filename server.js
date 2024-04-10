@@ -45,21 +45,7 @@ const apiKeys = {
 };
 
 app.post('/', (req, res) => {
-    const user_mail = req.body.user_mail;
-    const user_id = req.body.user_id;
-    console.log('User Mail:', user_mail);
-    console.log('User ID:', user_id);
-    console.log('Request Body:', req.body);
-    if (user_mail !== null && user_mail !== '') {
-        res.set({
-            'Custom-Header': 'Valor personalizado',
-            'user_mail': user_mail,
-            'user_id': user_id
-        });
-        res.redirect('/dashboard');
-    } else {
-        res.sendFile(path.join(__dirname, 'public', 'index.html'));
-    }
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.get('/search', (req, res) => {

@@ -1,7 +1,11 @@
-$(document).ready(function () {
+var user_mail = localStorage.getItem('user_mail');
+var user_id = localStorage.getItem('user_id');
 
-         var user_mail = localStorage.getItem('user_mail');
-         var user_id = localStorage.getItem('user_id');
+if (user_mail || user_id) {
+    window.location.href = 'https://mediamaster.ieti.site/dashboard';
+} 
+
+$(document).ready(function () {   
 
          fetch('/', {
                   method: 'POST',
@@ -193,7 +197,7 @@ $(document).ready(function () {
                                     if (data.success) {
                                              localStorage.setItem('user_id', data.userData[0].user_id);
                                              localStorage.setItem('user_mail', email);
-                                             window.location.href = 'https://mediamaster.ieti.site/';
+                                             window.location.href = 'https://mediamaster.ieti.site/dashboard';
                                     } else {
                                              document.getElementById('error').innerHTML = 'User or Password incorrect';
                                     }
