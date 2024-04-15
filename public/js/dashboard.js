@@ -8,8 +8,9 @@ if (!userMail || !userId) {
 
 $(function() {
   $("#welcome_messagge").text("Welcome, " + userName);
-
+  console.log(userMail);
   function getUsersList(user_mail, user_id) {
+    console.log("entras a getUsersList");
     $.ajax({
       url: 'https://mediamaster.ieti.site/viewUserLists',
       type: 'POST',
@@ -20,6 +21,7 @@ $(function() {
       },
     })
       .done(function (data) {
+        console.log("Datos: " + data);
         listas = data;
         $("#myLists").empty();
         data.forEach(function (list) {
