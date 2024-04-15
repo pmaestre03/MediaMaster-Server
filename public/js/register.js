@@ -16,7 +16,7 @@ $(document).ready(function () {
          function registerUser(email, user, password) {
                   console.log(email, user, password);
                   $.ajax({
-                           url: 'http://localhost:3000/register',
+                           url: 'https://mediamaster.ieti.site/register',
                            method: 'POST',
                            data: {
                                     email: email,

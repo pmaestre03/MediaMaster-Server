@@ -67,7 +67,7 @@ $(document).ready(function () {
                   if (category === 'movie' || category === 'tv') {
                            infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + selectedInfo.id;
                   } else if (category === 'books') {  
-                           infoURL = "http://localhost:3000/api/details?category=" + category + "&id=" + selectedInfo.id;
+                           infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + selectedInfo.id;
                   } else if (category === 'games') {
                            infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + selectedInfo.id;
                   }
