@@ -1,3 +1,10 @@
+var user_mail = localStorage.getItem('user_mail');
+var user_id = localStorage.getItem('user_id');
+
+if (user_mail || user_id) {
+    window.location.href = 'https://mediamaster.ieti.site/dashboard';
+} 
+
 $(document).ready(function () {
 
          function loginUser(email, password) {

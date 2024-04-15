@@ -57,29 +57,6 @@ app.get('/dashboard', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
 });
 
-app.post('/viewUserLists', (req, res) => {
-    const userMail = req.headers['user_mail'];
-    const userId = req.headers['user_id'];
-
-    connection.connect((err) => {
-        if (err) {
-            console.error('Error al conectar a la base de datos:', err);
-            return;
-        }
-        console.log('Conexión establecida correctamente.');
-
-        // Ejecutar consultas u otras operaciones aquí 
-        connection.query('SELECT * FROM lists WHERE creator_id = ?', [userId], (err, results, fields) => {
-            if (err) {
-                console.error('Error al ejecutar la consulta:', err);
-                return;
-            }
-            console.log('Resultados de la consulta:', results);
-            res.json(results);
-        });
-    });
-});
-
 // Search route
 app.get('/api/search', (req, res) => {
     const { category, query } = req.query;
