@@ -6,25 +6,6 @@ if (user_mail || user_id) {
 } 
 
 $(document).ready(function () {   
-
-         fetch('/', {
-                  method: 'POST',
-                  headers: {
-                           'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({ user_mail: user_mail, user_id: user_id })
-         })
-                  .then(response => {
-                           if (response.ok) {
-                                    console.log('Datos del localStorage enviados correctamente.');
-                           } else {
-                                    console.error('Error al enviar los datos del localStorage.');
-                           }
-                  })
-         
-
-         LoggedUser();
-
          $("#search-container").on('input', '#searchInfo', function () {
                   $("#searchInfo").autocomplete({
                            source: function (request, response) {
