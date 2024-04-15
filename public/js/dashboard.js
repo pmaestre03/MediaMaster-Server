@@ -23,14 +23,14 @@ $(function() {
       .done(function (data) {
         console.log("Datos: " + data);
         listas = data;
-        $("#myLists").empty();
+        $("#mylists").empty();
         data.forEach(function (list) {
-          $("#myList").append("<li><h3>" + list.list_name + "</h3>" + "<a href='https://mediamaster.ieti.site/viewDetailed?id=" + list.list_id + "'><ul></ul></a></li>");
-          $("#myList").append("<li>Movies: " + list.movie_id + "</li>");
-          $("#myList").append("<li>Series: " + list.serie_id + "</li>");
-          $("#myList").append("<li>Books: " + list.book_id + "</li>");
-          $("#myList").append("<li>Games: " + list.game_id + "</li>");
-          $("#myList").append("<li>========================================</li>");
+          $("#mylists").append("<li><h3>" + list.list_name + "</h3>" + "<a href='https://mediamaster.ieti.site/viewDetailed?id=" + list.list_id + "'><ul></ul></a></li>");
+          $("#mylists").append("<li>Movies: " + list.movie_id + "</li>");
+          $("#mylists").append("<li>Series: " + list.serie_id + "</li>");
+          $("#mylists").append("<li>Books: " + list.book_id + "</li>");
+          $("#mylists").append("<li>Games: " + list.game_id + "</li>");
+          $("#mylists").append("<li>========================================</li>");
         });
       });
   }
