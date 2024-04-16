@@ -59,6 +59,13 @@ function getUsersList(user_mail, user_id) {
         var selectedPosters = selectRandomElements(ids, 5);
         console.log(selectedPosters);
 
+        if (isEmpty(ids)) {
+          console.log("esta vacio"); // meter feedback al usuario de que la lista esta vacia
+        } else {
+          console.log("no esta vacio");
+          getImages(ids);
+        }
+
         
 
         $("#" + list.list_id).append("<li><img src=''></li>");
@@ -67,45 +74,62 @@ function getUsersList(user_mail, user_id) {
     });
 }
 
-function selectRandomElements(objeto, cantidadMinima) {
-  var elementosSeleccionados = {};
-  var elementosTotales = 0; // Contador para llevar un registro de cuántos elementos hemos seleccionado
+function selectRandomElements(object, min) {
+  var selectedElements = {};
+  var totalElements = 0; // Contador para llevar un registro de cuántos elementos hemos seleccionado
   
-  // Iterar sobre cada lista del objeto
-  for (var lista in objeto) {
+  // Iterar sobre cada lista del object
+  for (var lista in object) {
       // Verificar si la lista está vacía
-      if (objeto[lista].length === 0) continue;
+      if (object[lista].length === 0) continue;
       
       // Seleccionar aleatoriamente hasta 5 elementos de la lista
-      for (var i = 0; i < Math.min(cantidadMinima - elementosTotales, objeto[lista].length); i++) {
-          var indiceAleatorio = Math.floor(Math.random() * objeto[lista].length);
-          var elementoSeleccionado = objeto[lista][indiceAleatorio];
+      for (var i = 0; i < Math.min(min - totalElements, object[lista].length); i++) {
+          var randomIndex = Math.floor(Math.random() * object[lista].length);
+          var selectedElement = object[lista][randomIndex];
           
-          // Añadir el elemento seleccionado al objeto, con la clave indicando la lista de origen
-          if (!elementosSeleccionados[lista]) {
-              elementosSeleccionados[lista] = [];
+          // Añadir el elemento seleccionado al object, con la clave indicando la lista de origen
+          if (!selectedElements[lista]) {
+            selectedElements[lista] = [];
           }
-          elementosSeleccionados[lista].push(elementoSeleccionado);
-          elementosTotales++; // Incrementar el contador de elementos seleccionados
+          selectedElements[lista].push(selectedElement);
+          totalElements++; // Incrementar el contador de elementos seleccionados
           
           // Si hemos alcanzado 5 elementos, salir del bucle
-          if (elementosTotales === cantidadMinima) {
+          if (totalElements === min) {
               break;
           }
       }
       
       // Si ya hemos seleccionado 5 elementos, salir del bucle exterior
-      if (elementosTotales === cantidadMinima) {
+      if (totalElements === min) {
           break;
       }
   }
   
-  return elementosSeleccionados;
+  return selectedElements;
 }
 
+function isEmpty(object) {
+  for (var propiedad in object) {
+      if (object.hasOwnProperty(propiedad) && $.isArray(object[propiedad]) && object[propiedad].length > 0) {
+          return false; // Si encuentra al menos una lista no vacía, devuelve false
+      }
+  }
+  return true; // Si todas las listas están vacías o no existen, devuelve true
+}
 
-function getImages() {
+function getImages(object) {
+  $.each(object, function(category, ids) {
+    console.log("Categoría:", category);
 
+    $.each(ids, function(i, id) {
+      console.log("Elemento", i + 1 + ":", id);
+      //searchItem(id, category);                       OJO MIRAR DE ARREGLAR LA FUNCION SEARCHITEM!!!!!!!!!!!
+    });
+    
+    console.log("----------------------");
+  });
 }
 
 function searchItem(id, category) {
