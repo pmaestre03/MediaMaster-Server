@@ -28,40 +28,69 @@ function getUsersList(user_mail, user_id) {
 
         $("#mylists").append("<a href='https://mediamaster.ieti.site/viewDetailed?id=" + list.list_id + "'><ul id='" + list.list_id + "'><li><h3>" + list.list_name + "</h3></li></ul></a>");
 
-        let movieArray;
-        let seriesArray;
-        let booksArray;
-        let gamesArray;
+        let movieArray = list.movie_id ? list.movie_id.split(",") : [];
+        let seriesArray = list.serie_id ? list.serie_id.split(",") : [];
+        let booksArray = list.book_id ? list.book_id.split(",") : [];
+        let gamesArray = list.game_id ? list.game_id.split(",") : [];
 
-        if (list.movie_id) {
-          movieArray = list.movie_id.split(",");
-        }
-        if (list.serie_id) {
-          seriesArray = list.serie_id.split(",");
-        }
-        if (list.book_id) {
-          booksArray = list.book_id.split(",");
-        }
-        if (list.game_id) {
-          gamesArray = list.game_id.split(",");
+        var ids = {
+          movies: [],
+          series: [],
+          books: [],
+          games: []
         }
 
-        let counter = 0;
+        movieArray.forEach(id => {
+          ids.movies.push(parseInt(id));
+        });
 
-        // sumar la longitud de todas las listas para saber cuantas iteracciones voy a hacer o puedo hacer
+        seriesArray.forEach(id => {
+          ids.series.push(parseInt(id));
+        });
+
+        booksArray.forEach(id => {
+          ids.books.push(parseInt(id));
+        });
+
+        gamesArray.forEach(id => {
+          ids.games.push(parseInt(id));
+        });
+
+        var selectedPosters = selectRandomElements(ids, 5);
+        console.log(selectedPosters);
 
         
 
-        for (let i = 0; i < 5; i++) {
-          
-          
-        }
-
-        $("#" + list.list_id).append("imagenes");
+        $("#" + list.list_id).append("<li><img src=''></li>");
 
       });
     });
 }
+
+function selectRandomElements(object, min) {
+  var selectElements = {};
+  
+  // Iterar sobre cada lista del objeto
+  for (var lista in object) {
+      // Verificar si la lista está vacía
+      if (object[lista].length === 0) continue;
+      
+      // Seleccionar aleatoriamente al menos un elemento de la lista
+      for (var i = 0; i < Math.min(min, object[lista].length); i++) {
+          var indiceAleatorio = Math.floor(Math.random() * object[lista].length);
+          var elementoSeleccionado = object[lista][indiceAleatorio];
+          
+          // Añadir el elemento seleccionado al objeto, con la clave indicando la lista de origen
+          if (!selectElements[lista]) {
+            selectElements[lista] = [];
+          }
+          selectElements[lista].push(elementoSeleccionado);
+      }
+  }
+  
+  return selectElements;
+}
+
 
 function getImages() {
 
