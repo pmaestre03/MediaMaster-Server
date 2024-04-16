@@ -67,28 +67,40 @@ function getUsersList(user_mail, user_id) {
     });
 }
 
-function selectRandomElements(object, min) {
-  var selectElements = {};
+function selectRandomElements(objeto, cantidadMinima) {
+  var elementosSeleccionados = {};
+  var elementosTotales = 0; // Contador para llevar un registro de cuántos elementos hemos seleccionado
   
   // Iterar sobre cada lista del objeto
-  for (var lista in object) {
+  for (var lista in objeto) {
       // Verificar si la lista está vacía
-      if (object[lista].length === 0) continue;
+      if (objeto[lista].length === 0) continue;
       
-      // Seleccionar aleatoriamente al menos un elemento de la lista
-      for (var i = 0; i < Math.min(min, object[lista].length); i++) {
-          var indiceAleatorio = Math.floor(Math.random() * object[lista].length);
-          var elementoSeleccionado = object[lista][indiceAleatorio];
+      // Seleccionar aleatoriamente hasta 5 elementos de la lista
+      for (var i = 0; i < Math.min(cantidadMinima - elementosTotales, objeto[lista].length); i++) {
+          var indiceAleatorio = Math.floor(Math.random() * objeto[lista].length);
+          var elementoSeleccionado = objeto[lista][indiceAleatorio];
           
           // Añadir el elemento seleccionado al objeto, con la clave indicando la lista de origen
-          if (!selectElements[lista]) {
-            selectElements[lista] = [];
+          if (!elementosSeleccionados[lista]) {
+              elementosSeleccionados[lista] = [];
           }
-          selectElements[lista].push(elementoSeleccionado);
+          elementosSeleccionados[lista].push(elementoSeleccionado);
+          elementosTotales++; // Incrementar el contador de elementos seleccionados
+          
+          // Si hemos alcanzado 5 elementos, salir del bucle
+          if (elementosTotales === cantidadMinima) {
+              break;
+          }
+      }
+      
+      // Si ya hemos seleccionado 5 elementos, salir del bucle exterior
+      if (elementosTotales === cantidadMinima) {
+          break;
       }
   }
   
-  return selectElements;
+  return elementosSeleccionados;
 }
 
 
