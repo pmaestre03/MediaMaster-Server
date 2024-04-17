@@ -63,12 +63,13 @@ function getUsersList(user_mail, user_id) {
           console.log("esta vacio"); // meter feedback al usuario de que la lista esta vacia
         } else {
           console.log("no esta vacio");
-          getImages(selectedPosters);
+          let imagesUrls = getImages(selectedPosters);
+          displayPosters(imagesUrls, list.list_id);
         }
 
         
 
-        $("#" + list.list_id).append("<li><img src=''></li>");
+        
 
       });
     });
@@ -124,16 +125,24 @@ function isEmpty(object) {
 }
 
 function getImages(object) {
+  var imagesArray = [];
   $.each(object, function(category, ids) {
     console.log("Categoría:", category);
 
     $.each(ids, function(i, id) {
       console.log("Elemento", i + 1 + ":", id);
-      searchItem(id, category);
+
+      let resultado = searchItem(id, category);
+      if (resultado) {
+        imagesArray.push(resultado);
+      }
+      
     });
     
     console.log("----------------------");
   });
+
+  return imagesArray;
 }
 
 function searchItem(id, category) {
@@ -151,87 +160,26 @@ function searchItem(id, category) {
     url: infoURL,
     dataType: "json",
     success: function (data) {
-      var html = '';
       var largeImageUrl = data.imageUrl;
 
-      if (category == 'movie' || category == 'tv') {
-        if (data.id) {
-          var genres = data.genres.map(function (genre) {
-            return genre.name;
-          }).join(', ');
-          var companies = data.production_companies.map(function (company) {
-            return company.name;
-          }).join(', ');
-          console.log(data);
-          var releaseDate = category == 'movie' ? data.release_date : data.first_air_date;
-          html = '<div class="details-container">' +
-            '<h2>' + (category == 'movie' ? data.title : data.name) + '</h2>' +
-            '<div class="info">' +
-            '<img src="' + largeImageUrl + '" alt="' + data.name + ' Poster">' +
-            '<div class="description">' + data.overview + '</div>' +
-            '</div>' +
-            '<div class="additional-info">' +
-            '<p><strong>Genres:</strong> ' + genres + '</p>' +
-            '<p><strong>Release Date:</strong> ' + releaseDate + '</p>' +
-            '<p><strong>Companies:</strong> ' + companies + '</p>';
-        } else {
-          html = "<p>No se encontraron detalles para esta búsqueda</p>";
-        }
-      } else if (category == 'books') {
+      if (category == 'books') {
         var volumeInfo = data.volumeInfo;
         largeImageUrl = volumeInfo.imageLinks.thumbnail;
-        console.log(volumeInfo);
-        html = '<div class="details-container">' +
-          '<h2>' + volumeInfo.title + '</h2>' +
-          '<div class="info">' +
-          '<img src="' + largeImageUrl + '" alt="' + volumeInfo.title + ' Poster">' +
-          '<div class="description">' + volumeInfo.description + '</div>' +
-          '</div>' +
-          '<div class="additional-info">' +
-          '<p><strong>Authors:</strong> ' + (volumeInfo.authors ? volumeInfo.authors.join(', ') : 'Unknown') + '</p>' +
-          '<p><strong>Published Date:</strong> ' + volumeInfo.publishedDate + '</p>' +
-          '<p><strong>Publisher:</strong> ' + (volumeInfo.publisher ? volumeInfo.publisher : 'Unknown') + '</p>';
-      } else if (category == 'games') {
-        console.log(data)
-        html = '<div class="details-container">' +
-          '<h2>' + data.name + '</h2>' +
-          '<div class="info">' +
-          '<img src="' + largeImageUrl + '" alt="' + data.name + ' Poster">' +
-          '<div class="description">' + data.description + '</div>' +
-          '</div>' +
-          '<div class="additional-info">' +
-          '<p><strong>Release Date:</strong> ' + data.release_date + '</p>' +
-          '<p><strong>Genres:</strong> ' + data.genres.map(genre => genre.name).join(', ') + '</p>' +
-          '<p><strong>Franchises:</strong> ' + data.franchises.map(franchises => franchises.name).join(', ') + '</p>';
       }
-      html +=
-        /* '<select id="listas">' +
-        '<option value="favourites">Favourites</option>' +
-        '<option value="2">Pendientes</option>' +
-        '</select> <button id="saveLists">Save</button>' +
-        */
-        '</div>' +
-        '</div>' +
-        '</div>';
-      $("#details").html(html);
-      $("#searchInfo").val('');
-      var detailsContainer = document.querySelector('.details-container');
-      var height = detailsContainer.offsetHeight;
-      if (height > 650) {
-        // Aplicar estilos cuando la altura de la ventana es mayor que 650px
-        document.querySelector('footer').style.position = 'relative';
-        document.querySelector('footer').style.width = 'auto';
-      } else {
-        // Aplicar estilos cuando la altura de la ventana es menor o igual a 650px
-        document.querySelector('footer').style.position = 'absolute';
-        document.querySelector('footer').style.width = '50%';
-      }
+
+      return largeImageUrl;
     },
     error: function (jqXHR, textStatus, errorThrown) {
       console.log("Error en la solicitud:", jqXHR);
       console.log("Texto del estado:", textStatus);
       console.log("Error lanzado:", errorThrown);
     }
+  });
+}
+
+function displayPosters(imagesArray, ulId) {
+  imagesArray.forEach(url => {
+    $("#" + ulId).append("<li><img src='" + url + "'></li>");
   });
 }
 
