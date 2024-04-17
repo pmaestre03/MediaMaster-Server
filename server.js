@@ -188,7 +188,7 @@ app.get('/api/details', (req, res) => {
                            res.json(responseData);
                   })
                   .catch(error => {
-                           res.status(500).json({ error: 'Internal server error' });
+                           res.status(500).json({ error: error });
                   });
 
 
