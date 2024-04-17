@@ -63,7 +63,7 @@ function getUsersList(user_mail, user_id) {
           console.log("esta vacio"); // meter feedback al usuario de que la lista esta vacia
         } else {
           console.log("no esta vacio");
-          getImages(ids);
+          getImages(selectedPosters);
         }
 
         
@@ -125,7 +125,7 @@ function getImages(object) {
 
     $.each(ids, function(i, id) {
       console.log("Elemento", i + 1 + ":", id);
-      //searchItem(id, category);                       OJO MIRAR DE ARREGLAR LA FUNCION SEARCHITEM!!!!!!!!!!!
+      //searchItem(id, category);
     });
     
     console.log("----------------------");
@@ -135,11 +135,11 @@ function getImages(object) {
 function searchItem(id, category) {
   var infoURL = '';
 
-  if (category === 'movie' || category === 'tv') {
+  if (category == 'movies' || category == 'series') {
     infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + id;
-  } else if (category === 'books') {
+  } else if (category == 'books') {
     infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + id;
-  } else if (category === 'games') {
+  } else if (category == 'games') {
     infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + id;
   }
 
@@ -150,7 +150,7 @@ function searchItem(id, category) {
       var html = '';
       var largeImageUrl = data.imageUrl;
 
-      if (category === 'movie' || category === 'tv') {
+      if (category == 'movies' || category == 'series') {
         if (data.id) {
           var genres = data.genres.map(function (genre) {
             return genre.name;
@@ -159,9 +159,9 @@ function searchItem(id, category) {
             return company.name;
           }).join(', ');
           console.log(data);
-          var releaseDate = category === 'movie' ? data.release_date : data.first_air_date;
+          var releaseDate = category == 'movies' ? data.release_date : data.first_air_date;
           html = '<div class="details-container">' +
-            '<h2>' + (category === 'movie' ? data.title : data.name) + '</h2>' +
+            '<h2>' + (category == 'movies' ? data.title : data.name) + '</h2>' +
             '<div class="info">' +
             '<img src="' + largeImageUrl + '" alt="' + data.name + ' Poster">' +
             '<div class="description">' + data.overview + '</div>' +
@@ -173,7 +173,7 @@ function searchItem(id, category) {
         } else {
           html = "<p>No se encontraron detalles para esta búsqueda</p>";
         }
-      } else if (category === 'books') {
+      } else if (category == 'books') {
         var volumeInfo = data.volumeInfo;
         largeImageUrl = volumeInfo.imageLinks.thumbnail;
         console.log(volumeInfo);
@@ -187,7 +187,7 @@ function searchItem(id, category) {
           '<p><strong>Authors:</strong> ' + (volumeInfo.authors ? volumeInfo.authors.join(', ') : 'Unknown') + '</p>' +
           '<p><strong>Published Date:</strong> ' + volumeInfo.publishedDate + '</p>' +
           '<p><strong>Publisher:</strong> ' + (volumeInfo.publisher ? volumeInfo.publisher : 'Unknown') + '</p>';
-      } else if (category === 'games') {
+      } else if (category == 'games') {
         console.log(data)
         html = '<div class="details-container">' +
           '<h2>' + data.name + '</h2>' +
