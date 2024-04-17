@@ -74,39 +74,50 @@ function getUsersList(user_mail, user_id) {
     });
 }
 
+var ids = {
+  movies: [],
+  series: [],
+  books: [],
+  games: []
+}
+
 function selectRandomElements(object, min) {
   var selectedElements = {};
-  var totalElements = 0; // Contador para llevar un registro de cuántos elementos hemos seleccionado
-  
-  // Iterar sobre cada lista del object
+  var totalElements = 0;
+
+  // Verificar si el número mínimo especificado es mayor que cero
+  if (min <= 0) return selectedElements;
+
   for (var lista in object) {
-      // Verificar si la lista está vacía
-      if (object[lista].length === 0) continue;
-      
-      // Seleccionar aleatoriamente hasta 5 elementos de la lista
-      for (var i = 0; i < Math.min(min - totalElements, object[lista].length); i++) {
-          var randomIndex = Math.floor(Math.random() * object[lista].length);
-          var selectedElement = object[lista][randomIndex];
-          
-          // Añadir el elemento seleccionado al object, con la clave indicando la lista de origen
-          if (!selectedElements[lista]) {
-            selectedElements[lista] = [];
-          }
-          selectedElements[lista].push(selectedElement);
-          totalElements++; // Incrementar el contador de elementos seleccionados
-          
-          // Si hemos alcanzado 5 elementos, salir del bucle
-          if (totalElements === min) {
-              break;
-          }
+    // Verificar si la lista no está vacía y si aún necesitamos más elementos
+    if (object[lista].length > 0 && totalElements < min) {
+      // Calcular cuántos elementos podemos seleccionar de esta lista
+      var remainingElements = min - totalElements;
+      var elementsToSelect = Math.min(remainingElements, object[lista].length);
+
+      // Crear una copia de la lista para evitar modificar la original
+      var copyOfList = object[lista].slice();
+
+      // Seleccionar aleatoriamente elementos de la lista hasta alcanzar el límite
+      for (var i = 0; i < elementsToSelect; i++) {
+        var randomIndex = Math.floor(Math.random() * copyOfList.length);
+        var selectedElement = copyOfList.splice(randomIndex, 1)[0];
+
+        // Añadir el elemento seleccionado al objeto resultante
+        if (!selectedElements[lista]) {
+          selectedElements[lista] = [];
+        }
+        selectedElements[lista].push(selectedElement);
+        totalElements++;
       }
-      
-      // Si ya hemos seleccionado 5 elementos, salir del bucle exterior
-      if (totalElements === min) {
-          break;
-      }
+    }
+
+    // Si ya hemos seleccionado suficientes elementos, salir del bucle
+    if (totalElements >= min) {
+      break;
+    }
   }
-  
+
   return selectedElements;
 }
 
