@@ -34,18 +34,18 @@ function getUsersList(user_mail, user_id) {
         let gamesArray = list.game_id ? list.game_id.split(",") : [];
 
         var ids = {
-          movies: [],
-          series: [],
+          movie: [],
+          tv: [],
           books: [],
           games: []
         }
 
         movieArray.forEach(id => {
-          ids.movies.push(parseInt(id));
+          ids.movie.push(parseInt(id));
         });
 
         seriesArray.forEach(id => {
-          ids.series.push(parseInt(id));
+          ids.tv.push(parseInt(id));
         });
 
         booksArray.forEach(id => {
@@ -72,13 +72,6 @@ function getUsersList(user_mail, user_id) {
 
       });
     });
-}
-
-var ids = {
-  movies: [],
-  series: [],
-  books: [],
-  games: []
 }
 
 function selectRandomElements(object, min) {
@@ -136,7 +129,7 @@ function getImages(object) {
 
     $.each(ids, function(i, id) {
       console.log("Elemento", i + 1 + ":", id);
-      //searchItem(id, category);
+      searchItem(id, category);
     });
     
     console.log("----------------------");
@@ -146,7 +139,7 @@ function getImages(object) {
 function searchItem(id, category) {
   var infoURL = '';
 
-  if (category == 'movies' || category == 'series') {
+  if (category == 'movie' || category == 'tv') {
     infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + id;
   } else if (category == 'books') {
     infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + id;
@@ -161,7 +154,7 @@ function searchItem(id, category) {
       var html = '';
       var largeImageUrl = data.imageUrl;
 
-      if (category == 'movies' || category == 'series') {
+      if (category == 'movie' || category == 'tv') {
         if (data.id) {
           var genres = data.genres.map(function (genre) {
             return genre.name;
@@ -170,9 +163,9 @@ function searchItem(id, category) {
             return company.name;
           }).join(', ');
           console.log(data);
-          var releaseDate = category == 'movies' ? data.release_date : data.first_air_date;
+          var releaseDate = category == 'movie' ? data.release_date : data.first_air_date;
           html = '<div class="details-container">' +
-            '<h2>' + (category == 'movies' ? data.title : data.name) + '</h2>' +
+            '<h2>' + (category == 'movie' ? data.title : data.name) + '</h2>' +
             '<div class="info">' +
             '<img src="' + largeImageUrl + '" alt="' + data.name + ' Poster">' +
             '<div class="description">' + data.overview + '</div>' +
