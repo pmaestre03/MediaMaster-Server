@@ -145,16 +145,14 @@ function getImages(object, callback) {
       });
     });
   });
+
+  return imagesArray;
 }
 
 function searchItem(id, category, callback) {
   var infoURL = '';
 
-  if (category == 'movie' || category == 'tv') {
-    infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + id;
-  } else if (category == 'books') {
-    infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + id;
-  } else if (category == 'games') {
+  if (category == 'movie' || category == 'tv' || category == 'books' || category == 'games') {
     infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + id;
   }
 
