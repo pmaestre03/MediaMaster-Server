@@ -199,7 +199,7 @@ function searchItem(id, category) {
 
 function displayPosters(imagesArray, ulId) {
   imagesArray.forEach(url => {
-    $("#" + ulId).append("<li><img src='" + url + "'></li>");
+    $("#" + ulId).append("<li><img class='poster' src='" + url + "'></li>");
     console.log(url);
   });
 }

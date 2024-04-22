@@ -22,3 +22,8 @@ DASHBOARD.HTML
     list-style: none;
     display: flex;
 }
+
+.dashboard-body .list .poster {
+    height: 330px;
+    margin: 0 20px;
+}
