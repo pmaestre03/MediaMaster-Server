@@ -13,3 +13,12 @@ body {
 /* ======================================================================================
 DASHBOARD.HTML
 ========================================================================================*/
+.dashboard-body a {
+    text-decoration: none; /* Quita el subrayado predeterminado */
+    color: inherit;
+}
+
+.dashboard-body .list {
+    list-style: none;
+    display: flex;
+}
