@@ -125,28 +125,29 @@ function isEmpty(object) {
   return true; // Si todas las listas están vacías o no existen, devuelve true
 }
 
-function getImages(object) {
+function getImages(object, callback) {
   var imagesArray = [];
+  var totalRequests = 0;
+  var completedRequests = 0;
+
   $.each(object, function(category, ids) {
-    console.log("Categoría:", category);
+    totalRequests += ids.length;
 
     $.each(ids, function(i, id) {
-      console.log("Elemento", i + 1 + ":", id);
-
-      let resultado = searchItem(id, category);
-      if (resultado) {
-        imagesArray.push(resultado);
-      }
-      
+      let resultado = searchItem(id, category, function(imageUrl) {
+        if (imageUrl) {
+          imagesArray.push(imageUrl);
+        }
+        completedRequests++;
+        if (completedRequests === totalRequests) {
+          callback(imagesArray);
+        }
+      });
     });
-    
-    console.log("----------------------");
   });
-
-  return imagesArray;
 }
 
-function searchItem(id, category) {
+function searchItem(id, category, callback) {
   var infoURL = '';
 
   if (category == 'movie' || category == 'tv') {
@@ -168,12 +169,13 @@ function searchItem(id, category) {
         largeImageUrl = volumeInfo.imageLinks.thumbnail;
       }
 
-      return largeImageUrl;
+      callback(largeImageUrl);
     },
     error: function (jqXHR, textStatus, errorThrown) {
       console.log("Error en la solicitud:", jqXHR);
       console.log("Texto del estado:", textStatus);
       console.log("Error lanzado:", errorThrown);
+      callback(null);
     }
   });
 }
