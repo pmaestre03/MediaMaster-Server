@@ -147,7 +147,7 @@ app.get('/api/details', (req, res) => {
          const detailsURLs = {
                   movie: `https://api.themoviedb.org/3/${category}/${id}`,
                   tv: `https://api.themoviedb.org/3/${category}/${id}`,
-                  games: `https://www.gamespot.com/api/games/`,
+                  games: `http://www.gamespot.com/api/games/`,
                   books: `https://www.googleapis.com/books/v1/volumes?q=${id}`
          };
 

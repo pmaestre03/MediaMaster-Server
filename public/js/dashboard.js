@@ -180,6 +180,7 @@ function searchItem(id, category) {
 function displayPosters(imagesArray, ulId) {
   imagesArray.forEach(url => {
     $("#" + ulId).append("<li><img src='" + url + "'></li>");
+    console.log(url);
   });
 }
 
