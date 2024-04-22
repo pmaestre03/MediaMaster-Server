@@ -140,7 +140,7 @@ function getImages(object, callback) {
         }
         completedRequests++;
         if (completedRequests === totalRequests) {
-          callback(imagesArray);
+          return imagesArray;
         }
       });
     });
