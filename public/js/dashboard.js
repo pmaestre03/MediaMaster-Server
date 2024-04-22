@@ -63,9 +63,13 @@ function getUsersList(user_mail, user_id) {
           console.log("esta vacio"); // meter feedback al usuario de que la lista esta vacia
         } else {
           console.log("no esta vacio");
-          let imagesUrls = getImages(selectedPosters);
-          console.log(imagesUrls);
-          displayPosters(imagesUrls, list.list_id);
+
+          getImages(selectedPosters).then(function(imagesUrls) {
+            console.log(imagesUrls);
+            displayPosters(imagesUrls, list.list_id);
+          }).catch(function(error) {
+            console.error("Error al obtener las imágenes:", error);
+          });
         }
 
         
@@ -125,58 +129,73 @@ function isEmpty(object) {
   return true; // Si todas las listas están vacías o no existen, devuelve true
 }
 
-function getImages(object, callback) {
+function getImages(object) {
   var imagesArray = [];
-  var totalRequests = 0;
-  var completedRequests = 0;
+  var promises = [];
 
   $.each(object, function(category, ids) {
-    totalRequests += ids.length;
+    console.log("Categoría:", category);
 
     $.each(ids, function(i, id) {
-      let resultado = searchItem(id, category, function(imageUrl) {
-        if (imageUrl) {
-          imagesArray.push(imageUrl);
-        }
-        completedRequests++;
-        if (completedRequests === totalRequests) {
-          return imagesArray;
-        }
-      });
+      console.log("Elemento", i + 1 + ":", id);
+
+      // Llamada a la función que devuelve una promesa
+      var promise = searchItem(id, category);
+      promises.push(promise);
+      
     });
+    
+    console.log("----------------------");
   });
 
-  return imagesArray;
+  // Esperar a que todas las promesas se resuelvan
+  return Promise.all(promises).then(function(results) {
+    // Agregar resultados válidos al array de imágenes
+    results.forEach(function(result) {
+      if (result) {
+        imagesArray.push(result);
+      }
+    });
+    return imagesArray;
+  });
 }
 
-function searchItem(id, category, callback) {
+function searchItem(id, category) {
   var infoURL = '';
 
-  if (category == 'movie' || category == 'tv' || category == 'books' || category == 'games') {
+  if (category == 'movie' || category == 'tv') {
+    infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + id;
+  } else if (category == 'books') {
+    infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + id;
+  } else if (category == 'games') {
     infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + id;
   }
 
-  $.ajax({
-    url: infoURL,
-    dataType: "json",
-    success: function (data) {
-      var largeImageUrl = data.imageUrl;
+  // Devolver una promesa
+  return new Promise(function(resolve, reject) {
+    $.ajax({
+      url: infoURL,
+      dataType: "json",
+      success: function (data) {
+        var largeImageUrl = data.imageUrl;
 
-      if (category == 'books') {
-        var volumeInfo = data.volumeInfo;
-        largeImageUrl = volumeInfo.imageLinks.thumbnail;
+        if (category == 'books') {
+          var volumeInfo = data.volumeInfo;
+          largeImageUrl = volumeInfo.imageLinks.thumbnail;
+        }
+
+        resolve(largeImageUrl);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log("Error en la solicitud:", jqXHR);
+        console.log("Texto del estado:", textStatus);
+        console.log("Error lanzado:", errorThrown);
+        resolve(null); // Resolver con nulo en caso de error
       }
-
-      callback(largeImageUrl);
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      console.log("Error en la solicitud:", jqXHR);
-      console.log("Texto del estado:", textStatus);
-      console.log("Error lanzado:", errorThrown);
-      callback(null);
-    }
+    });
   });
 }
+
 
 function displayPosters(imagesArray, ulId) {
   imagesArray.forEach(url => {
