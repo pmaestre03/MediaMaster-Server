@@ -13,17 +13,35 @@ body {
 /* ======================================================================================
 DASHBOARD.HTML
 ========================================================================================*/
+.dashboard-body main {
+    text-align: center;
+}
+
+.dashboard-body ul {
+    padding: 0;
+}
+
 .dashboard-body a {
     text-decoration: none; /* Quita el subrayado predeterminado */
     color: inherit;
 }
 
+.dashboard-body h3 {
+    margin-top: 60px;
+}
+
+.dashboard-body a:hover {
+    background-color: black;
+}
+
 .dashboard-body .list {
     list-style: none;
     display: flex;
+    justify-content: center;
 }
 
 .dashboard-body .list .poster {
-    height: 330px;
-    margin: 0 20px;
+    height: 400px;
+    margin: 0 25px;
+    border-radius: 15px;
 }
