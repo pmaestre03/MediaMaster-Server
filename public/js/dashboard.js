@@ -64,6 +64,7 @@ function getUsersList(user_mail, user_id) {
         } else {
           console.log("no esta vacio");
           let imagesUrls = getImages(selectedPosters);
+          console.log(imagesUrls);
           displayPosters(imagesUrls, list.list_id);
         }
 
