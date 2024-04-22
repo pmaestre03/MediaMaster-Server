@@ -2,13 +2,13 @@ var user_id = localStorage.getItem('user_id');
 var user_mail = localStorage.getItem('user_mail');
 
 if (user_id || user_mail) {
-    window.location.href = 'http://localhost:3000/search';
+    window.location.href = 'https://mediamaster.ieti.site/search';
 }
 
 $(document).ready(function () {
     function LoggedUser() {
         $.ajax({
-            url: 'http://localhost:3000/',
+            url: 'https://mediamaster.ieti.site/',
             type: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ $(document).ready(function () {
                     // Mostrar el indicador de carga
                     $("#loadingIndicator").show();
                     $.ajax({
-                        url: 'http://localhost:3000/api/search?category=' + category + '&query=' + query,
+                        url: 'https://mediamaster.ieti.site/api/search?category=' + category + '&query=' + query,
                         dataType: "json",
                         success: function (data) {
                             // Ocultar el indicador de carga
@@ -79,11 +79,11 @@ $(document).ready(function () {
         var category = $("input[name='category']:checked").val();
         var infoURL = '';
         if (category === 'movie' || category === 'tv') {
-            infoURL = "http://localhost:3000/api/details?category=" + category + "&id=" + selectedInfo.id;
+            infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + selectedInfo.id;
         } else if (category === 'books') {
-            infoURL = "http://localhost:3000/api/details?category=" + category + "&id=" + selectedInfo.id;
+            infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + selectedInfo.id;
         } else if (category === 'games') {
-            infoURL = "http://localhost:3000/api/details?category=" + category + "&id=" + selectedInfo.id;
+            infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + selectedInfo.id;
         }
 
         $.ajax({

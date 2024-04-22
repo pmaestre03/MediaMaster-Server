@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     function loginUser(email, password) {
         $.ajax({
-            url: 'http://localhost:3000/login',
+            url: 'https://mediamaster.ieti.site/login',
             method: 'POST',
             data: {
                 email: email,
@@ -14,7 +14,7 @@ $(document).ready(function () {
                     localStorage.setItem('user_id', data.userData[0].user_id);
                     localStorage.setItem('user_mail', email);
                     localStorage.setItem('user_name', data.userData[0].user_name);
-                    window.location.href = 'http://localhost:3000/search';
+                    window.location.href = 'https://mediamaster.ieti.site/search';
                 } else {
                     document.getElementById('error').innerHTML = 'User or Password incorrect';
                 }

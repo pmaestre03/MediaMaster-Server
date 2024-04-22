@@ -10,7 +10,7 @@ $(document).ready(function () {
         localStorage.removeItem('user_mail');
         localStorage.removeItem('user_id');
         localStorage.removeItem('user_name');
-        window.location.href = 'http://localhost:3000/';
+        window.location.href = 'https://mediamaster.ieti.site/';
     });
 
     $("#search-container").on('input', '#searchInfo', function () {
@@ -23,7 +23,7 @@ $(document).ready(function () {
                     // Mostrar el indicador de carga
                     $("#loadingIndicator").show();
                     $.ajax({
-                        url: 'http://localhost:3000/api/search?category=' + category + '&query=' + query,
+                        url: 'https://mediamaster.ieti.site/api/search?category=' + category + '&query=' + query,
                         dataType: "json",
                         success: function (data) {
                             // Ocultar el indicador de carga
@@ -72,11 +72,11 @@ $(document).ready(function () {
         var category = $("input[name='category']:checked").val();
         var infoURL = '';
         if (category === 'movie' || category === 'tv') {
-            infoURL = "http://localhost:3000/api/details?category=" + category + "&id=" + selectedInfo.id;
+            infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + selectedInfo.id;
         } else if (category === 'books') {
-            infoURL = "http://localhost:3000/api/details?category=" + category + "&id=" + selectedInfo.id;
+            infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + selectedInfo.id;
         } else if (category === 'games') {
-            infoURL = "http://localhost:3000/api/details?category=" + category + "&id=" + selectedInfo.id;
+            infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + selectedInfo.id;
         }
 
         $.ajax({
@@ -156,7 +156,7 @@ $(document).ready(function () {
 
     function getUsersList(user_mail, user_id) {
         $.ajax({
-            url: 'http://localhost:3000/viewUserLists',
+            url: 'https://mediamaster.ieti.site/viewUserLists',
             type: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -235,7 +235,7 @@ $(document).ready(function () {
     function saveItem(list_id, category, item_id) {
         console.log(list_id, category, item_id);
         $.ajax({
-            url: 'http://localhost:3000/addMediaToList',
+            url: 'https://mediamaster.ieti.site/addMediaToList',
             type: 'POST',
             headers: {
                 'Content-Type': 'application/json'
