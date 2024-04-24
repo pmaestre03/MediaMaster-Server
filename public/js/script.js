@@ -1,25 +1,24 @@
-var user_id = localStorage.getItem('user_id');
-var user_mail = localStorage.getItem('user_mail');
-
-if (user_id || user_mail) {
-    window.location.href = 'http://localhost:3000/search';
-}
-
 $(document).ready(function () {
-    function LoggedUser() {
-        $.ajax({
-            url: 'http://localhost:3000/',
-            type: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                user_mail: user_mail,
-                user_id: user_id
+    // alert("Hello from script.js");
+    // Toastify
+
+    function showNotification(text, color) {
+        Toastify({
+            text: text,
+            duration: 3000,
+            newWindow: true,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+                background: color,
             },
-        })
-    };
+            onClick: function () { } // Callback after click
+        }).showToast();
+    }
 
-    LoggedUser();
-
+    // Busqueda de información para Index y Search
     $("#search-container").on('input', '#searchInfo', function () {
         $("#searchInfo").autocomplete({
             source: function (request, response) {
@@ -160,5 +159,148 @@ $(document).ready(function () {
             }
         });
     }
+    /**************************************************************************************************************/
 
+    // Login
+    function loginUser(email, password) {
+        $.ajax({
+            url: 'http://localhost:3000/login',
+            method: 'POST',
+            data: {
+                email: email,
+                password: password
+            },
+            success: function (data) {
+                console.log(data);
+                if (data.success) {
+                    localStorage.setItem('user_id', data.userData[0].user_id);
+                    localStorage.setItem('user_mail', email);
+                    localStorage.setItem('user_name', data.userData[0].user_name);
+                    window.location.href = 'http://localhost:3000/search';
+                } else {
+                    showNotification('User or Password incorrect', 'red');
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("Error en la solicitud:", jqXHR);
+                console.log("Texto del estado:", textStatus);
+                console.log("Error lanzado:", errorThrown);
+            }
+        });
+    }
+
+    $("#loginForm").on('submit', function (event) {
+        event.preventDefault();
+        var email = $("#email").val();
+        var password = $("#password").val();
+        loginUser(email, password);
+    });
+
+    /**************************************************************************************************************/
+
+    // Register
+    $("#registerForm").on('submit', function (event) {
+        event.preventDefault();
+        var email = $("#email").val();
+        var user = $("#user").val();
+        var password = $("#password").val();
+        var password2 = $("#password2").val();
+        if (password !== password2) {
+            showNotification('Passwords do not match', 'red');
+        } else {
+            registerUser(email, user, password);
+        }
+    });
+
+    function registerUser(email, user, password) {
+        console.log(email, user, password);
+        $.ajax({
+            url: 'http://localhost:3000/register',
+            method: 'POST',
+            data: {
+                email: email,
+                user: user,
+                password: password
+            },
+            success: function (data) {
+                console.log(data);
+                if (!data.success) {
+                    showNotification('User already exists', 'red');
+                } else {
+                    showNotification('User created', 'green');
+                    window.location.href = 'http://localhost:3000/login';
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("Error en la solicitud:", jqXHR);
+                console.log("Texto del estado:", textStatus);
+                console.log("Error lanzado:", errorThrown);
+            }
+        });
+    }
+
+    /**************************************************************************************************************/
+
+    // Forgot Password
+    $("#forgotForm").on('submit', function (event) {
+        event.preventDefault();
+        var email = $("#email").val();
+        forgotPassword(email);
+    });
+
+    function forgotPassword(email) {
+        console.log(email);
+        $.ajax({
+            url: 'http://localhost:3000/forgot',
+            method: 'POST',
+            data: {
+                email: email
+            },
+            success: function (data) {
+                console.log(data);
+                if (!data.success) {
+                    showNotification('User does not exist', 'red');
+                } else {
+                    showNotification('Recovery email sent successfully', 'green');
+                }
+                $("#email").val('');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("Error en la solicitud:", jqXHR);
+                console.log("Texto del estado:", textStatus);
+                console.log("Error lanzado:", errorThrown);
+            }
+        });
+    }
+
+    /**************************************************************************************************************/
+
+    // Reset Password
+    $("#recoverPasswd").submit(function (e) {
+        e.preventDefault();
+        var password = $("#password").val();
+        var repeatPassword = $("#repeatPassword").val();
+        if (password != repeatPassword) {
+            showNotification("Passwords do not match", 'orange');
+            return;
+        } else {
+            var token = new URLSearchParams(window.location.search).get("token");
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:3000/resetPassword",
+                data: { token: token, password: password },
+                success: function (data) {
+                    if (data.success) {
+                        $("#recoverPasswd").hide();
+                        showNotification(data.message, 'green');
+                    } else {
+                        showNotification(data.error, 'red');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    showNotification("An error occurred while processing your request", 'red');
+                }
+            });
+        }
+    });
 });

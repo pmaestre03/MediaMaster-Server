@@ -11,7 +11,7 @@ $(document).ready(function () {
             var token = new URLSearchParams(window.location.search).get("token");
             $.ajax({
                 type: "POST",
-                url: "https://mediamaster.ieti.site/resetPassword",
+                url: "http://localhost:3000/resetPassword",
                 data: { token: token, password: password },
                 success: function (data) {
                     if (data.success) {

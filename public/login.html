@@ -1,55 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 
-         <head>
-                  <meta http-equiv="Content-Security-Policy"
-                           content="default-src 'self' https://fonts.gstatic.com https://ajax.googleapis.com https://www.googleapis.com https://kit.fontawesome.com data: https://musicbrainz.org gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://ajax.googleapis.com 'unsafe-inline'; media-src *; img-src * 'self' data: content:; connect-src 'self' https://www.googleapis.com http://localhost:3000;">
+    <head>
+        <meta http-equiv="Content-Security-Policy"
+            content="default-src 'self' https://fonts.gstatic.com https://ajax.googleapis.com https://www.googleapis.com https://kit.fontawesome.com data: https://musicbrainz.org gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://ajax.googleapis.com https://cdn.jsdelivr.net 'unsafe-inline'; script-src 'self' https://cdn.jsdelivr.net https://ajax.googleapis.com 'unsafe-inline'; media-src *; img-src * 'self' data: content:; connect-src 'self' https://cdn.jsdelivr.net/npm/toastify-js https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css https://www.googleapis.com http://localhost:3000 https://mediamaster.ieti.site;">
 
-                  <meta name="format-detection" content="telephone=no">
-                  <meta name="msapplication-tap-highlight" content="no">
-                  <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
-                  <meta name="color-scheme" content="light dark">
-                  <link rel="stylesheet" href="css/login.css">
-                  <link rel="preconnect" href="https://fonts.googleapis.com">
-                  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                  <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
-                  <link rel="shortcut icon" href="img/logo.png" type="image/png">
-                  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-                  <link rel="stylesheet"
-                           href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-                  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-                  <title>MEDIA MASTER</title>
-         </head>
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+        <meta name="color-scheme" content="light dark">
+        <link rel="stylesheet" href="css/login.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
+        <link rel="shortcut icon" href="img/logo.png" type="image/png">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link rel="stylesheet"
+            href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <title>MEDIA MASTER</title>
+    </head>
 
-         <body id="login" class="login-body">
-                  <h1><a href="http://localhost:3000/">MEDIAMASTER</a></h1>
-                  <h2>Log In</h2>
-                  <h3 id="error"></h3>
+    <body id="login" class="login-body">
+        <h1><a href="http://localhost:3000/">MEDIAMASTER</a></h1>
+        <h2>Log In</h2>
+        <h3 id="error"></h3>
 
-                  <div class="login">
-                           <form action="" method="post" id="loginForm">
+        <div class="login">
+            <form action="" method="post" id="loginForm">
 
-                                    <input type="email" name="email" id="email" required class="form__input"
-                                             placeholder="Your Mail">
-                                    <label for="email" required class="form__label">Mail</label>
+                <input type="email" name="email" id="email" required class="form__input" placeholder="Your Mail">
+                <label for="email" required class="form__label">Mail</label>
 
-                                    <input type="password" name="password" id="password" required class="form__input"
-                                             placeholder="Your password">
-                                    <label for="password" class="form__label">Password</label><br>
-                                    <nav>
-                                             <input type="submit" value="Log In" id="loginLink">
-                                    </nav><br><br>
+                <input type="password" name="password" id="password" required class="form__input"
+                    placeholder="Your password">
+                <label for="password" class="form__label">Password</label><br>
+                <nav>
+                    <input type="submit" value="Log In" id="loginLink">
+                </nav><br><br>
 
-                                    <a href="http://localhost:3000/forgot">Forgot your password?</a><br><br>
-                                    <a href="http://localhost:3000/register">Do not have an account? Click here</a>
+                <a href="http://localhost:3000/forgot">Forgot your password?</a><br><br>
+                <a href="http://localhost:3000/register">Do not have an account? Click here</a>
 
-                           </form>
-                  </div>
-                  <footer>
-                           <p>© 2024 Developed by Geanfranco Biagi | Pau Maestre | Isaac Furió</p>
-                  </footer>
-         </body>
-
-         <script src="js/login.js"></script>
+            </form>
+        </div>
+        <footer>
+            <p>© 2024 Developed by Geanfranco Biagi | Pau Maestre | Isaac Furió</p>
+        </footer>
+    </body>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="js/script.js"></script>
 
 </html>

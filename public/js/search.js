@@ -10,7 +10,7 @@ $(document).ready(function () {
         localStorage.removeItem('user_mail');
         localStorage.removeItem('user_id');
         localStorage.removeItem('user_name');
-        window.location.href = 'https://mediamaster.ieti.site/';
+        window.location.href = 'http://localhost:3000/';
     });
 
     $("#search-container").on('input', '#searchInfo', function () {
@@ -23,7 +23,7 @@ $(document).ready(function () {
                     // Mostrar el indicador de carga
                     $("#loadingIndicator").show();
                     $.ajax({
-                        url: 'https://mediamaster.ieti.site/api/search?category=' + category + '&query=' + query,
+                        url: 'http://localhost:3000/api/search?category=' + category + '&query=' + query,
                         dataType: "json",
                         success: function (data) {
                             // Ocultar el indicador de carga
@@ -72,11 +72,11 @@ $(document).ready(function () {
         var category = $("input[name='category']:checked").val();
         var infoURL = '';
         if (category === 'movie' || category === 'tv') {
-            infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + selectedInfo.id;
+            infoURL = "http://localhost:3000/api/details?category=" + category + "&id=" + selectedInfo.id;
         } else if (category === 'books') {
-            infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + selectedInfo.id;
+            infoURL = "http://localhost:3000/api/details?category=" + category + "&id=" + selectedInfo.id;
         } else if (category === 'games') {
-            infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + selectedInfo.id;
+            infoURL = "http://localhost:3000/api/details?category=" + category + "&id=" + selectedInfo.id;
         }
 
         $.ajax({
@@ -156,7 +156,7 @@ $(document).ready(function () {
 
     function getUsersList(user_mail, user_id) {
         $.ajax({
-            url: 'https://mediamaster.ieti.site/viewUserLists',
+            url: 'http://localhost:3000/viewUserLists',
             type: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -221,21 +221,10 @@ $(document).ready(function () {
         });
     }
 
-    function closeLists() {
-        $("#closeListsView").on('click', function (event) {
-            event.preventDefault();
-            $(".layout").css('filter', 'blur(0)');
-            $("#addToLists").css('display', 'none');
-            $(".layout").removeClass('disable-buttons');
-            $("#success").html('Added on Lists:');
-            $("#duplicated").html('Duplicated on Lists:');
-        });
-    }
-
     function saveItem(list_id, category, item_id) {
         console.log(list_id, category, item_id);
         $.ajax({
-            url: 'https://mediamaster.ieti.site/addMediaToList',
+            url: 'http://localhost:3000/addMediaToList',
             type: 'POST',
             headers: {
                 'Content-Type': 'application/json'

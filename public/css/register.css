@@ -158,7 +158,7 @@ nav input:hover {
 }
 
 @media (prefers-color-scheme: dark) {
-    body {
+    .register-body {
         background-color: #000000;
         color: #fff;
     };

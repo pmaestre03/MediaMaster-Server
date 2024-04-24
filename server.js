@@ -227,7 +227,7 @@ app.post('/login', (req, res) => {
 
     // Encriptar la contraseña antes de consultarla en la base de datos
     const hashedPassword = crypto.createHash('sha512').update(password).digest('hex');
-
+    
     connection.query(
         'SELECT * FROM users WHERE user_mail = ? AND user_password = ?',
         [email, hashedPassword],
@@ -451,7 +451,6 @@ app.post('/resetPassword', (req, res) => {
         }
     );
 });
-
 
 app.listen(port, host, () => {
     console.log(`Hola mundo on http://${host}:${port}`);

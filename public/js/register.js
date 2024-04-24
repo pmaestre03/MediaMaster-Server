@@ -16,7 +16,7 @@ $(document).ready(function () {
     function registerUser(email, user, password) {
         console.log(email, user, password);
         $.ajax({
-            url: 'https://mediamaster.ieti.site/register',
+            url: 'http://localhost:3000/register',
             method: 'POST',
             data: {
                 email: email,
@@ -31,7 +31,7 @@ $(document).ready(function () {
                     document.getElementById('message').innerHTML = 'User created';
                     document.getElementById('message').css('color', 'green');
                     document.getElementById('registerForm').reset();
-                    window.location.href = 'https://mediamaster.ieti.site/search';
+                    window.location.href = 'http://localhost:3000/search';
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {

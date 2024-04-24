@@ -9,7 +9,7 @@ $(document).ready(function () {
     function forgotPassword(email) {
         console.log(email);
         $.ajax({
-            url: 'https://mediamaster.ieti.site/forgot',
+            url: 'http://localhost:3000/forgot',
             method: 'POST',
             data: {
                 email: email
