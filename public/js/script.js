@@ -634,8 +634,8 @@ $(document).ready(function () {
           
           
         // execute dashboard things here
-        $("#welcome_messagge").text("Welcome, " + userName);
+        $("#welcome_messagge").text("Welcome, " + user_name);
             
-        getUsersList(userMail, userId);
+        getUsersList(user_mail, user_id);
     }
 });
