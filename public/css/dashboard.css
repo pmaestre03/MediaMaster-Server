@@ -31,16 +31,16 @@ DASHBOARD.HTML
     margin-top: 60px;
 }
 
-.dashboard-body a:hover {
+.dashboard-body see-details:hover {
     opacity: 0.5;
     transition: opacity 0.5s;
 }
 
-.dashboard-body a:hover:after {
+.dashboard-body see-details:hover:after {
     opacity: 1;
 }
 
-.dashboard-body a::after {
+.dashboard-body see-details::after {
     content: "See more";
     font-size: 80px;
     opacity: 0;
