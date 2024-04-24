@@ -168,8 +168,6 @@ $(document).ready(function () {
                 } if (window.location.pathname === '/search') {
                     html +=
                         '<button id="saveItem" value="' + selectedInfo.id + '">Add to list</button></div></div>';
-                    '</div>' +
-                        '</div>';
                     $("#details").append(html);
                     showListsAndAddToLists(selectedInfo.id, category);
                     $("#searchInfo").val('');
