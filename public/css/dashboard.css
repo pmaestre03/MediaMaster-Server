@@ -70,3 +70,9 @@ DASHBOARD.HTML
     margin: 0 25px;
     border-radius: 15px;
 }
+
+.dashboard-body #signOutLogo {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
