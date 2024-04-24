@@ -1,17 +1,17 @@
 $(document).ready(function () {
 
-         $("#registerForm").on('submit', function (event) {
-                  event.preventDefault();
-                  var email = $("#email").val();
-                  var user = $("#user").val();
-                  var password = $("#password").val();
-                  var password2 = $("#password2").val();
-                  if (password !== password2) {
-                           document.getElementById('message').innerHTML = 'Passwords do not match';
-                  } else {
-                           registerUser(email, user, password);
-                  }
-         });
+    $("#registerForm").on('submit', function (event) {
+        event.preventDefault();
+        var email = $("#email").val();
+        var user = $("#user").val();
+        var password = $("#password").val();
+        var password2 = $("#password2").val();
+        if (password !== password2) {
+            document.getElementById('message').innerHTML = 'Passwords do not match';
+        } else {
+            registerUser(email, user, password);
+        }
+    });
 
          function registerUser(email, user, password) {
                   console.log(email, user, password);

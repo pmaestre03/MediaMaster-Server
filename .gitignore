@@ -48,6 +48,9 @@ apiKeys.js
 # Mysql credentials
 mysqlCredentials.js
 
+# mailCredentials
+mailCredentials.js
+
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="utf-8">
-    <!--
+    <head>
+        <meta charset="utf-8">
+        <!--
         Customize this policy to fit your own app's needs. For more guidance, please refer to the docs:
             https://cordova.apache.org/docs/en/latest/
         Some notes:
@@ -11,86 +11,94 @@
             * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
                 * Enable inline JS: add 'unsafe-inline' to default-src
         -->
-    <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self' https://fonts.gstatic.com https://ajax.googleapis.com https://www.googleapis.com https://kit.fontawesome.com data: https://musicbrainz.org gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://ajax.googleapis.com 'unsafe-inline'; media-src *; img-src * 'self' data: content:; connect-src 'self' http://mediamaster.ieti.site https://www.googleapis.com;">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="msapplication-tap-highlight" content="no">
-    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
-    <meta name="color-scheme" content="light dark">
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" href="img/logo.png" type="image/png">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <title>MEDIA MASTER</title>
-</head>
+        <meta http-equiv="Content-Security-Policy"
+            content="default-src 'self' https://fonts.gstatic.com https://ajax.googleapis.com https://www.googleapis.com https://kit.fontawesome.com data: https://musicbrainz.org gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://ajax.googleapis.com https://cdn.jsdelivr.net 'unsafe-inline'; script-src 'self' https://cdn.jsdelivr.net https://ajax.googleapis.com 'unsafe-inline'; media-src *; img-src * 'self' data: content:; connect-src 'self' https://cdn.jsdelivr.net/npm/toastify-js https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css https://www.googleapis.com http://localhost:3000 https://mediamaster.ieti.site;">
 
-<body class="index-body">
-    <main>
-        <div class="left-container">
-            <h1 class="title">MEDIA</h1>
-            <h1 class="subtitle">Welcome to MEDIA MASTER – Your Ultimate Personalized Entertainment Hub!</h1>
-            <!--<h1 class="description">
-                    WHETHER YOU'RE A CINEPHILE, GAMER, BOOKWORM, OR ALL OF THE ABOVE, MEDIA MASTER IS YOUR ULTIMATE COMPANION FOR EXPLORING, 
-                    ORGANIZING, AND ENJOYING ENTERTAINMENT IN A WHOLE NEW WAY. JOIN THE COMMUNITY TODAY AND UNLOCK A WORLD OF ENDLESS POSSIBILITIES!
-                </h1>-->
-            <h2 class="nav-header">Join us</h2>
-            <nav>
-                <a href="/login" id="loginLink">Log in</a>
-                <a href="/register" id="registerLink">Sign up</a>
-            </nav>
-        </div>
-        <div class="right-container">
-            <h1 class="title">MASTER</h1>
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+        <meta name="color-scheme" content="light dark">
+        <link rel="stylesheet" href="css/index.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
+        <link rel="shortcut icon" href="img/logo.png" type="image/png">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link rel="stylesheet"
+            href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <title>MEDIA MASTER</title>
+    </head>
 
-            <div id="categorySelect" class="radio-image-group">
-                <input type="radio" name="category" id="movies" value="movie" hidden checked>
-                <label for="movies">
-                    <img src="img/camera.png" alt="Movies" />
-                </label>
+    <body class="index-body">
+        <div class="layout">
+            <article class="left-content">
+                <header>Media Master</header>
 
-                <input type="radio" name="category" id="series" value="tv" hidden>
-                <label for="series">
-                    <img src="img/tv.png" alt="Series" />
-                </label>
-
-                <input type="radio" name="category" id="games" value="games" hidden>
-                <label for="games">
-                    <img src="img/gamepad.png" alt="Video Games" />
-                </label>
-
-                <input type="radio" name="category" id="books" value="books" hidden>
-                <label for="books">
-                    <img src="img/book.png" alt="Books" />
-                </label>
-            </div>
-            <br>
-            <div class="search-container" id="search-container">
-                <input type="text" id="searchInfo" name="searchInfo" required class="form__input"
-                    placeholder="Search your favorite movies, games and books">
-                <label for="searchInfo" class="form__label">Search your favorite movies, series, games and books</label>
-                <div class="dots-container" id="loadingIndicator" style="display: none;">
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
+                <h1 class="title">MEDIA</h1>
+                <div class="left-elements">
+                    <h1 class="subtitle">Welcome to MEDIA MASTER – Your Ultimate Personalized Entertainment Hub!</h1>
+                    <!--<h1 class="description">
+                        WHETHER YOU'RE A CINEPHILE, GAMER, BOOKWORM, OR ALL OF THE ABOVE, MEDIA MASTER IS YOUR ULTIMATE COMPANION FOR EXPLORING, 
+                        ORGANIZING, AND ENJOYING ENTERTAINMENT IN A WHOLE NEW WAY. JOIN THE COMMUNITY TODAY AND UNLOCK A WORLD OF ENDLESS POSSIBILITIES!
+                    </h1>-->
+                    <h2 class="nav-header">Join us</h2>
+                    <nav>
+                        <a href="http://localhost:3000/login" id="loginLink">Log in</a>
+                        <a href="http://localhost:3000/register" id="registerLink">Sign up</a>
+                    </nav>
                 </div>
-            </div>
 
-            <div id="details" class="infoDetails"></div>
+            </article>
+            <article class="right-content">
+                <h1 class="title">MASTER</h1>
 
+                <div id="categorySelect" class="radio-image-group">
+                    <input type="radio" name="category" id="movies" value="movie" hidden checked>
+                    <label for="movies">
+                        <img src="img/camera.png" alt="Movies" />
+                    </label>
+
+                    <input type="radio" name="category" id="series" value="tv" hidden>
+                    <label for="series">
+                        <img src="img/tv.png" alt="Series" />
+                    </label>
+
+                    <input type="radio" name="category" id="games" value="games" hidden>
+                    <label for="games">
+                        <img src="img/gamepad.png" alt="Video Games" />
+                    </label>
+
+                    <input type="radio" name="category" id="books" value="books" hidden>
+                    <label for="books">
+                        <img src="img/book.png" alt="Books" />
+                    </label>
+                </div>
+                <br>
+                <div class="search-container" id="search-container">
+                    <input type="text" id="searchInfo" name="searchInfo" required class="form__input"
+                        placeholder="Search your favorite movies, games and books">
+                    <label for="searchInfo" class="form__label">Search your favorite movies, series, games and
+                        books</label>
+                    <div class="dots-container" id="loadingIndicator" style="display: none;">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+
+                <div id="details" class="infoDetails"></div>
+            </article>
             <footer>
                 <p>© 2024 Developed by Geanfranco Biagi | Pau Maestre | Isaac Furió</p>
             </footer>
         </div>
-    </main>
 
-    <!-- <script src="cordova.js"></script> -->
-    <script src="js/index.js"></script>
-</body>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+        <script src="js/script.js"></script>
+    </body>
 
 </html>

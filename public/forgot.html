@@ -9,7 +9,7 @@
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
         <meta name="color-scheme" content="light dark">
-        <link rel="stylesheet" href="css/login.css">
+        <link rel="stylesheet" href="css/forgot.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
@@ -21,26 +21,20 @@
         <title>MEDIA MASTER</title>
     </head>
 
-    <body id="login" class="login-body">
+    <body id="forgot" class="forgot-body">
         <h1><a href="http://localhost:3000/">MEDIAMASTER</a></h1>
-        <h2>Log In</h2>
-        <h3 id="error"></h3>
+        <h2>Recover Password</h2>
+        <h3 id="message"></h3>
 
-        <div class="login">
-            <form action="" method="post" id="loginForm">
+        <div class="forgot">
+            <form action="" method="post" id="forgotForm">
 
                 <input type="email" name="email" id="email" required class="form__input" placeholder="Your Mail">
                 <label for="email" required class="form__label">Mail</label>
 
-                <input type="password" name="password" id="password" required class="form__input"
-                    placeholder="Your password">
-                <label for="password" class="form__label">Password</label><br>
                 <nav>
-                    <input type="submit" value="Log In" id="loginLink">
+                    <input type="submit" value="Recover" id="recoverPasswd">
                 </nav><br><br>
-
-                <a href="http://localhost:3000/forgot">Forgot your password?</a><br><br>
-                <a href="http://localhost:3000/register">Do not have an account? Click here</a>
 
             </form>
         </div>
@@ -48,7 +42,9 @@
             <p>© 2024 Developed by Geanfranco Biagi | Pau Maestre | Isaac Furió</p>
         </footer>
     </body>
+
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="js/script.js"></script>
+
 </html>
