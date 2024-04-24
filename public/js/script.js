@@ -1,7 +1,10 @@
-$(document).ready(function () {
-    // alert("Hello from script.js");
-    // Toastify
+var user_mail = localStorage.getItem('user_mail');
+var user_id = localStorage.getItem('user_id');
+var user_name = localStorage.getItem('user_name');
 
+$(document).ready(function () {
+
+    // Toastify
     function showNotification(text, color) {
         Toastify({
             text: text,
@@ -145,12 +148,22 @@ $(document).ready(function () {
                         '</div>' +
                         '</div>';
                 }
-                html +=
+                if (!user_mail) {
+                    html +=
+                        '</div>' +
+                        '</div>' +
+                        '</div>';
+                    $("#details").html(html);
+                    $("#searchInfo").val('');
+                } if (window.location.pathname === '/search') {
+                    html +=
+                        '<button id="saveItem" value="' + selectedInfo.id + '">Add to list</button></div></div>';
                     '</div>' +
-                    '</div>' +
-                    '</div>';
-                $("#details").html(html);
-                $("#searchInfo").val('');
+                        '</div>';
+                    $("#details").append(html);
+                    showListsAndAddToLists(selectedInfo.id, category);
+                    $("#searchInfo").val('');
+                }
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log("Error en la solicitud:", jqXHR);
@@ -303,4 +316,105 @@ $(document).ready(function () {
             });
         }
     });
+
+    /**************************************************************************************************************/
+
+    // Search
+    if (window.location.pathname === '/search') {
+        function getUsersList(user_mail, user_id) {
+            $.ajax({
+                url: 'http://localhost:3000/viewUserLists',
+                type: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    user_mail: user_mail,
+                    user_id: user_id
+                },
+            })
+                .done(function (data) {
+                    listas = data;
+                    $("#myLists").empty();
+                    html = '<form action="" method="" id="addElementOnList">';
+                    data.forEach(function (list) {
+                        html += "<div id=allLists>"
+                        $("#myLists").append('<p><a href="" value="' + list.list_id + '">' + list.list_name + '</p>');
+                        html += '<label><input type="checkbox" name="list" value="' + list.list_id + '"> ' + list.list_name + '</label><br>';
+                    });
+
+                    html += '</div></form>';
+                    $("#addToLists").append(html);
+                });
+        }
+
+        function showListsAndAddToLists(item_id, category) {
+            // Desvincular controladores de eventos previos
+            $("#saveItem").off('click');
+            $("#saveToList").off('click');
+            $("#closeListsView").off('click');
+
+            $("#saveItem").on('click', function (event) {
+                console.log(item_id);
+                $("#addToLists").css('display', 'grid');
+
+
+                $(".layout").css('filter', 'blur(5px)');
+                $(".layout").addClass('disable-buttons');
+            });
+
+            $("#saveToList").on('click', function (event) {
+                event.preventDefault();
+                $("#success").html('Added on Lists:');
+                $("#duplicated").html('Duplicated on Lists:');
+                $("input[name='list']:checked").each(function () {
+                    console.log($(this).val());
+                    if (category === 'books') {
+                        category_id = 'book_id';
+                    } else if (category === 'movie') {
+                        category_id = 'movie_id';
+                    } else if (category === 'tv') {
+                        category_id = 'serie_id';
+                    } else if (category === 'games') {
+                        category_id = 'game_id';
+                    }
+                    saveItem($(this).val(), category_id, item_id);
+                });
+            });
+
+            $("#closeListsView").on('click', function (event) {
+                event.preventDefault();
+                $(".layout").css('filter', 'blur(0)');
+                $("#addToLists").css('display', 'none');
+                $(".layout").removeClass('disable-buttons');
+            });
+        }
+
+        function saveItem(list_id, category, item_id) {
+            console.log(list_id, category, item_id);
+            $.ajax({
+                url: 'http://localhost:3000/addMediaToList',
+                type: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify({
+                    list_id: list_id,
+                    category: category,
+                    item_id: item_id
+                }),
+                success: function (data) {
+                    console.log(data);
+                    if (data.success) {
+                        $("#success").append(' ' + data.lists).css('color', 'green');
+                    } else {
+                        $("#duplicated").append(' ' + data.lists).css('color', 'orange');
+                    }
+                    $("input[name='list']").prop('checked', false);
+                    list_id = null;
+                    item_id = null;
+                    category = null;
+                },
+            })
+        }
+        getUsersList(user_mail, user_id);
+    }
 });

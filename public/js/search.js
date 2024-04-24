@@ -2,8 +2,6 @@ var user_mail = localStorage.getItem('user_mail');
 var user_id = localStorage.getItem('user_id');
 var user_name = localStorage.getItem('user_name');
 
-
-
 $(document).ready(function () {
     $("#welcome").append('Welcome, ' + user_name + '!')
     $("#signOut").click(function () {
