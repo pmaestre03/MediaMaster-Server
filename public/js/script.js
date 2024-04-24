@@ -3,6 +3,16 @@ var user_id = localStorage.getItem('user_id');
 var user_name = localStorage.getItem('user_name');
 
 $(document).ready(function () {
+    
+    if (window.location.pathname === '/search' || window.location.pathname === '/dashboard') {
+        if (!user_mail) {
+            window.location.href = 'http://localhost:3000/';
+        } 
+    } else if (window.location.pathname === '/login' || window.location.pathname === '/register' || window.location.pathname === '/forgot' || window.location.pathname === '/resetPassword' || window.location.pathname === '/') {
+        if (user_mail) {
+            window.location.href = 'http://localhost:3000/search';
+        }
+    }
 
     // Toastify
     function showNotification(text, color) {
@@ -321,6 +331,14 @@ $(document).ready(function () {
 
     // Search
     if (window.location.pathname === '/search') {
+        $("#welcome").append('Welcome, ' + user_name + '!')
+        $("#signOut").click(function () {
+            localStorage.removeItem('user_mail');
+            localStorage.removeItem('user_id');
+            localStorage.removeItem('user_name');
+            window.location.href = 'http://localhost:3000/';
+        });
+
         function getUsersList(user_mail, user_id) {
             $.ajax({
                 url: 'http://localhost:3000/viewUserLists',
