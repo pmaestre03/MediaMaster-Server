@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 02-04-2024 a las 19:12:50
+-- Tiempo de generación: 24-04-2024 a las 17:00:40
 -- Versión del servidor: 8.0.36-0ubuntu0.22.04.1
 -- Versión de PHP: 8.1.2-1ubuntu2.14
 
@@ -20,11 +20,23 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `mediaMaster`
 --
-DROP DATABASE IF EXISTS `mediamaster`;
 
-CREATE DATABASE `mediamaster`;
+DROP DATABASE IF EXISTS `mediamaster`
 
-use `mediamaster`;
+CREATE DATABASE IF NOT EXISTS `mediamaster` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+USE `mediamaster`;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `forgotPassword`
+--
+
+CREATE TABLE `forgotPassword` (
+  `user_mail` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `used` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -100,7 +112,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
