@@ -154,9 +154,7 @@ $(document).ready(function () {
                         '<div class="additional-info">' +
                         '<p><strong>Release Date:</strong> ' + data.release_date + '</p>' +
                         '<p><strong>Genres:</strong> ' + data.genres.map(genre => genre.name).join(', ') + '</p>' +
-                        '<p><strong>Franchises:</strong> ' + data.franchises.map(franchise => franchise.name).join(', ') + '</p>' +
-                        '</div>' +
-                        '</div>';
+                        '<p><strong>Franchises:</strong> ' + data.franchises.map(franchise => franchise.name).join(', ') + '</p>';
                 }
                 if (!user_mail) {
                     html +=
