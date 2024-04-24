@@ -24,6 +24,7 @@ DASHBOARD.HTML
 .dashboard-body a {
     text-decoration: none; /* Quita el subrayado predeterminado */
     color: inherit;
+    transition: opacity 0.5s;
 }
 
 .dashboard-body h3 {
@@ -31,9 +32,24 @@ DASHBOARD.HTML
 }
 
 .dashboard-body a:hover {
-    background-color: black;
     opacity: 0.5;
     transition: opacity 0.5s;
+}
+
+.dashboard-body a:hover:after {
+    opacity: 1;
+}
+
+.dashboard-body a::after {
+    content: "See more";
+    font-size: 80px;
+    opacity: 0;
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  transition: opacity 0.3s ease;
 }
 
 .dashboard-body .list {
