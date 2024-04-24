@@ -26,7 +26,7 @@ function getUsersList(user_mail, user_id) {
         $("#mylists").append("<li>Games: " + list.game_id + "</li>");
         $("#mylists").append("<li>========================================</li>");*/
 
-        $("#mylists").append("<a class='see-details' href='https://mediamaster.ieti.site/viewDetailed?id=" + list.list_id + "'><h3>" + list.list_name + "</h3><ul class='list' id='" + list.list_id + "'></ul><p class='overlay-text'>See More</p></a>");
+        $("#mylists").append("<a class='see-details' href='https://mediamaster.ieti.site/viewDetailed?id=" + list.list_id + "'><h3>" + list.list_name + "</h3><ul class='list' id='" + list.list_id + "'></ul></a><p class='overlay-text'>See More</p>");
 
         let movieArray = list.movie_id ? list.movie_id.split(",") : [];
         let seriesArray = list.serie_id ? list.serie_id.split(",") : [];
