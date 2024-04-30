@@ -496,9 +496,9 @@ $(document).ready(function () {
                         console.log(selectedPosters);
 
                         if (isEmpty(ids)) { // meter feedback al usuario de que la lista esta vacia
-                            $("#" + listId + " .see-details").removeClass("see-details").addClass("empty");
-                            $("#" + listId + " .empty").append("<h3>This list is empty!</h3>");
-                            $("#" + listId + " .empty").append("<a href='https://mediamaster.ieti.site/search'>Get Started</a>");
+                            $("#" + list.listId + " .see-details").removeClass("see-details").addClass("empty");
+                            $("#" + list.listId + " .empty").append("<h3>This list is empty!</h3>");
+                            $("#" + list.listId + " .empty").append("<a href='https://mediamaster.ieti.site/search'>Get Started</a>");
                             console.log("esta vacio"); 
                         } else {
                             console.log("no esta vacio");
