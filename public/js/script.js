@@ -671,6 +671,9 @@ $(document).ready(function () {
                         getUsersList(user_mail, userId);
                     }
                 },
+                error: function (error, status, xhr) {
+                    console.error(error);
+                }
             });
         }
 
