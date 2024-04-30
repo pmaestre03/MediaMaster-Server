@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 24-04-2024 a las 17:00:40
+-- Tiempo de generación: 30-04-2024 a las 18:00:51
 -- Versión del servidor: 8.0.36-0ubuntu0.22.04.1
 -- Versión de PHP: 8.1.2-1ubuntu2.14
 
@@ -18,11 +18,8 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `mediaMaster`
+-- Base de datos: `mediamaster`
 --
-
-DROP DATABASE IF EXISTS `mediamaster`
-
 CREATE DATABASE IF NOT EXISTS `mediamaster` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 USE `mediamaster`;
 
@@ -32,6 +29,7 @@ USE `mediamaster`;
 -- Estructura de tabla para la tabla `forgotPassword`
 --
 
+DROP TABLE IF EXISTS `forgotPassword`;
 CREATE TABLE `forgotPassword` (
   `user_mail` varchar(255) NOT NULL,
   `token` varchar(255) NOT NULL,
@@ -44,6 +42,7 @@ CREATE TABLE `forgotPassword` (
 -- Estructura de tabla para la tabla `lists`
 --
 
+DROP TABLE IF EXISTS `lists`;
 CREATE TABLE `lists` (
   `list_id` int NOT NULL,
   `creator_id` int DEFAULT NULL,
@@ -60,6 +59,7 @@ CREATE TABLE `lists` (
 -- Estructura de tabla para la tabla `list_collaborators`
 --
 
+DROP TABLE IF EXISTS `list_collaborators`;
 CREATE TABLE `list_collaborators` (
   `list_id` int NOT NULL,
   `user_id` int NOT NULL,
@@ -72,6 +72,7 @@ CREATE TABLE `list_collaborators` (
 -- Estructura de tabla para la tabla `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `user_id` int NOT NULL,
   `user_mail` varchar(255) NOT NULL,
@@ -107,6 +108,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `lists`
+--
+ALTER TABLE `lists`
+  MODIFY `list_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
