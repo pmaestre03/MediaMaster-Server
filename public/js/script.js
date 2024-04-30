@@ -461,7 +461,8 @@ $(document).ready(function () {
                         $("#mylists").append("<li>Games: " + list.game_id + "</li>");
                         $("#mylists").append("<li>========================================</li>");*/
 
-                        $("#mylists").append("<a class='see-details' href='https://mediamaster.ieti.site/viewDetailed?id=" + list.list_id + "'><h3>" + list.list_name + "</h3><ul class='list' id='" + list.list_id + "'></ul></a><p class='overlay-text'>See More</p>");
+                        let listContainer = "<a class='see-details' href='https://mediamaster.ieti.site/viewDetailed?id=" + list.list_id + "'><h3>" + list.list_name + "</h3><ul class='list' id='" + list.list_id + "'></ul></a><p class='overlay-text'>See More</p>";
+                        $("#mylists").append(listContainer);
 
                         let movieArray = list.movie_id ? list.movie_id.split(",") : [];
                         let seriesArray = list.serie_id ? list.serie_id.split(",") : [];
@@ -494,8 +495,11 @@ $(document).ready(function () {
                         var selectedPosters = selectRandomElements(ids, 5);
                         console.log(selectedPosters);
 
-                        if (isEmpty(ids)) {
-                            console.log("esta vacio"); // meter feedback al usuario de que la lista esta vacia
+                        if (isEmpty(ids)) { // meter feedback al usuario de que la lista esta vacia
+                            $("#" + listId + " .see-details").removeClass("see-details").addClass("empty");
+                            $("#" + listId + " .empty").append("<h3>This list is empty!</h3>");
+                            $("#" + listId + " .empty").append("<a href='https://mediamaster.ieti.site/search'>Get Started</a>");
+                            console.log("esta vacio"); 
                         } else {
                             console.log("no esta vacio");
 

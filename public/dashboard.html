@@ -30,6 +30,17 @@
     </head>
 
     <body class="dashboard-body ">
+        <header>
+            <div id="createListDiv">
+                <div id="successNotification">
+                </div>
+                <input type="text" id="listName">
+                <div class="submitElements">
+                    <input type="submit" value="Create List" id="createListInput">
+                    <input type="submit" value="Close" id="closeListsView">
+                </div>
+            </div>
+        </header>
         <main class="layout">
             <h1 id="welcome_messagge"></h1>
             <h2>My Lists</h2>
@@ -43,15 +54,7 @@
                 Sign out <img id="signOutLogo" src="img/signOut.png">
             </a>
         </nav>
-        <div id="createListDiv">
-            <div id="successNotification">
-            </div>
-            <input type="text" id="listName">
-            <div class="submitElements">
-                <input type="submit" value="Create List" id="createListInput">
-                <input type="submit" value="Close" id="closeListsView">
-            </div>
-        </div>
+        
         <!-- <script src="cordova.js"></script> -->
         <script src="js/script.js"></script>
     </body>
