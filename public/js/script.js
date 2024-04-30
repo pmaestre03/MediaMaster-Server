@@ -462,8 +462,7 @@ $(document).ready(function () {
                         $("#mylists").append("<li>========================================</li>");*/
 
                         let listContainer = "<a class='see-details' href='https://mediamaster.ieti.site/viewDetailed?id=" + list.list_id + "'><h3>" + list.list_name + "</h3><ul class='list' id='" + list.list_id + "'></ul></a><p class='overlay-text'>See More</p>";
-                        $("#mylists").append(listContainer);
-
+                        
                         let movieArray = list.movie_id ? list.movie_id.split(",") : [];
                         let seriesArray = list.serie_id ? list.serie_id.split(",") : [];
                         let booksArray = list.book_id ? list.book_id.split(",") : [];
@@ -493,14 +492,14 @@ $(document).ready(function () {
                         });
 
                         var selectedPosters = selectRandomElements(ids, 5);
-                        console.log(selectedPosters);
+                        //console.log(selectedPosters);
 
                         if (isEmpty(ids)) { // meter feedback al usuario de que la lista esta vacia
-                            $('ul#' + list.listId).closest('a.see-details').removeClass("see-details").addClass("empty");
-                            $('ul#' + list.listId).closest('a.see-details').append("<h3>This list is empty!</h3>");
-                            $('ul#' + list.listId).closest('a.see-details').append("<a href='https://mediamaster.ieti.site/search'>Get Started</a>");
-                            console.log("esta vacio"); 
+                            listContainer = "<h3>" + list.list_name + "</h3><h4>This list is empty!</h4><a class='get-started-button' href=''>Get Started</a>";
+                            console.log("esta vacio");
+                            $("#mylists").append(listContainer);
                         } else {
+                            $("#mylists").append(listContainer);
                             console.log("no esta vacio");
 
                             getImages(selectedPosters).then(function (imagesUrls) {
