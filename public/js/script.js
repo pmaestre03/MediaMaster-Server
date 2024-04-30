@@ -10,7 +10,7 @@ $(document).ready(function () {
         }
     } else if (window.location.pathname === '/login' || window.location.pathname === '/register' || window.location.pathname === '/forgot' || window.location.pathname === '/resetPassword' || window.location.pathname === '/') {
         if (user_mail) {
-            window.location.href = 'https://mediamaster.ieti.site/search';
+            window.location.href = 'https://mediamaster.ieti.site/dashboard';
         }
     }
 
