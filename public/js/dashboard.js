@@ -3,12 +3,12 @@ const userId = localStorage.getItem('user_id');
 const userName = localStorage.getItem('user_name');
 
 if (!userMail || !userId) {
-  window.location.href = 'https://mediamaster.ieti.site/';
+  window.location.href = 'http://localhost:3000/';
 }
 
 function getUsersList(user_mail, user_id) {
   $.ajax({
-    url: 'https://mediamaster.ieti.site/viewUserLists',
+    url: 'http://localhost:3000/viewUserLists',
     type: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -19,14 +19,14 @@ function getUsersList(user_mail, user_id) {
     .done(function (data) {
       $("#mylists").empty();
       data.forEach(function (list) {
-        /*$("#mylists").append("<li><h3>" + list.list_name + "</h3>" + "<a href='https://mediamaster.ieti.site/viewDetailed?id=" + list.list_id + "'><ul></ul></a></li>");
+        /*$("#mylists").append("<li><h3>" + list.list_name + "</h3>" + "<a href='http://localhost:3000/viewDetailed?id=" + list.list_id + "'><ul></ul></a></li>");
         $("#mylists").append("<li>Movies: " + list.movie_id + "</li>");
         $("#mylists").append("<li>Series: " + list.serie_id + "</li>");
         $("#mylists").append("<li>Books: " + list.book_id + "</li>");
         $("#mylists").append("<li>Games: " + list.game_id + "</li>");
         $("#mylists").append("<li>========================================</li>");*/
 
-        $("#mylists").append("<a class='see-details' href='https://mediamaster.ieti.site/viewDetailed?id=" + list.list_id + "'><h3>" + list.list_name + "</h3><ul class='list' id='" + list.list_id + "'></ul></a><p class='overlay-text'>See More</p>");
+        $("#mylists").append("<a href='http://localhost:3000/viewDetailed?id=" + list.list_id + "'><ul id='" + list.list_id + "'><li><h3>" + list.list_name + "</h3></li></ul></a>");
 
         let movieArray = list.movie_id ? list.movie_id.split(",") : [];
         let seriesArray = list.serie_id ? list.serie_id.split(",") : [];
@@ -63,13 +63,9 @@ function getUsersList(user_mail, user_id) {
           console.log("esta vacio"); // meter feedback al usuario de que la lista esta vacia
         } else {
           console.log("no esta vacio");
-
-          getImages(selectedPosters).then(function(imagesUrls) {
-            console.log(imagesUrls);
-            displayPosters(imagesUrls, list.list_id);
-          }).catch(function(error) {
-            console.error("Error al obtener las imágenes:", error);
-          });
+          let imagesUrls = getImages(selectedPosters);
+          console.log(imagesUrls);
+          displayPosters(imagesUrls, list.list_id);
         }
 
         
@@ -129,77 +125,62 @@ function isEmpty(object) {
   return true; // Si todas las listas están vacías o no existen, devuelve true
 }
 
-function getImages(object) {
+function getImages(object, callback) {
   var imagesArray = [];
-  var promises = [];
+  var totalRequests = 0;
+  var completedRequests = 0;
 
   $.each(object, function(category, ids) {
-    console.log("Categoría:", category);
+    totalRequests += ids.length;
 
     $.each(ids, function(i, id) {
-      console.log("Elemento", i + 1 + ":", id);
-
-      // Llamada a la función que devuelve una promesa
-      var promise = searchItem(id, category);
-      promises.push(promise);
-      
+      let resultado = searchItem(id, category, function(imageUrl) {
+        if (imageUrl) {
+          imagesArray.push(imageUrl);
+        }
+        completedRequests++;
+        if (completedRequests === totalRequests) {
+          return imagesArray;
+        }
+      });
     });
-    
-    console.log("----------------------");
   });
 
-  // Esperar a que todas las promesas se resuelvan
-  return Promise.all(promises).then(function(results) {
-    // Agregar resultados válidos al array de imágenes
-    results.forEach(function(result) {
-      if (result) {
-        imagesArray.push(result);
-      }
-    });
-    return imagesArray;
-  });
+  return imagesArray;
 }
 
-function searchItem(id, category) {
+function searchItem(id, category, callback) {
   var infoURL = '';
 
-  if (category == 'movie' || category == 'tv') {
-    infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + id;
-  } else if (category == 'books') {
-    infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + id;
-  } else if (category == 'games') {
-    infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + id;
+  if (category == 'movie' || category == 'tv' || category == 'books' || category == 'games') {
+    infoURL = "http://localhost:3000/api/details?category=" + category + "&id=" + id;
   }
 
-  // Devolver una promesa
-  return new Promise(function(resolve, reject) {
-    $.ajax({
-      url: infoURL,
-      dataType: "json",
-      success: function (data) {
-        var largeImageUrl = data.imageUrl;
+  $.ajax({
+    url: infoURL,
+    dataType: "json",
+    success: function (data) {
+      var largeImageUrl = data.imageUrl;
 
-        if (category == 'books') {
-          var volumeInfo = data.volumeInfo;
-          largeImageUrl = volumeInfo.imageLinks.thumbnail;
-        }
-
-        resolve(largeImageUrl);
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        console.log("Error en la solicitud:", jqXHR);
-        console.log("Texto del estado:", textStatus);
-        console.log("Error lanzado:", errorThrown);
-        resolve(null); // Resolver con nulo en caso de error
+      if (category == 'books') {
+        var volumeInfo = data.volumeInfo;
+        largeImageUrl = volumeInfo.imageLinks.thumbnail;
       }
-    });
+
+      callback(largeImageUrl);
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.log("Error en la solicitud:", jqXHR);
+      console.log("Texto del estado:", textStatus);
+      console.log("Error lanzado:", errorThrown);
+      callback(null);
+    }
   });
 }
-
 
 function displayPosters(imagesArray, ulId) {
   imagesArray.forEach(url => {
-    $("#" + ulId).append("<li><img class='poster' src='" + url + "'></li>");
+    $("#" + ulId).append("<li><img src='" + url + "'></li>");
     console.log(url);
   });
 }
@@ -211,4 +192,5 @@ $(function() {
 
   getUsersList(userMail, userId);
 });
+
 

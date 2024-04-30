@@ -3,6 +3,7 @@ body {
     padding: 0;
     font-family: "Anta", sans-serif;
 }
+
 :root {
     --main-green: #067202;
     --secondary-green: #0c9c07;
@@ -10,6 +11,7 @@ body {
     --outline-input: #c2c8d0;
 
 }
+
 /* ======================================================================================
 DASHBOARD.HTML
 ========================================================================================*/
@@ -22,7 +24,8 @@ DASHBOARD.HTML
 }
 
 .dashboard-body a {
-    text-decoration: none; /* Quita el subrayado predeterminado */
+    text-decoration: none;
+    /* Quita el subrayado predeterminado */
     color: inherit;
     transition: opacity 0.5s;
 }
@@ -37,7 +40,7 @@ DASHBOARD.HTML
     transition: opacity 0.5s;
 }
 
-.dashboard-body .see-details:hover + .overlay-text {
+.dashboard-body .see-details:hover+.overlay-text {
     opacity: 1;
 }
 
@@ -75,4 +78,47 @@ DASHBOARD.HTML
     width: 20px;
     height: 20px;
     vertical-align: middle;
+}
+
+/* Cambios Pau */
+#createListDiv {
+    background-color: #ffffff;
+    color: black;
+    display: none;
+    /* Centra horizontalmente */
+    align-items: center;
+    /* Centra verticalmente */
+    position: fixed;
+    /* Permite que el div se mantenga en la misma posiciÃ³n en la pantalla incluso cuando se desplaza */
+    top: 50%;
+    /* Coloca el div a la mitad de la pantalla verticalmente */
+    left: 50%;
+    /* Coloca el div a la mitad de la pantalla horizontalmente */
+    transform: translate(-50%, -50%);
+    /* Centra exactamente en el medio */
+    border: 1px solid white;
+    width: 500px;
+    height: 250px;
+    padding: 20px;
+    overflow-y: auto;
+    max-width: 500px;
+    max-height: fit-content;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto 1fr;
+    grid-template-areas:
+        'title'
+        'myLists'
+        'saveToList';
+    justify-items: center;
+    width: 50%;
+}
+
+
+@media (prefers-color-scheme: dark) {
+    #createListDiv {
+        background-color: #121212;
+        /* Fondo oscuro */
+        color: #ffffff;
+        /* Texto claro */
+    }
 }

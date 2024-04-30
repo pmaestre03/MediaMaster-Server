@@ -70,10 +70,6 @@ app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
-app.get('/dashboard', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
-});
-
 app.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'register.html'));
 });
@@ -84,6 +80,10 @@ app.get('/forgot', (req, res) => {
 
 app.get('/resetPassword', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'resetPassword.html'));
+});
+
+app.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
 });
 
 // Search route
@@ -231,7 +231,7 @@ app.post('/login', (req, res) => {
 
     // Encriptar la contraseña antes de consultarla en la base de datos
     const hashedPassword = crypto.createHash('sha512').update(password).digest('hex');
-    
+
     connection.query(
         'SELECT * FROM users WHERE user_mail = ? AND user_password = ?',
         [email, hashedPassword],
@@ -321,6 +321,9 @@ app.post('/addMediaToList', (req, res) => {
                 if (results.length === 0 || results[0][category] === null || !results[0][category].includes(item_id)) {
                     // No existe el item_id en la lista, proceder con la actualización
                     if (results.length === 0 || results[0][category] === null) {
+                        results.forEach(list => {
+                            lists += list.list_name;
+                        });
                         // No hay elementos en la categoría, insertar el nuevo elemento simplemente
                         connection.query(
                             `UPDATE lists SET ${category} = ? WHERE list_id = ?`,
@@ -329,7 +332,7 @@ app.post('/addMediaToList', (req, res) => {
                                 if (error) {
                                     res.status(500).json({ error: 'Internal server error' });
                                 } else {
-                                    res.json({ success: true });
+                                    res.json({ success: true, lists });
                                 }
                             }
                         );
@@ -455,6 +458,25 @@ app.post('/resetPassword', (req, res) => {
         }
     );
 });
+
+app.post('/createList', (req, res) => {
+    const { listName, userId } = req.body;
+    connection.query(
+        'INSERT INTO lists (creator_id,list_name) VALUES (?, ?)',
+        [userId, listName],
+        (error, results) => {
+            if (error) {
+                console.error('Error:', error);
+                res.status(500).json({ error: 'Internal server error' });
+            } else {
+                console.log('List Name:', listName);
+                console.log('User ID:', userId);
+                res.json({ success: true });
+            }
+        }
+    );
+});
+
 
 app.listen(port, host, () => {
     console.log(`Hola mundo on http://${host}:${port}`);

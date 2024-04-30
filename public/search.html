@@ -43,8 +43,8 @@
 
                 <div id="options">
                     <nav>
-                        <a href="" id="dashboard">Dashboard</a>
-                        <a href="https://mediamaster.ieti.site/" id="signOut" style="text-decoration: none;">
+                        <a href="dashboard" id="dashboard">Dashboard</a>
+                        <a href="http://localhost:3000/" id="signOut" style="text-decoration: none;">
                             Sign out <img src="img/signOut.png" width="20px" height="20px" alt=""
                                 style="vertical-align: middle;">
                         </a>
@@ -81,6 +81,12 @@
                     <label for="searchInfo" class="form__label">Search your favorite movies,
                         series,
                         games and books</label>
+                    <div id="contenedor-carga">
+                        <div class="contenedor-loader">
+                            <div class="loader"></div>
+                        </div>
+                        <div class="cargando">Searching...</div>
+                    </div>
                 </div>
 
                 <div id="details" class="infoDetails"></div>
