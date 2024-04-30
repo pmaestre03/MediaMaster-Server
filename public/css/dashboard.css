@@ -84,12 +84,17 @@ DASHBOARD.HTML
     background-color: var(--main-green);
     padding: 10px;
     border-radius: 5px;
+    font-size: 25px;
     transition: color 0.5s ease, background-color 0.5s ease;
 }
 
 .dashboard-body .get-started-button:hover {
     background-color: var(--hover-green);
     color: white;
+}
+
+.dashboard-body .empty-feedback {
+    font-size: 30px;
 }
 
 /* Cambios Pau */
