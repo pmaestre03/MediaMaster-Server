@@ -495,7 +495,7 @@ $(document).ready(function () {
                         //console.log(selectedPosters);
 
                         if (isEmpty(ids)) { // meter feedback al usuario de que la lista esta vacia
-                            listContainer = "<h3>" + list.list_name + "</h3><h4>This list is empty!</h4><a class='get-started-button' href=''>Get Started</a>";
+                            listContainer = "<h3>" + list.list_name + "</h3><h4 class='empty-feedback'>This list is empty!</h4><a class='get-started-button' href='https://mediamaster.ieti.site/search'>Get Started</a>";
                             console.log("esta vacio");
                             $("#mylists").append(listContainer);
                         } else {

@@ -80,6 +80,18 @@ DASHBOARD.HTML
     vertical-align: middle;
 }
 
+.dashboard-body .get-started-button {
+    background-color: var(--main-green);
+    padding: 10px;
+    border-radius: 5px;
+    transition: color 0.5s ease, background-color 0.5s ease;
+}
+
+.dashboard-body .get-started-button:hover {
+    background-color: var(--hover-green);
+    color: white;
+}
+
 /* Cambios Pau */
 #createListDiv {
     background-color: #ffffff;
