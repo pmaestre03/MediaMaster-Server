@@ -130,6 +130,23 @@ DASHBOARD.HTML
     width: 50%;
 }
 
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: var(--main-green);
+    color: white;
+    font-size: 20px;
+}
+
+#createList {
+    cursor: pointer;
+}
+
+.see-details {
+    cursor: pointer;
+}
 
 @media (prefers-color-scheme: dark) {
     #createListDiv {

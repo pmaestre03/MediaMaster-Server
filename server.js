@@ -86,6 +86,10 @@ app.get('/dashboard', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
 });
 
+app.get('/viewDetailedList', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'viewDetailedList.html'));
+});
+
 // Search route
 app.get('/api/search', (req, res) => {
     const { category, query } = req.query;
@@ -476,6 +480,39 @@ app.post('/createList', (req, res) => {
         }
     );
 });
+
+app.post('/viewDetailedList', (req, res) => {
+    const { list_id } = req.body;
+    const apiKeys = {
+        movie: externalKeys.movie,
+        tv: externalKeys.tv,
+        games: externalKeys.games
+    }; 
+    connection.query(
+        'SELECT * FROM lists WHERE list_id = ?',
+        [list_id],
+        (error, results) => {
+            if (error) {
+                res.status(500).json({ error: 'Internal server error' });
+            } else {
+                lists = {
+                    movie: [],
+                    tv: [],
+                    book: [],
+                    games: []
+                };
+                lists.movie = results[0].movie_id?.split(',');
+                lists.tv = results[0].serie_id?.split(',');
+                lists.games = results[0].game_id?.split(',');
+                lists.book = results[0].book_id?.split(',');
+                console.log('Lists:', lists);
+                
+                res.json(lists);
+            }
+        }
+    );
+});
+
 
 
 app.listen(port, host, () => {
