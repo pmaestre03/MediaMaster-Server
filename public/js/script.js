@@ -88,7 +88,7 @@ $(document).ready(function () {
     });
 
     function searchItem(selectedItem, category) {
-        var selectedInfo = selectedItem ? selectedItem : $("#searchInfo").val() ;
+        var selectedInfo = selectedItem ? selectedItem : $("#searchInfo").val();
         $("#details").empty();
         var category = $("input[name='category']:checked").val() || category;
         var infoURL = '';
@@ -112,7 +112,7 @@ $(document).ready(function () {
                         }).join(', ');
                         //console.log(data);
                         var releaseDate = category === 'movie' ? data.release_date : data.first_air_date;
-                        html = '<div class="details-container">' +
+                        html = '<div class="details-container" id="' + (selectedInfo.id ? selectedInfo.id : selectedInfo) +'">' +
                             '<h2>' + (category === 'movie' ? data.title : data.name) + '</h2>' +
                             '<div class="info">' +
                             '<img src="' + largeImageUrl + '" alt="' + data.name + ' Poster">' +
@@ -129,7 +129,7 @@ $(document).ready(function () {
                     var volumeInfo = data.volumeInfo;
                     largeImageUrl = volumeInfo.imageLinks.thumbnail;
                     //console.log(volumeInfo);
-                    html = '<div class="details-container">' +
+                    html = '<div class="details-container" id="' + (selectedInfo.id ? selectedInfo.id : selectedInfo) +'">' +
                         '<h2>' + volumeInfo.title + '</h2>' +
                         '<div class="info">' +
                         '<img src="' + largeImageUrl + '" alt="' + volumeInfo.title + ' Poster">' +
@@ -141,7 +141,7 @@ $(document).ready(function () {
                         '<p><strong>Publisher:</strong> ' + (volumeInfo.publisher ? volumeInfo.publisher : 'Unknown') + '</p>';
                 } else if (category === 'games') {
                     //console.log(data)
-                    html = '<div class="details-container">' +
+                    html = '<div class="details-container" id="' + (selectedInfo.id ? selectedInfo.id : selectedInfo) +'">' +
                         '<h2>' + data.name + '</h2>' +
                         '<div class="info">' +
                         '<img src="' + largeImageUrl + '" alt="' + data.name + ' Poster">' +
@@ -157,7 +157,7 @@ $(document).ready(function () {
                         '</div>' +
                         '</div>' +
                         '</div>';
-                    $("#details").html(html) ;
+                    $("#details").html(html);
                     $("#searchInfo").val('');
                 } if (window.location.pathname === '/search') {
                     html +=
@@ -430,12 +430,14 @@ $(document).ready(function () {
 
     // dashboard
     else if (window.location.pathname === '/dashboard') {
-        $("#signOut").click(function () {
+        $("#signOut, .signOut").click(function () {
             localStorage.removeItem('user_mail');
             localStorage.removeItem('user_id');
             localStorage.removeItem('user_name');
             window.location.href = 'http://localhost:3000/';
         });
+
+
         function getUsersList(user_mail, user_id) {
             $.ajax({
                 url: 'http://localhost:3000/viewUserLists',
@@ -648,6 +650,14 @@ $(document).ready(function () {
             $(".layout").addClass('disable-buttons');
         });
 
+        $(".createList, .createList").on('click', function (event) {
+            event.preventDefault();
+            $("#createListDiv").css('display', 'grid');
+            $(".layout").css('filter', 'blur(5px)');
+            $(".layout").addClass('disable-buttons');
+        });
+
+
         $("#closeListsView").on('click', function (event) {
             event.preventDefault();
             $("#createListDiv").css('display', 'none');
@@ -696,6 +706,11 @@ $(document).ready(function () {
         $("#welcome_messagge").text("Welcome, " + user_name);
 
         getUsersList(user_mail, user_id);
+
+        $("#mobileMenuBtn").click(function () {
+            $(".navigation ul").slideToggle();
+        });
+
     }
 
     // viewDetailedList
@@ -709,7 +724,7 @@ $(document).ready(function () {
         });
 
         var list_id = localStorage.getItem('list_id');
-        
+
         $.ajax({
             url: 'http://localhost:3000/viewDetailedList',
             type: 'POST',
@@ -719,7 +734,7 @@ $(document).ready(function () {
             .done(function (data) {
                 console.log(data);
                 lists = data.lists;
-                $("#listName").text("List: " + data.list_name); 
+                $("#listName").text("List: " + data.list_name);
                 for (const category in lists) {
                     if (lists.hasOwnProperty(category) && lists[category].length > 0) {
                         const items = lists[category];

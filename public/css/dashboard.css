@@ -24,6 +24,7 @@ DASHBOARD.HTML
 }
 
 .dashboard-body a {
+    display: flex;
     text-decoration: none;
     /* Quita el subrayado predeterminado */
     color: inherit;
@@ -99,7 +100,7 @@ DASHBOARD.HTML
 
 .dashboard-body #createListLogo {
     width: 34px;
-    
+
 }
 
 /* Cambios Pau */
@@ -147,12 +148,23 @@ nav {
 
 #createList {
     cursor: pointer;
-    display: flex; /* Usa flexbox */
+    display: flex;
+    /* Usa flexbox */
     align-items: center;
 }
 
 .see-details {
     cursor: pointer;
+}
+
+.mobile-menu-btn {
+    display: none;
+    /* Oculta el botón en pantallas más grandes */
+}
+
+
+.navigation ul{
+    display: none;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -168,6 +180,7 @@ nav {
     body {
         overflow-x: hidden;
     }
+
     .dashboard-body {
         /* Deshabilita el scroll vertical */
         white-space: nowrap;
@@ -177,9 +190,22 @@ nav {
     .dashboard-body .list {
         flex-direction: row;
         margin: 25px;
-        overflow-x:  auto;
+        overflow-x: auto;
         /* Cambia la dirección de los elementos a columna */
     }
 
+    .navigation {
+        display: block;
+    }
+    #createList, #search, #signOut {
+        display: none;
+        /* Oculta el menú principal en dispositivos móviles */
+    }
+
+    .mobile-menu-btn {
+        display: block;
+        /* Muestra el botón en dispositivos móviles */
+        cursor: pointer;
+    }
 
 }

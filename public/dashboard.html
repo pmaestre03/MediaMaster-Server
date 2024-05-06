@@ -31,16 +31,22 @@
 
     <body class="dashboard-body ">
         <header>
+            <!-- Botón del menú desplegable -->
             <nav class="navigation">
-                <p class="createList" id="createList">
-                    Create New List <img id="createListLogo" src="img/add.png" width="20px">
+                <div class="mobile-menu-btn" id="mobileMenuBtn">&#9776;</div>
+
+                <p class="createList" id="createList">Create New List <img id="createListLogo" src="img/add.png"
+                        width="20px">
                 </p>
-                <a href="https://mediamaster.ieti.site/search" id="search">
-                    Search <img id="searchLogo" src="img/search.png" width="20px">
-                </a>
-                <a href="http://localhost:3000/" id="signOut">
-                    Sign out <img id="signOutLogo" src="img/signOut.png">
-                </a>
+                <a href="http://localhost:3000/search" id="search">Search <img id="searchLogo"
+                        src="img/search.png" width="20px"></a>
+                <a href="http://localhost:3000/" id="signOut">Sign out <img id="signOutLogo" src="img/signOut.png"></a>
+                <!-- Menú de navegación principal -->
+                <ul>
+                    <li><a class="createList">Create New List</a></li>
+                    <li><a href="http://localhost:3000/search">Search</a></li>
+                    <li><a class="signOut">Sign out</a></li>
+                </ul>
             </nav>
         </header>
         <main class="layout">
@@ -59,7 +65,7 @@
                 <input type="submit" value="Close" id="closeListsView">
             </div>
         </div>
-        
+
         <!-- <script src="cordova.js"></script> -->
         <script src="js/script.js"></script>
     </body>
