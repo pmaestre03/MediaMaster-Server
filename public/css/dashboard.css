@@ -97,6 +97,11 @@ DASHBOARD.HTML
     font-size: 30px;
 }
 
+.dashboard-body #createListLogo {
+    width: 34px;
+    
+}
+
 /* Cambios Pau */
 #createListDiv {
     background-color: #ffffff;
@@ -142,6 +147,8 @@ nav {
 
 #createList {
     cursor: pointer;
+    display: flex; /* Usa flexbox */
+    align-items: center;
 }
 
 .see-details {
