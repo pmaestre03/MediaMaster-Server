@@ -401,6 +401,10 @@ main .radio-image-group {
     pointer-events: none;
 }
 
+.navigation {
+    display: none;
+}
+
 @media (max-width: 480px) {
     .layout {
         grid-template-rows: 80px auto 40px;
@@ -408,6 +412,18 @@ main .radio-image-group {
         grid-template-areas:
             'sidebar' 'main' 'footer';
     }
+
+    .navigation {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: var(--main-green);
+        color: white;
+        font-size: 20px;
+    }
+
+
 
     main .search-container {
         margin: 20px;
@@ -441,16 +457,26 @@ main .radio-image-group {
         flex-direction: column;
     }
 
+    #signOutLogo {
+        width: 20px;
+        height: 20px;
+        vertical-align: middle;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+        transition: opacity 0.5s;
+    }
+
     .sidebar {
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
-        width: 100%;
+        display: none;
     }
 
     .sidebar a {
         margin: 0;
         margin-top: 5px;
+        width: 150px;
     }
 
     .sidebar a:first-child {
