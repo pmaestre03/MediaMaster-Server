@@ -134,6 +134,7 @@ app.get('/api/search', (req, res) => {
             if (category === 'books') {
                 // Para la categoría de libros, la estructura de respuesta es diferente
                 resultsWithImages = response.data.items.map(item => {
+                    console.log(item)
                     const volumeInfo = item.volumeInfo;
                     return {
                         id: item.id,
@@ -178,6 +179,7 @@ app.get('/api/search', (req, res) => {
 app.get('/api/details', (req, res) => {
     const { category, id } = req.query;
     const apiKey = apiKeys[category];
+    
     const detailsURLs = {
         movie: `https://api.themoviedb.org/3/${category}/${id}`,
         tv: `https://api.themoviedb.org/3/${category}/${id}`,
@@ -186,7 +188,7 @@ app.get('/api/details', (req, res) => {
     };
 
     let params = {};
-
+    console.log(detailsURLs)
     if (category === 'movie' || category === 'tv') {
         params = {
             api_key: apiKey
@@ -217,7 +219,7 @@ app.get('/api/details', (req, res) => {
                 imageUrl = responseData.volumeInfo.imageLinks ? responseData.volumeInfo.imageLinks.thumbnail : null;
             }
             responseData.imageUrl = imageUrl;
-            console.log('Response Data:', responseData); // Agrega un console.log para mostrar la respuesta de los detalles
+            //console.log('Response Data:', responseData); // Agrega un console.log para mostrar la respuesta de los detalles
             res.json(responseData);
         })
         .catch(error => {
@@ -473,8 +475,8 @@ app.post('/createList', (req, res) => {
                 console.error('Error:', error);
                 res.status(500).json({ error: 'Internal server error' });
             } else {
-                console.log('List Name:', listName);
-                console.log('User ID:', userId);
+                //console.log('List Name:', listName);
+                //console.log('User ID:', userId);
                 res.json({ success: true });
             }
         }
@@ -505,7 +507,7 @@ app.post('/viewDetailedList', (req, res) => {
                 lists.tv = results[0].serie_id?.split(',');
                 lists.games = results[0].game_id?.split(',');
                 lists.book = results[0].book_id?.split(',');
-                console.log('Lists:', lists);
+                //console.log('Lists:', lists);
                 
                 res.json(lists);
             }

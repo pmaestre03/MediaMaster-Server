@@ -7,11 +7,11 @@ $(document).ready(function () {
 
     if (window.location.pathname === '/search' || window.location.pathname === '/dashboard') {
         if (!user_mail) {
-            window.location.href = 'http://localhost:3000/';
+            window.location.href = 'https://mediamaster.ieti.site/';
         }
     } else if (window.location.pathname === '/login' || window.location.pathname === '/register' || window.location.pathname === '/forgot' || window.location.pathname === '/resetPassword' || window.location.pathname === '/') {
         if (user_mail) {
-            window.location.href = 'http://localhost:3000/dashboard';
+            window.location.href = 'https://mediamaster.ieti.site/dashboard';
         }
     }
 
@@ -43,7 +43,7 @@ $(document).ready(function () {
                     // Mostrar el indicador de carga
                     $("#contenedor-carga").css("display", "grid");
                     $.ajax({
-                        url: 'http://localhost:3000/api/search?category=' + category + '&query=' + query,
+                        url: 'https://mediamaster.ieti.site/api/search?category=' + category + '&query=' + query,
                         dataType: "json",
                         success: function (data) {
                             // Ocultar el indicador de carga
@@ -63,7 +63,8 @@ $(document).ready(function () {
             },
             minLength: 2,
             select: function (event, ui) {
-                searchItem(ui.item);
+                console.log(ui.item.id);
+                searchItem(ui.item.id);
             }
         }).data("ui-autocomplete")._renderItem = function (ul, item) {
             var listItem = $("<li class='list'>");
@@ -92,13 +93,13 @@ $(document).ready(function () {
         $("#details").empty();
         var category = $("input[name='category']:checked").val() || category;
         var infoURL = '';
-        infoURL = "http://localhost:3000/api/details?category=" + category + "&id=" + (selectedInfo.id || selectedInfo);
+        infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + selectedInfo;
 
         $.ajax({
             url: infoURL,
             dataType: "json",
             success: function (data) {
-                //console.log(data);
+                console.log(data)
                 var html = '';
                 var largeImageUrl = data.imageUrl;
 
@@ -180,7 +181,7 @@ $(document).ready(function () {
     // Login
     function loginUser(email, password) {
         $.ajax({
-            url: 'http://localhost:3000/login',
+            url: 'https://mediamaster.ieti.site/login',
             method: 'POST',
             data: {
                 email: email,
@@ -192,7 +193,7 @@ $(document).ready(function () {
                     localStorage.setItem('user_id', data.userData[0].user_id);
                     localStorage.setItem('user_mail', email);
                     localStorage.setItem('user_name', data.userData[0].user_name);
-                    window.location.href = 'http://localhost:3000/dashboard';
+                    window.location.href = 'https://mediamaster.ieti.site/dashboard';
                 } else {
                     showNotification('User or Password incorrect', 'red');
                 }
@@ -231,7 +232,7 @@ $(document).ready(function () {
     function registerUser(email, user, password) {
         //console.log(email, user, password);
         $.ajax({
-            url: 'http://localhost:3000/register',
+            url: 'https://mediamaster.ieti.site/register',
             method: 'POST',
             data: {
                 email: email,
@@ -244,7 +245,7 @@ $(document).ready(function () {
                     showNotification('User already exists', 'red');
                 } else {
                     showNotification('User created', 'green');
-                    window.location.href = 'http://localhost:3000/login';
+                    window.location.href = 'https://mediamaster.ieti.site/login';
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -267,7 +268,7 @@ $(document).ready(function () {
     function forgotPassword(email) {
         //console.log(email);
         $.ajax({
-            url: 'http://localhost:3000/forgot',
+            url: 'https://mediamaster.ieti.site/forgot',
             method: 'POST',
             data: {
                 email: email
@@ -303,7 +304,7 @@ $(document).ready(function () {
             var token = new URLSearchParams(window.location.search).get("token");
             $.ajax({
                 type: "POST",
-                url: "http://localhost:3000/resetPassword",
+                url: "https://mediamaster.ieti.site/resetPassword",
                 data: { token: token, password: password },
                 success: function (data) {
                     if (data.success) {
@@ -329,12 +330,12 @@ $(document).ready(function () {
             localStorage.removeItem('user_mail');
             localStorage.removeItem('user_id');
             localStorage.removeItem('user_name');
-            window.location.href = 'http://localhost:3000/';
+            window.location.href = 'https://mediamaster.ieti.site/';
         });
 
         function getUsersList(user_mail, user_id) {
             $.ajax({
-                url: 'http://localhost:3000/viewUserLists',
+                url: 'https://mediamaster.ieti.site/viewUserLists',
                 type: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -402,7 +403,7 @@ $(document).ready(function () {
         function saveItem(list_id, category, item_id) {
             //console.log(list_id, category, item_id);
             $.ajax({
-                url: 'http://localhost:3000/addMediaToList',
+                url: 'https://mediamaster.ieti.site/addMediaToList',
                 type: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -434,11 +435,11 @@ $(document).ready(function () {
             localStorage.removeItem('user_mail');
             localStorage.removeItem('user_id');
             localStorage.removeItem('user_name');
-            window.location.href = 'http://localhost:3000/';
+            window.location.href = 'https://mediamaster.ieti.site/';
         });
         function getUsersList(user_mail, user_id) {
             $.ajax({
-                url: 'http://localhost:3000/viewUserLists',
+                url: 'https://mediamaster.ieti.site/viewUserLists',
                 type: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -449,7 +450,7 @@ $(document).ready(function () {
                 .done(function (data) {
                     $("#mylists").empty();
                     data.forEach(function (list) {
-                        /*$("#mylists").append("<li><h3>" + list.list_name + "</h3>" + "<a href='http://localhost:3000/viewDetailedList?id=" + list.list_id + "'><ul></ul></a></li>");
+                        /*$("#mylists").append("<li><h3>" + list.list_name + "</h3>" + "<a href='https://mediamaster.ieti.site/viewDetailedList?id=" + list.list_id + "'><ul></ul></a></li>");
                         $("#mylists").append("<li>Movies: " + list.movie_id + "</li>");
                         $("#mylists").append("<li>Series: " + list.serie_id + "</li>");
                         $("#mylists").append("<li>Books: " + list.book_id + "</li>");
@@ -490,7 +491,7 @@ $(document).ready(function () {
                         //console.log(selectedPosters);
 
                         if (isEmpty(ids)) { // meter feedback al usuario de que la lista esta vacia
-                            listContainer = "<h3>" + list.list_name + "</h3><h4 class='empty-feedback'>This list is empty!</h4><a class='get-started-button' href='http://localhost:3000/search'>Get Started</a>";
+                            listContainer = "<h3>" + list.list_name + "</h3><h4 class='empty-feedback'>This list is empty!</h4><a class='get-started-button' href='https://mediamaster.ieti.site/search'>Get Started</a>";
                             //console.log("esta vacio");
                             $("#mylists").append(listContainer);
                         } else {
@@ -592,11 +593,11 @@ $(document).ready(function () {
             var infoURL = '';
 
             if (category == 'movie' || category == 'tv') {
-                infoURL = "http://localhost:3000/api/details?category=" + category + "&id=" + id;
+                infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + id;
             } else if (category == 'books') {
-                infoURL = "http://localhost:3000/api/details?category=" + category + "&id=" + id;
+                infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + id;
             } else if (category == 'games') {
-                infoURL = "http://localhost:3000/api/details?category=" + category + "&id=" + id;
+                infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + id;
             }
 
             // Devolver una promesa
@@ -628,7 +629,7 @@ $(document).ready(function () {
         function displayPosters(imagesArray, ulId) {
             imagesArray.forEach(url => {
                 $("#" + ulId).append("<li><img class='poster' src='" + url + "'></li>");
-                //console.log(url);
+                console.log(url);
             });
         }
 
@@ -654,7 +655,7 @@ $(document).ready(function () {
 
         function createList(userId, listName) {
             $.ajax({
-                url: 'http://localhost:3000/createList',
+                url: 'https://mediamaster.ieti.site/createList',
                 type: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -680,7 +681,7 @@ $(document).ready(function () {
             var list_id = $(this).find('ul').attr('id');
             localStorage.setItem('list_id', list_id);
             console.log(list_id);
-            window.location.href = 'http://localhost:3000/viewDetailedList';
+            window.location.href = 'https://mediamaster.ieti.site/viewDetailedList';
         });
 
         // execute dashboard things here
@@ -696,61 +697,13 @@ $(document).ready(function () {
             localStorage.removeItem('user_mail');
             localStorage.removeItem('user_id');
             localStorage.removeItem('user_name');
-            window.location.href = 'http://localhost:3000/';
+            window.location.href = 'https://mediamaster.ieti.site/';
         });
 
         var list_id = localStorage.getItem('list_id');
-
-        async function obtenerInfo(ids, category) {
-            let baseUrl;
-            let apiKey;
-            if (category === 'movie') {
-                apiKey = '48170e08d31ae025a5278d4a18dd2e4d';
-                baseUrl = 'https://api.themoviedb.org/3/movie/'; // URL base para la API de películas
-            }
-            else if (category === 'tv') {
-                apiKey = '48170e08d31ae025a5278d4a18dd2e4d';
-                baseUrl = 'https://api.themoviedb.org/3/tv/'; // URL base para la API de series
-            }
-            else if (category === 'games') {
-                apiKey = 'edb74483e47826757e454d9131b7945ac39b71a4';
-                baseUrl = 'https://www.gamespot.com/api/games/?format=json&filter=id:'; // URL base para la API de juegos
-            }
-            else if (category === 'books') {
-                baseUrl = 'https://www.googleapis.com/books/v1/volumes?q='; // URL base para la API de libros
-            }
-
-            // Función para hacer la solicitud a la API por ID de película
-            async function getInfo(id) {
-                let url;
-                if (category === 'movie' || category === 'tv') {
-                    url = `${baseUrl}${id}?api_key=${apiKey}`;
-                } else if (category === 'books') {
-                    url = `${baseUrl}${id}`;
-                } else if (category === 'games') {
-                    url = `${baseUrl}${id}&api_key=${apiKey}`;
-                }
-                try {
-                    const response = await fetch(url);
-                    if (response.ok) {
-                        return await response.json();
-                    } else {
-                        console.error(`No se pudo obtener información para la película con ID: ${id}`);
-                        return null;
-                    }
-                } catch (error) {
-                    console.error('Error al obtener información de la película:', error);
-                    return null;
-                }
-            }
-
-            // Realizar todas las solicitudes de manera asíncrona
-            const promesas = ids.map(getInfo);
-            return Promise.all(promesas);
-        }
         
         $.ajax({
-            url: 'http://localhost:3000/viewDetailedList',
+            url: 'https://mediamaster.ieti.site/viewDetailedList',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({ list_id: list_id }),
