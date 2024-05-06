@@ -746,6 +746,10 @@ $(document).ready(function () {
                     }
                 }
             });
+
+            $('.details-container').each(function(){
+                $(this).append(`<button><img>delete img to put</button>`)
+            });
     }
 });
 
