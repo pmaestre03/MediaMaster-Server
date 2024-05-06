@@ -134,7 +134,7 @@ app.get('/api/search', (req, res) => {
             if (category === 'books') {
                 // Para la categoría de libros, la estructura de respuesta es diferente
                 resultsWithImages = response.data.items.map(item => {
-                    console.log(item)
+                    //console.log(item)
                     const volumeInfo = item.volumeInfo;
                     return {
                         id: item.id,
@@ -188,7 +188,7 @@ app.get('/api/details', (req, res) => {
     };
 
     let params = {};
-    console.log(detailsURLs)
+    console.log(detailsURLs[category])
     if (category === 'movie' || category === 'tv') {
         params = {
             api_key: apiKey
