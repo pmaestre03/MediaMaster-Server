@@ -505,6 +505,14 @@ $(document).ready(function () {
                             });
                         }
                     });
+                    // mirar si el usuario no tiene listas
+                    if ($("#mylists").is(':empty')) {
+                        $("#mylists").append("<h3 class='no-list-message'>You currently do not have any lists!</h3><button id='start-creating' class='get-started-button'>Get Started</button>");
+
+                        $("#start-creating").click(function () {
+                            $("#createList").click();
+                        })
+                    }
                 });
         }
 
