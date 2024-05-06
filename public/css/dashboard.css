@@ -163,3 +163,23 @@ nav {
         /* Texto claro */
     }
 }
+
+@media (max-width: 768px) {
+    body {
+        overflow-x: hidden;
+    }
+    .dashboard-body {
+        /* Deshabilita el scroll vertical */
+        white-space: nowrap;
+        /* Evita que los elementos se envuelvan a la siguiente línea */
+    }
+
+    .dashboard-body .list {
+        flex-direction: row;
+        margin: 25px;
+        overflow-x:  auto;
+        /* Cambia la dirección de los elementos a columna */
+    }
+
+
+}

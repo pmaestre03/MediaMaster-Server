@@ -188,7 +188,6 @@ app.get('/api/details', (req, res) => {
     };
 
     let params = {};
-    console.log(detailsURLs[category])
     if (category === 'movie' || category === 'tv') {
         params = {
             api_key: apiKey
@@ -497,6 +496,7 @@ app.post('/viewDetailedList', (req, res) => {
             if (error) {
                 res.status(500).json({ error: 'Internal server error' });
             } else {
+                console.log('Results:', results);
                 lists = {
                     movie: [],
                     tv: [],
@@ -508,8 +508,8 @@ app.post('/viewDetailedList', (req, res) => {
                 lists.games = results[0].game_id?.split(',');
                 lists.book = results[0].book_id?.split(',');
                 //console.log('Lists:', lists);
-                
-                res.json(lists);
+                list_name = results[0].list_name
+                res.json({ lists , list_name});
             }
         }
     );
