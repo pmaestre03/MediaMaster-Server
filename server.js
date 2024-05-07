@@ -515,6 +515,20 @@ app.post('/viewDetailedList', (req, res) => {
     );
 });
 
+app.post('/deleteList', (req, res) => {
+    const { list_id } = req.body;
+    connection.query(
+        'DELETE FROM lists WHERE list_id = ?',
+        [list_id],
+        (error, results) => {
+            if (error) {
+                res.status(500).json({ error: 'Internal server error' });
+            } else {
+                res.json({ success: true });
+            }
+        }
+    );
+});
 
 
 app.listen(port, host, () => {
