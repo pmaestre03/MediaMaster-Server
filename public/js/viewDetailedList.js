@@ -96,9 +96,8 @@ $(document).ready(function () {
                         '<p><strong>Genres:</strong> ' + data.genres.map(genre => genre.name).join(', ') + '</p>' +
                         '<p><strong>Franchises:</strong> ' + data.franchises.map(franchise => franchise.name).join(', ') + '</p>';
                 }
-                html += '<button class="addToList" id="' + (selectedInfo.id ? selectedInfo.id : selectedInfo) + '">Delete</button></div>';
                 $("#detailedList").append(html);
-                
+
                 // delete button logic
                 let id = selectedInfo.id ? selectedInfo.id : selectedInfo
                 $("#" + id).append(`<button class='delete-button' data='${id}'><img class='delete-logo' src='img/delete.png'></button>`)
