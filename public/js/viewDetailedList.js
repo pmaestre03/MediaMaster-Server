@@ -1,16 +1,17 @@
 var user_mail = localStorage.getItem('user_mail');
 var user_id = localStorage.getItem('user_id');
 var user_name = localStorage.getItem('user_name');
+const url = "https://mediamaster.ieti.site";
 
 $(document).ready(function () {
 
     if (window.location.pathname === '/search' || window.location.pathname === '/dashboard') {
         if (!user_mail) {
-            window.location.href = 'http://localhost:3000/';
+            window.location.href = url;
         }
     } else if (window.location.pathname === '/login' || window.location.pathname === '/register' || window.location.pathname === '/forgot' || window.location.pathname === '/resetPassword' || window.location.pathname === '/') {
         if (user_mail) {
-            window.location.href = 'http://localhost:3000/dashboard';
+            window.location.href = url + '/dashboard';
         }
     }
 
@@ -35,7 +36,7 @@ $(document).ready(function () {
         $("#details").empty();
         var category = $("input[name='category']:checked").val() || category;
         var infoURL = '';
-        infoURL = "http://localhost:3000/api/details?category=" + category + "&id=" + (selectedInfo.id ? selectedInfo.id : selectedInfo);
+        infoURL = url + "/api/details?category=" + category + "&id=" + (selectedInfo.id ? selectedInfo.id : selectedInfo);
 
         $.ajax({
             url: infoURL,
@@ -97,7 +98,13 @@ $(document).ready(function () {
                 }
                 html += '<button class="addToList" id="' + (selectedInfo.id ? selectedInfo.id : selectedInfo) + '">Delete</button></div>';
                 $("#detailedList").append(html);
-
+                
+                // delete button logic
+                let id = selectedInfo.id ? selectedInfo.id : selectedInfo
+                $("#" + id).append(`<button class='delete-button' data='${id}'><img class='delete-logo' src='img/delete.png'></button>`)
+                $("#" + id).find(".delete-button").click(function () {
+                    console.log("clic al boton = " + $(this).attr("data"));
+                })
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log("Error en la solicitud:", jqXHR);
@@ -111,14 +118,14 @@ $(document).ready(function () {
         localStorage.removeItem('user_mail');
         localStorage.removeItem('user_id');
         localStorage.removeItem('user_name');
-        window.location.href = 'http://localhost:3000/';
+        window.location.href = url;
     });
 
     var list_id = localStorage.getItem('list_id');
     $(".delete-list").attr('id', list_id);
 
     $.ajax({
-        url: 'http://localhost:3000/viewDetailedList',
+        url: url + '/viewDetailedList',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({ list_id: list_id }),
@@ -141,14 +148,14 @@ $(document).ready(function () {
     $(".delete-list").click(function () {
         var list_id = $(this).attr('id');
         $.ajax({
-            url: 'http://localhost:3000/deleteList',
+            url: url + '/deleteList',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({ list_id: list_id }),
         })
             .done(function (data) {
                 localStorage.removeItem('list_id');
-                location.href = 'http://localhost:3000/dashboard';
+                location.href = url + '/dashboard';
                 showNotification('List deleted successfully', 'green');
             });
     });

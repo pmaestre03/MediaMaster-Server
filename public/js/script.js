@@ -431,7 +431,7 @@ $(document).ready(function () {
             event.preventDefault();
             var list_id = $(this).attr('value');
             localStorage.setItem('list_id', list_id);
-            window.location.href = 'http://localhost:3000/viewDetailedList';
+            window.location.href = url + '/viewDetailedList';
         });
 
         getUsersList(user_mail, user_id);
@@ -760,14 +760,14 @@ $(document).ready(function () {
         $(".delete-list").click(function () {
             var list_id = $(this).attr('id');
             $.ajax({
-                url: 'http://localhost:3000/deleteList',
+                url: url + '/deleteList',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({ list_id: list_id }),
             })
                 .done(function (data) {
                     localStorage.removeItem('list_id');
-                    location.href = 'http://localhost:3000/dashboard';
+                    location.href = url + '/dashboard';
                     showNotification('List deleted successfully', 'green');
                 });
         });
