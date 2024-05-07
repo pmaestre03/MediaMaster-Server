@@ -1,4 +1,3 @@
-// import { apiKeys } from './apiKeys2.js';
 var user_mail = localStorage.getItem('user_mail');
 var user_id = localStorage.getItem('user_id');
 var user_name = localStorage.getItem('user_name');
@@ -113,7 +112,7 @@ $(document).ready(function () {
                         }).join(', ');
                         //console.log(data);
                         var releaseDate = category === 'movie' ? data.release_date : data.first_air_date;
-                        html = '<div class="details-container" id="' + (selectedInfo.id ? selectedInfo.id : selectedInfo) +'">' +
+                        html = '<div class="details-container" id="' + (selectedInfo.id ? selectedInfo.id : selectedInfo) + '">' +
                             '<h2>' + (category === 'movie' ? data.title : data.name) + '</h2>' +
                             '<div class="info">' +
                             '<img src="' + largeImageUrl + '" alt="' + data.name + ' Poster">' +
@@ -130,7 +129,7 @@ $(document).ready(function () {
                     var volumeInfo = data.volumeInfo;
                     largeImageUrl = volumeInfo.imageLinks.thumbnail;
                     //console.log(volumeInfo);
-                    html = '<div class="details-container" id="' + (selectedInfo.id ? selectedInfo.id : selectedInfo) +'">' +
+                    html = '<div class="details-container" id="' + (selectedInfo.id ? selectedInfo.id : selectedInfo) + '">' +
                         '<h2>' + volumeInfo.title + '</h2>' +
                         '<div class="info">' +
                         '<img src="' + largeImageUrl + '" alt="' + volumeInfo.title + ' Poster">' +
@@ -142,7 +141,7 @@ $(document).ready(function () {
                         '<p><strong>Publisher:</strong> ' + (volumeInfo.publisher ? volumeInfo.publisher : 'Unknown') + '</p>';
                 } else if (category === 'games') {
                     //console.log(data)
-                    html = '<div class="details-container" id="' + (selectedInfo.id ? selectedInfo.id : selectedInfo) +'">' +
+                    html = '<div class="details-container" id="' + (selectedInfo.id ? selectedInfo.id : selectedInfo) + '">' +
                         '<h2>' + data.name + '</h2>' +
                         '<div class="info">' +
                         '<img src="' + largeImageUrl + '" alt="' + data.name + ' Poster">' +
@@ -176,6 +175,7 @@ $(document).ready(function () {
             }
         });
     }
+
     /**************************************************************************************************************/
 
     // Login
@@ -349,8 +349,8 @@ $(document).ready(function () {
                     html = '<form action="" method="" id="addElementOnList">';
                     data.forEach(function (list) {
                         html += "<div id=allLists>"
-                        $("#myLists").append('<p><a href="" value="' + list.list_id + '">' + list.list_name + '</p>');
-                        html += '<label><input type="checkbox" name="list" value="' + list.list_id + '"> ' + list.list_name + '</label><br>';
+                        $("#myLists").append('<p><a value="' + list.list_id + '" id="' + list.list_id + '">' + list.list_name + '</p>');
+                        html += '<label><input type="checkbox" name="list" value="' + list.list_id + '" id="' + list.list_id + '"> ' + list.list_name + '</label><br>';
                     });
 
                     html += '</div></form>';
@@ -426,8 +426,18 @@ $(document).ready(function () {
                 },
             })
         }
+
+        $("#myLists").on('click', 'a', function (event) {
+            event.preventDefault();
+            var list_id = $(this).attr('value');
+            localStorage.setItem('list_id', list_id);
+            window.location.href = 'http://localhost:3000/viewDetailedList';
+        });
+
         getUsersList(user_mail, user_id);
     }
+
+    /**************************************************************************************************************/
 
     // dashboard
     else if (window.location.pathname === '/dashboard') {
@@ -452,7 +462,7 @@ $(document).ready(function () {
                 .done(function (data) {
                     $("#mylists").empty();
                     data.forEach(function (list) {
-                        /*$("#mylists").append("<li><h3>" + list.list_name + "</h3>" + "<a href='https://mediamaster.ieti.site/viewDetailedList?id=" + list.list_id + "'><ul></ul></a></li>");
+                        /*$("#mylists").append("<li><h3>" + list.list_name + "</h3>" + "<a href='http://localhost:3000/viewDetailedList?id=" + list.list_id + "'><ul></ul></a></li>");
                         $("#mylists").append("<li>Movies: " + list.movie_id + "</li>");
                         $("#mylists").append("<li>Series: " + list.serie_id + "</li>");
                         $("#mylists").append("<li>Books: " + list.book_id + "</li>");
@@ -644,13 +654,6 @@ $(document).ready(function () {
             });
         }
 
-        $("#createList").on('click', function (event) {
-            event.preventDefault();
-            $("#createListDiv").css('display', 'grid');
-            $(".layout").css('filter', 'blur(5px)');
-            $(".layout").addClass('disable-buttons');
-        });
-
         $(".createList, .createList").on('click', function (event) {
             event.preventDefault();
             $("#createListDiv").css('display', 'grid');
@@ -687,6 +690,10 @@ $(document).ready(function () {
                     //console.log(data);
                     if (data.success) {
                         getUsersList(user_mail, userId);
+                        $(".layout").css('filter', 'blur(0)');
+
+                        $("#createListDiv").css('display', 'none');
+                        showNotification('List created successfully', 'green');
                     }
                 },
                 error: function (error, status, xhr) {
@@ -714,6 +721,8 @@ $(document).ready(function () {
 
     }
 
+    /**************************************************************************************************************/
+
     // viewDetailedList
     else if (window.location.pathname === '/viewDetailedList') {
 
@@ -725,6 +734,7 @@ $(document).ready(function () {
         });
 
         var list_id = localStorage.getItem('list_id');
+        $(".delete-list").attr('id', list_id);
 
         $.ajax({
             url: url + '/viewDetailedList',
@@ -745,10 +755,22 @@ $(document).ready(function () {
                         }
                     }
                 }
-                
             });
 
-        
+        $(".delete-list").click(function () {
+            var list_id = $(this).attr('id');
+            $.ajax({
+                url: 'http://localhost:3000/deleteList',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ list_id: list_id }),
+            })
+                .done(function (data) {
+                    localStorage.removeItem('list_id');
+                    location.href = 'http://localhost:3000/dashboard';
+                    showNotification('List deleted successfully', 'green');
+                });
+        });
     }
 });
 

@@ -24,6 +24,10 @@ body {
     height: 100vh;
 }
 
+#disabledBooks {
+    cursor: not-allowed;
+}
+
 .sidebar {
     grid-area: sidebar;
     display: flex;
@@ -395,6 +399,7 @@ main .radio-image-group {
     color: white;
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .disable-buttons {
