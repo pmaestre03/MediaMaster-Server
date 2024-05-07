@@ -38,26 +38,18 @@ $(document).ready(function () {
     });
 
 
-    function getUsersList(user_mail, user_id) {
+    function getUsersList(user_id) {
         $.ajax({
             url: 'http://localhost:3000/viewUserLists',
             type: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                user_mail: user_mail,
                 user_id: user_id
             },
         })
             .done(function (data) {
                 $("#mylists").empty();
                 data.forEach(function (list) {
-                    /*$("#mylists").append("<li><h3>" + list.list_name + "</h3>" + "<a href='http://localhost:3000/viewDetailedList?id=" + list.list_id + "'><ul></ul></a></li>");
-                    $("#mylists").append("<li>Movies: " + list.movie_id + "</li>");
-                    $("#mylists").append("<li>Series: " + list.serie_id + "</li>");
-                    $("#mylists").append("<li>Books: " + list.book_id + "</li>");
-                    $("#mylists").append("<li>Games: " + list.game_id + "</li>");
-                    $("#mylists").append("<li>========================================</li>");*/
-
                     let listContainer = "<div class='see-details'><h3>" + list.list_name + "</h3><ul class='list' id='" + list.list_id + "'></ul></div><p class='overlay-text'>See More</p>";
 
                     let movieArray = list.movie_id ? list.movie_id.split(",") : [];
@@ -111,6 +103,80 @@ $(document).ready(function () {
                 if ($("#mylists").is(':empty')) {
                     console.log("entramos en esta vacio el div")
                     $("#mylists").append("<h3 class='no-list-message'>You currently do not have any lists!</h3><button id='start-creating' class='get-started-button'>Get Started</button>");
+
+                    $("#start-creating").click(function () {
+                        $("#createList").click();
+                    })
+                }
+            });
+    }
+
+    function getUsersCollaborationList(user_id) {
+        $.ajax({
+            url: 'http://localhost:3000/viewCollaboratorLists',
+            type: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                user_id: user_id
+            },
+        })
+            .done(function (data) {
+                console.log(data);
+                $("#mySharedLists").empty();
+                data.forEach(function (list) {
+                    let listContainer = "<div class='see-details'><h3>" + list.list_name + "</h3><ul class='list' id='" + list.list_id + "'></ul></div><p class='overlay-text'>See More</p>";
+
+                    let movieArray = list.movie_id ? list.movie_id.split(",") : [];
+                    let seriesArray = list.serie_id ? list.serie_id.split(",") : [];
+                    let booksArray = list.book_id ? list.book_id.split(",") : [];
+                    let gamesArray = list.game_id ? list.game_id.split(",") : [];
+
+                    var ids = {
+                        movie: [],
+                        tv: [],
+                        books: [],
+                        games: []
+                    }
+
+                    movieArray.forEach(id => {
+                        ids.movie.push(parseInt(id));
+                    });
+
+                    seriesArray.forEach(id => {
+                        ids.tv.push(parseInt(id));
+                    });
+
+                    booksArray.forEach(id => {
+                        ids.books.push(parseInt(id));
+                    });
+
+                    gamesArray.forEach(id => {
+                        ids.games.push(parseInt(id));
+                    });
+
+                    var selectedPosters = selectRandomElements(ids, 5);
+                    //console.log(selectedPosters);
+
+                    if (isEmpty(ids)) { // meter feedback al usuario de que la lista esta vacia
+                        listContainer = "<h3>" + list.list_name + "</h3><h4 class='empty-feedback'>This list is empty!</h4><a class='get-started-button' href='http://localhost:3000/search'>Get Started</a>";
+                        //console.log("esta vacio");
+                        $("#mySharedLists").append(listContainer);
+                    } else {
+                        $("#mySharedLists").append(listContainer);
+                        //console.log("no esta vacio");
+
+                        getImages(selectedPosters).then(function (imagesUrls) {
+                            //console.log(imagesUrls);
+                            displayPosters(imagesUrls, list.list_id);
+                        }).catch(function (error) {
+                            console.error("Error al obtener las imágenes:", error);
+                        });
+                    }
+                });
+                // mirar si el usuario no tiene listas
+                if ($("#mySharedLists").is(':empty')) {
+                    console.log("entramos en esta vacio el div")
+                    $("#mySharedLists").append("<h3 class='no-list-message'>You currently do not have any lists!</h3><button id='start-creating' class='get-started-button'>Get Started</button>");
 
                     $("#start-creating").click(function () {
                         $("#createList").click();
@@ -291,7 +357,7 @@ $(document).ready(function () {
         });
     }
 
-    $('#mylists').on('click', '.see-details', function (event) {
+    $('#mylists, #mySharedLists').on('click', '.see-details', function (event) {
         console.log("click");
         var list_id = $(this).find('ul').attr('id');
         localStorage.setItem('list_id', list_id);
@@ -302,8 +368,8 @@ $(document).ready(function () {
     // execute dashboard things here
     $("#welcome_messagge").text("Welcome, " + user_name);
 
-    getUsersList(user_mail, user_id);
-
+    getUsersList( user_id);
+    getUsersCollaborationList(user_id);
     $("#mobileMenuBtn").click(function () {
         $(".navigation ul").slideToggle();
     });

@@ -195,15 +195,33 @@ $(document).ready(function () {
             .done(function (data) {
                 listas = data;
                 $("#myLists").empty();
-                html = '<form action="" method="" id="addElementOnList">';
                 data.forEach(function (list) {
-                    html += "<div id=allLists>"
-                    $("#myLists").append('<p><a value="' + list.list_id + '" id="' + list.list_id + '">' + list.list_name + '</p>');
+                    $("#myLists").prepend('<p><a value="' + list.list_id + '" id="' + list.list_id + '">' + list.list_name + '</p>');
+                    html = '<label><input type="checkbox" name="list" value="' + list.list_id + '" id="' + list.list_id + '"> ' + list.list_name + '</label><br>';
+                });
+                $("#addElementOnList").append(html);
+            });
+    }
+
+    function getUsersCollaborationList(user_id) {
+        $.ajax({
+            url: 'http://localhost:3000/viewCollaboratorLists',
+            type: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                user_id: user_id
+            },
+        })
+            .done(function (data) {
+                listas = data;
+                $("#myLists").empty();
+                data.forEach(function (list) {
+                    html = "<div id=allLists>"
+                    $("#myLists").prepend('<p><a value="' + list.list_id + '" id="' + list.list_id + '">' + list.list_name + '</p>');
                     html += '<label><input type="checkbox" name="list" value="' + list.list_id + '" id="' + list.list_id + '"> ' + list.list_name + '</label><br>';
                 });
-
-                html += '</div></form>';
-                $("#addToLists").append(html);
+                html += '</div>';
+                $("#addElementOnList").append(html);
             });
     }
 
@@ -284,5 +302,6 @@ $(document).ready(function () {
     });
 
     getUsersList(user_mail, user_id);
+    getUsersCollaborationList(user_id);
 
 });
