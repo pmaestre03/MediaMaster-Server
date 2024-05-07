@@ -747,9 +747,9 @@ $(document).ready(function () {
                 }
             });
 
-            $('.details-container').each(function(){
-                $(this).append(`<button class='delete-button' data='${$(this).attr("id")}'><img class='delete-logo' src='img/delete.png'></button>`);
-            });
+        $('.details-container').each(function(){
+            $(this).append(`<button class='delete-button' data='${$(this).attr("id")}'><img class='delete-logo' src='img/delete.png'></button>`);
+        });
         
         $(".delete-button").click(function () {
             console.log($(this));
