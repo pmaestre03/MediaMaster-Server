@@ -99,10 +99,25 @@ $(document).ready(function () {
                 $("#detailedList").append(html);
 
                 // delete button logic
-                let id = selectedInfo.id ? selectedInfo.id : selectedInfo
-                $("#" + id).append(`<button class='delete-button' data='${id}'><img class='delete-logo' src='img/delete.png'></button>`)
-                $("#" + id).find(".delete-button").click(function () {
-                    console.log("clic al boton = " + $(this).attr("data"));
+                let itemId = selectedInfo.id ? selectedInfo.id : selectedInfo
+                let itemCategory = ""
+
+                if (category == "movie") {
+                    itemCategory = "movie_id";
+                }
+                else if (category == "tv") {
+                    itemCategory = "serie_id";
+                }
+                else if (category == "games") {
+                    itemCategory = "game_id";
+                } else {
+                    itemCategory = "book_id";
+                }
+                
+
+                $("#" + itemId).append(`<button class='delete-button' data='${itemId}'><img class='delete-logo' src='img/delete.png'></button>`)
+                $("#" + itemId).find(".delete-button").click(function () {
+                    deleteListItem(itemId, itemCategory);
                 })
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -111,6 +126,19 @@ $(document).ready(function () {
                 console.log("Error lanzado:", errorThrown);
             }
         });
+    }
+
+    function deleteListItem(itemId, itemCategory) {
+        $.ajax({
+            url: url + '/deleteItem',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ list_id: localStorage.getItem('list_id'), category: itemCategory, item_id: itemId }),
+        })
+            .done(function (data) {
+                $("#" + itemId).remove();
+                showNotification('Item deleted successfully', 'green');
+            });
     }
 
     $("#signOut").click(function () {

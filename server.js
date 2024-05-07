@@ -530,6 +530,33 @@ app.post('/deleteList', (req, res) => {
     );
 });
 
+app.post('/deleteItem', (req, res) => {
+    const { list_id, category, item_id } = req.body;
+    connection.query(
+        `SELECT ${category} FROM lists WHERE list_id = ?`,
+        [list_id],
+        (error, results) => {
+            if (error) {
+                res.status(500).json({ error: 'Internal server error' });
+            } else {
+                const items = results[0][category].split(',');
+                const updatedItems = items.filter(id => id !== item_id).join(',');
+                connection.query(
+                    `UPDATE lists SET ${category} = ? WHERE list_id = ?`,
+                    [updatedItems, list_id],
+                    (error, results) => {
+                        if (error) {
+                            res.status(500).json({ error: 'Internal server error' });
+                        } else {
+                            res.json({ success: true });
+                        }
+                    }
+                );
+            }
+        }
+    );
+});
+
 
 app.listen(port, host, () => {
     console.log(`Hola mundo on http://${host}:${port}`);
