@@ -741,14 +741,7 @@ $(document).ready(function () {
                         const items = lists[category];
                         for (const item in items) {
                             console.log(category, items[item]);
-                            searchItem(items[item], category).then(function () {
-                                $('.details-container').each(function(){
-                                    $(this).append(`<button class='delete-button' data='${$(this).attr("id")}'><img class='delete-logo' src='img/delete.png'></button>`);
-                                    $(this).find(".delete-button").click(function () {
-                                        console.log("clic al boton = " + $(this).attr("data"));
-                                    });
-                                });
-                            });
+                            searchItem(items[item], category);
                         }
                     }
                 }
