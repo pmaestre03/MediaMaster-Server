@@ -535,18 +535,51 @@ app.post('/viewDetailedList', (req, res) => {
 
 app.post('/deleteList', (req, res) => {
     const { list_id } = req.body;
-    connection.query(
-        'DELETE FROM lists WHERE list_id = ?',
-        [list_id],
-        (error, results) => {
-            if (error) {
-                res.status(500).json({ error: 'Internal server error' });
-            } else {
-                res.json({ success: true });
-            }
+    console.log('List ID:', list_id);
+    connection.beginTransaction(function (err) {
+        if (err) {
+            res.status(500).json({ error: 'Internal server error' });
+            return;
         }
-    );
+
+        connection.query(
+            'DELETE FROM list_collaborators WHERE list_id = ?',
+            [list_id],
+            (error, results) => {
+                console.log('Results:', results);
+                if (error) {
+                    connection.rollback(function () {
+                        res.status(500).json({ error: 'Internal server error' });
+                    });
+                } else {
+                    connection.query(
+                        'DELETE FROM lists WHERE list_id = ?',
+                        [list_id],
+                        (error, results) => {
+                            console.log('Results:', results);
+                            if (error) {
+                                connection.rollback(function () {
+                                    res.status(500).json({ error: 'Internal server error' });
+                                });
+                            } else {
+                                connection.commit(function (err) {
+                                    if (err) {
+                                        connection.rollback(function () {
+                                            res.status(500).json({ error: 'Internal server error' });
+                                        });
+                                    } else {
+                                        res.json({ success: true });
+                                    }
+                                });
+                            }
+                        }
+                    );
+                }
+            }
+        );
+    });
 });
+
 
 app.post('/deleteItem', (req, res) => {
     const { list_id, category, item_id } = req.body;
@@ -582,8 +615,7 @@ app.post('/inviteUser', (req, res) => {
         'SELECT * FROM users WHERE user_mail = ?',
         [user_mail],
         (error, results) => {
-            owner = results[0].user_mail
-            console.log(results[0].user_id)
+            console.log('Results:', results);
             if (error) {
                 res.status(500).json({ error: 'Internal server error' });
             } else {
@@ -600,7 +632,7 @@ app.post('/inviteUser', (req, res) => {
                                     from: mailCredentials.user,
                                     to: user_mail,
                                     subject: 'Invitation to collaborate on a list',
-                                    text: `${owner} has invited you to collaborate on a lis.`
+                                    text: `Someone has invited you to collaborate on a list.`
                                 };
                                 transporter.sendMail(mailOptions, (error, info) => {
                                     if (error) {

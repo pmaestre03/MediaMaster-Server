@@ -6,11 +6,11 @@ $(document).ready(function () {
 
     if (window.location.pathname === '/search' || window.location.pathname === '/dashboard') {
         if (!user_mail) {
-            window.location.href = 'http://localhost:3000/';
+            window.location.href = 'https://mediamaster.ieti.site/';
         }
     } else if (window.location.pathname === '/login' || window.location.pathname === '/register' || window.location.pathname === '/forgot' || window.location.pathname === '/resetPassword' || window.location.pathname === '/') {
         if (user_mail) {
-            window.location.href = 'http://localhost:3000/dashboard';
+            window.location.href = 'https://mediamaster.ieti.site/dashboard';
         }
     }
 
@@ -41,7 +41,7 @@ $(document).ready(function () {
                     // Mostrar el indicador de carga
                     $("#contenedor-carga").css("display", "grid");
                     $.ajax({
-                        url: 'http://localhost:3000/api/search?category=' + category + '&query=' + query,
+                        url: 'https://mediamaster.ieti.site/api/search?category=' + category + '&query=' + query,
                         dataType: "json",
                         success: function (data) {
                             // Ocultar el indicador de carga
@@ -90,7 +90,7 @@ $(document).ready(function () {
         $("#details").empty();
         var category = $("input[name='category']:checked").val() || category;
         var infoURL = '';
-        infoURL = "http://localhost:3000/api/details?category=" + category + "&id=" + (selectedInfo.id ? selectedInfo.id : selectedInfo);
+        infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + (selectedInfo.id ? selectedInfo.id : selectedInfo);
 
         $.ajax({
             url: infoURL,
@@ -179,12 +179,12 @@ $(document).ready(function () {
         localStorage.removeItem('user_mail');
         localStorage.removeItem('user_id');
         localStorage.removeItem('user_name');
-        window.location.href = 'http://localhost:3000/';
+        window.location.href = 'https://mediamaster.ieti.site/';
     });
 
     function getUsersList(user_mail, user_id) {
         $.ajax({
-            url: 'http://localhost:3000/viewUserLists',
+            url: 'https://mediamaster.ieti.site/viewUserLists',
             type: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -194,9 +194,8 @@ $(document).ready(function () {
         })
             .done(function (data) {
                 listas = data;
-                $("#myLists").empty();
                 data.forEach(function (list) {
-                    $("#myLists").prepend('<p><a value="' + list.list_id + '" id="' + list.list_id + '">' + list.list_name + '</p>');
+                    $("#myLists").append('<p><a value="' + list.list_id + '" id="' + list.list_id + '">' + list.list_name + '</p>');
                     html = '<label><input type="checkbox" name="list" value="' + list.list_id + '" id="' + list.list_id + '"> ' + list.list_name + '</label><br>';
                 });
                 $("#addElementOnList").append(html);
@@ -205,7 +204,7 @@ $(document).ready(function () {
 
     function getUsersCollaborationList(user_id) {
         $.ajax({
-            url: 'http://localhost:3000/viewCollaboratorLists',
+            url: 'https://mediamaster.ieti.site/viewCollaboratorLists',
             type: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -214,13 +213,10 @@ $(document).ready(function () {
         })
             .done(function (data) {
                 listas = data;
-                $("#myLists").empty();
                 data.forEach(function (list) {
-                    html = "<div id=allLists>"
-                    $("#myLists").prepend('<p><a value="' + list.list_id + '" id="' + list.list_id + '">' + list.list_name + '</p>');
-                    html += '<label><input type="checkbox" name="list" value="' + list.list_id + '" id="' + list.list_id + '"> ' + list.list_name + '</label><br>';
+                    $("#sharedLists").append('<p><a value="' + list.list_id + '" id="' + list.list_id + '">' + list.list_name + '</p>');
+                    html = '<label><input type="checkbox" name="list" value="' + list.list_id + '" id="' + list.list_id + '"> ' + list.list_name + '</label><br>';
                 });
-                html += '</div>';
                 $("#addElementOnList").append(html);
             });
     }
@@ -235,15 +231,12 @@ $(document).ready(function () {
             //console.log(item_id);
             $("#addToLists").css('display', 'grid');
 
-
             $(".layout").css('filter', 'blur(5px)');
             $(".layout").addClass('disable-buttons');
         });
 
         $("#saveToList").on('click', function (event) {
             event.preventDefault();
-            $("#success").html('Added on Lists:');
-            $("#duplicated").html('Duplicated on Lists:');
             $("input[name='list']:checked").each(function () {
                 //console.log($(this).val());
                 if (category === 'books') {
@@ -270,7 +263,7 @@ $(document).ready(function () {
     function saveItem(list_id, category, item_id) {
         //console.log(list_id, category, item_id);
         $.ajax({
-            url: 'http://localhost:3000/addMediaToList',
+            url: 'https://mediamaster.ieti.site/addMediaToList',
             type: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -282,9 +275,9 @@ $(document).ready(function () {
             }),
             success: function (data) {
                 if (data.success) {
-                    $("#success").append(' ' + data.lists).css('color', 'green');
+                    showNotification('Item added successfully on '+data.lists, 'green');
                 } else {
-                    $("#duplicated").append(' ' + data.lists).css('color', 'orange');
+                    showNotification('Item already exists on '+data.lists, 'orange');
                 }
                 $("input[name='list']").prop('checked', false);
                 list_id = null;
@@ -294,11 +287,11 @@ $(document).ready(function () {
         })
     }
 
-    $("#myLists").on('click', 'a', function (event) {
+    $("#myLists, #sharedLists").on('click', 'a', function (event) {
         event.preventDefault();
         var list_id = $(this).attr('value');
         localStorage.setItem('list_id', list_id);
-        window.location.href = 'http://localhost:3000/viewDetailedList';
+        window.location.href = 'https://mediamaster.ieti.site/viewDetailedList';
     });
 
     getUsersList(user_mail, user_id);

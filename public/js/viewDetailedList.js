@@ -6,11 +6,11 @@ $(document).ready(function () {
 
     if (window.location.pathname === '/search' || window.location.pathname === '/dashboard') {
         if (!user_mail) {
-            window.location.href = 'http://localhost:3000/';
+            window.location.href = 'https://mediamaster.ieti.site/';
         }
     } else if (window.location.pathname === '/login' || window.location.pathname === '/register' || window.location.pathname === '/forgot' || window.location.pathname === '/resetPassword' || window.location.pathname === '/') {
         if (user_mail) {
-            window.location.href = 'http://localhost:3000/dashboard';
+            window.location.href = 'https://mediamaster.ieti.site/dashboard';
         }
     }
 
@@ -35,7 +35,7 @@ $(document).ready(function () {
         $("#details").empty();
         var category = $("input[name='category']:checked").val() || category;
         var infoURL = '';
-        infoURL = "http://localhost:3000/api/details?category=" + category + "&id=" + (selectedInfo.id ? selectedInfo.id : selectedInfo);
+        infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + (selectedInfo.id ? selectedInfo.id : selectedInfo);
 
         $.ajax({
             url: infoURL,
@@ -111,14 +111,14 @@ $(document).ready(function () {
         localStorage.removeItem('user_mail');
         localStorage.removeItem('user_id');
         localStorage.removeItem('user_name');
-        window.location.href = 'http://localhost:3000/';
+        window.location.href = 'https://mediamaster.ieti.site/';
     });
 
     var list_id = localStorage.getItem('list_id');
     $(".delete-list").attr('id', list_id);
 
     $.ajax({
-        url: 'http://localhost:3000/viewDetailedList',
+        url: 'https://mediamaster.ieti.site/viewDetailedList',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({ list_id: list_id }),
@@ -145,14 +145,14 @@ $(document).ready(function () {
     $(".delete-list").click(function () {
         var list_id = $(this).attr('id');
         $.ajax({
-            url: 'http://localhost:3000/deleteList',
+            url: 'https://mediamaster.ieti.site/deleteList',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({ list_id: list_id }),
         })
             .done(function (data) {
                 localStorage.removeItem('list_id');
-                location.href = 'http://localhost:3000/dashboard';
+                location.href = 'https://mediamaster.ieti.site/dashboard';
                 showNotification('List deleted successfully', 'green');
             });
     });
@@ -160,21 +160,33 @@ $(document).ready(function () {
     $("#inviteForm").submit(function (e) {
         e.preventDefault();
         var email = $("#email").val();
+        if (!email) {
+            showNotification('Please enter an email', 'red');
+            return;
+        } else if (email === user_mail) {
+            showNotification('You cannot invite yourself', 'red');
+            return;
+        }
         var list_id = localStorage.getItem('list_id');
         $.ajax({
-            url: 'http://localhost:3000/inviteUser',
+            url: 'https://mediamaster.ieti.site/inviteUser',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({ list_id: list_id, user_mail: email }),
-        })
-            .done(function (data) {
+            success: function (data) {
                 console.log(data);
-                showNotification('Invitation sent successfully', 'green');
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
+                if (data.success) {
+                    showNotification('User invited successfully', 'green');
+                } else {
+                    showNotification("User doesn't exist or there was an error", 'red');
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR);
-                showNotification('User doesn\'t exist or there was an error', 'red');
-            });
+                showNotification("User doesn't exist or there was an error", 'red');
+            }
+        });
+
     });
 
 });

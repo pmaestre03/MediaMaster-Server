@@ -12,7 +12,7 @@
                 * Enable inline JS: add 'unsafe-inline' to default-src
         -->
         <meta http-equiv="Content-Security-Policy"
-            content="default-src 'self' https://fonts.gstatic.com https://ajax.googleapis.com https://www.googleapis.com https://kit.fontawesome.com data: https://musicbrainz.org gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://ajax.googleapis.com https://cdn.jsdelivr.net 'unsafe-inline'; script-src 'self' https://cdn.jsdelivr.net https://ajax.googleapis.com 'unsafe-inline'; media-src *; img-src * 'self' data: content:; connect-src 'self' https://cdn.jsdelivr.net/npm/toastify-js https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css https://www.googleapis.com http://localhost:3000 http://localhost:3000;">
+            content="default-src 'self' https://fonts.gstatic.com https://ajax.googleapis.com https://www.googleapis.com https://kit.fontawesome.com data: https://musicbrainz.org gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://ajax.googleapis.com https://cdn.jsdelivr.net 'unsafe-inline'; script-src 'self' https://cdn.jsdelivr.net https://ajax.googleapis.com 'unsafe-inline'; media-src *; img-src * 'self' data: content:; connect-src 'self' https://cdn.jsdelivr.net/npm/toastify-js https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css https://www.googleapis.com https://mediamaster.ieti.site https://mediamaster.ieti.site;">
 
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
@@ -33,10 +33,10 @@
 
     <body class="index-body">
         <nav class="navigation">
-            <a href="http://localhost:3000/dashboard" id="search">
+            <a href="https://mediamaster.ieti.site/dashboard" id="search">
                 Dashboard
             </a>
-            <a href="http://localhost:3000/" id="signOut">
+            <a href="https://mediamaster.ieti.site/" id="signOut">
                 Sign out <img id="signOutLogo" src="img/signOut.png">
             </a>
         </nav>
@@ -47,12 +47,15 @@
                     <h2 id="welcome"></h2>
                     <h2>My lists</h2>
                     <div id="myLists"></div>
+
+                    <h2>Shared Lists</h2>
+                    <div id="sharedLists"></div>
                 </div>
 
                 <div id="options">
                     <nav>
                         <a href="dashboard" id="dashboard">Dashboard</a>
-                        <a href="http://localhost:3000/" id="signOut" style="text-decoration: none;">
+                        <a href="https://mediamaster.ieti.site/" id="signOut" style="text-decoration: none;">
                             Sign out <img src="img/signOut.png" width="20px" height="20px" alt=""
                                 style="vertical-align: middle;">
                         </a>
@@ -104,16 +107,13 @@
             </footer>
         </div>
         <div id="addToLists">
-            <div id="successNotification">
-                <h4 id="success">Added on Lists:</h4>
-                <h4 id="duplicated">Duplicated on lists:</h4>
-            </div>
+            <h1 id="addToListsh1">Select the lists you want to save this item to</h1>
             <form action="" method="" id="addElementOnList">
-                
+
             </form>
             <div class="submitElements">
-                <input type="submit" value="saveElement" id="saveToList">
-                <input type="submit" value="close" id="closeListsView">
+                <input type="submit" value="Save into list" id="saveToList">
+                <input type="submit" value="Close" id="closeListsView">
             </div>
         </div>
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">

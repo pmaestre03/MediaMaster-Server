@@ -6,11 +6,11 @@ $(document).ready(function () {
 
     if (window.location.pathname === '/search' || window.location.pathname === '/dashboard') {
         if (!user_mail) {
-            window.location.href = 'http://localhost:3000/';
+            window.location.href = 'https://mediamaster.ieti.site/';
         }
     } else if (window.location.pathname === '/login' || window.location.pathname === '/register' || window.location.pathname === '/forgot' || window.location.pathname === '/resetPassword' || window.location.pathname === '/') {
         if (user_mail) {
-            window.location.href = 'http://localhost:3000/dashboard';
+            window.location.href = 'https://mediamaster.ieti.site/dashboard';
         }
     }
 
@@ -34,13 +34,13 @@ $(document).ready(function () {
         localStorage.removeItem('user_mail');
         localStorage.removeItem('user_id');
         localStorage.removeItem('user_name');
-        window.location.href = 'http://localhost:3000/';
+        window.location.href = 'https://mediamaster.ieti.site/';
     });
 
 
     function getUsersList(user_id) {
         $.ajax({
-            url: 'http://localhost:3000/viewUserLists',
+            url: 'https://mediamaster.ieti.site/viewUserLists',
             type: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ $(document).ready(function () {
                     //console.log(selectedPosters);
 
                     if (isEmpty(ids)) { // meter feedback al usuario de que la lista esta vacia
-                        listContainer = "<h3>" + list.list_name + "</h3><h4 class='empty-feedback'>This list is empty!</h4><a class='get-started-button' href='http://localhost:3000/search'>Get Started</a>";
+                        listContainer = "<h3>" + list.list_name + "</h3><h4 class='empty-feedback'>This list is empty!</h4><a class='get-started-button' href='https://mediamaster.ieti.site/search'>Get Started</a>";
                         //console.log("esta vacio");
                         $("#mylists").append(listContainer);
                     } else {
@@ -113,7 +113,7 @@ $(document).ready(function () {
 
     function getUsersCollaborationList(user_id) {
         $.ajax({
-            url: 'http://localhost:3000/viewCollaboratorLists',
+            url: 'https://mediamaster.ieti.site/viewCollaboratorLists',
             type: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -158,7 +158,7 @@ $(document).ready(function () {
                     //console.log(selectedPosters);
 
                     if (isEmpty(ids)) { // meter feedback al usuario de que la lista esta vacia
-                        listContainer = "<h3>" + list.list_name + "</h3><h4 class='empty-feedback'>This list is empty!</h4><a class='get-started-button' href='http://localhost:3000/search'>Get Started</a>";
+                        listContainer = "<h3>" + list.list_name + "</h3><h4 class='empty-feedback'>This list is empty!</h4><a class='get-started-button' href='https://mediamaster.ieti.site/search'>Get Started</a>";
                         //console.log("esta vacio");
                         $("#mySharedLists").append(listContainer);
                     } else {
@@ -269,11 +269,11 @@ $(document).ready(function () {
         var infoURL = '';
 
         if (category == 'movie' || category == 'tv') {
-            infoURL = "http://localhost:3000/api/details?category=" + category + "&id=" + id;
+            infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + id;
         } else if (category == 'books') {
-            infoURL = "http://localhost:3000/api/details?category=" + category + "&id=" + id;
+            infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + id;
         } else if (category == 'games') {
-            infoURL = "http://localhost:3000/api/details?category=" + category + "&id=" + id;
+            infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + id;
         }
 
         // Devolver una promesa
@@ -321,18 +321,23 @@ $(document).ready(function () {
         event.preventDefault();
         $("#createListDiv").css('display', 'none');
         $(".layout").css('filter', 'blur(0)');
+        $("#listName").val('');
         $(".layout").removeClass('disable-buttons');
     });
 
     $("#createListInput").on('click', function (event) {
         event.preventDefault();
         var listName = $("#listName").val();
+        if (listName === "") {
+            showNotification('Please enter a name', 'orange');
+            return;
+        }
         createList(user_id, listName);
     })
 
     function createList(userId, listName) {
         $.ajax({
-            url: 'http://localhost:3000/createList',
+            url: 'https://mediamaster.ieti.site/createList',
             type: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -346,8 +351,10 @@ $(document).ready(function () {
                 if (data.success) {
                     getUsersList(user_mail, userId);
                     $(".layout").css('filter', 'blur(0)');
-
                     $("#createListDiv").css('display', 'none');
+                    $("#listName").val('');
+                    $(".layout").removeClass('disable-buttons');
+                    getUsersList(user_id);
                     showNotification('List created successfully', 'green');
                 }
             },
@@ -362,13 +369,13 @@ $(document).ready(function () {
         var list_id = $(this).find('ul').attr('id');
         localStorage.setItem('list_id', list_id);
         console.log(list_id);
-        window.location.href = 'http://localhost:3000/viewDetailedList';
+        window.location.href = 'https://mediamaster.ieti.site/viewDetailedList';
     });
 
     // execute dashboard things here
     $("#welcome_messagge").text("Welcome, " + user_name);
 
-    getUsersList( user_id);
+    getUsersList(user_id);
     getUsersCollaborationList(user_id);
     $("#mobileMenuBtn").click(function () {
         $(".navigation ul").slideToggle();

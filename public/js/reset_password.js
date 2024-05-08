@@ -6,11 +6,11 @@ $(document).ready(function () {
 
     if (window.location.pathname === '/search' || window.location.pathname === '/dashboard') {
         if (!user_mail) {
-            window.location.href = 'http://localhost:3000/';
+            window.location.href = 'https://mediamaster.ieti.site/';
         }
     } else if (window.location.pathname === '/login' || window.location.pathname === '/register' || window.location.pathname === '/forgot' || window.location.pathname === '/resetPassword' || window.location.pathname === '/') {
         if (user_mail) {
-            window.location.href = 'http://localhost:3000/dashboard';
+            window.location.href = 'https://mediamaster.ieti.site/dashboard';
         }
     }
 
@@ -41,7 +41,7 @@ $(document).ready(function () {
             var token = new URLSearchParams(window.location.search).get("token");
             $.ajax({
                 type: "POST",
-                url: "http://localhost:3000/resetPassword",
+                url: "https://mediamaster.ieti.site/resetPassword",
                 data: { token: token, password: password },
                 success: function (data) {
                     if (data.success) {
