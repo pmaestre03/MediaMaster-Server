@@ -179,7 +179,7 @@ app.get('/api/search', (req, res) => {
 app.get('/api/details', (req, res) => {
     const { category, id } = req.query;
     const apiKey = apiKeys[category];
-    
+
     const detailsURLs = {
         movie: `https://api.themoviedb.org/3/${category}/${id}`,
         tv: `https://api.themoviedb.org/3/${category}/${id}`,
@@ -289,27 +289,44 @@ app.post('/register', (req, res) => {
 
 
 app.post('/viewUserLists', (req, res) => {
-    const userMail = req.headers['user_mail'];
     const userId = req.headers['user_id'];
-
+    console.log('User ID:', userId);
     connection.connect((err) => {
         if (err) {
-            //console.error('Error al conectar a la base de datos:', err);
             return;
         }
-        //console.log('Conexión establecida correctamente.');
-
-        // Ejecutar consultas u otras operaciones aquí 
         connection.query('SELECT * FROM lists WHERE creator_id = ?', [userId], (err, results, fields) => {
+            console.log('Results:', results);
             if (err) {
                 console.error('Error al ejecutar la consulta:', err);
                 return;
             }
-            //console.log('Resultados de la consulta:', results);
             res.json(results);
         });
     });
 });
+
+app.post('/viewCollaboratorLists', (req, res) => {
+    const userId = req.headers['user_id'];
+    connection.connect((err) => {
+        if (err) {
+            return;
+        }
+        connection.query(`
+            SELECT lc.*, l.*
+            FROM list_collaborators lc
+            INNER JOIN lists l ON lc.list_id = l.list_id
+            WHERE lc.user_id = ?
+        `, [userId], (err, results, fields) => {
+            if (err) {
+                console.error('Error al ejecutar la consulta:', err);
+                return;
+            }
+            res.json(results);
+        });
+    });
+});
+
 
 app.post('/addMediaToList', (req, res) => {
     const { list_id, category, item_id } = req.body;
@@ -488,7 +505,7 @@ app.post('/viewDetailedList', (req, res) => {
         movie: externalKeys.movie,
         tv: externalKeys.tv,
         games: externalKeys.games
-    }; 
+    };
     connection.query(
         'SELECT * FROM lists WHERE list_id = ?',
         [list_id],
@@ -509,26 +526,60 @@ app.post('/viewDetailedList', (req, res) => {
                 lists.book = results[0].book_id?.split(',');
                 //console.log('Lists:', lists);
                 list_name = results[0].list_name
-                res.json({ lists , list_name});
+                res.json({ lists, list_name, owner: results[0].creator_id });
             }
         }
     );
 });
 
+
 app.post('/deleteList', (req, res) => {
     const { list_id } = req.body;
-    connection.query(
-        'DELETE FROM lists WHERE list_id = ?',
-        [list_id],
-        (error, results) => {
-            if (error) {
-                res.status(500).json({ error: 'Internal server error' });
-            } else {
-                res.json({ success: true });
-            }
+    console.log('List ID:', list_id);
+    connection.beginTransaction(function (err) {
+        if (err) {
+            res.status(500).json({ error: 'Internal server error' });
+            return;
         }
-    );
+
+        connection.query(
+            'DELETE FROM list_collaborators WHERE list_id = ?',
+            [list_id],
+            (error, results) => {
+                console.log('Results:', results);
+                if (error) {
+                    connection.rollback(function () {
+                        res.status(500).json({ error: 'Internal server error' });
+                    });
+                } else {
+                    connection.query(
+                        'DELETE FROM lists WHERE list_id = ?',
+                        [list_id],
+                        (error, results) => {
+                            console.log('Results:', results);
+                            if (error) {
+                                connection.rollback(function () {
+                                    res.status(500).json({ error: 'Internal server error' });
+                                });
+                            } else {
+                                connection.commit(function (err) {
+                                    if (err) {
+                                        connection.rollback(function () {
+                                            res.status(500).json({ error: 'Internal server error' });
+                                        });
+                                    } else {
+                                        res.json({ success: true });
+                                    }
+                                });
+                            }
+                        }
+                    );
+                }
+            }
+        );
+    });
 });
+
 
 app.post('/deleteItem', (req, res) => {
     const { list_id, category, item_id } = req.body;
@@ -557,6 +608,49 @@ app.post('/deleteItem', (req, res) => {
     );
 });
 
+app.post('/inviteUser', (req, res) => {
+    const { list_id, user_mail } = req.body;
+
+    connection.query(
+        'SELECT * FROM users WHERE user_mail = ?',
+        [user_mail],
+        (error, results) => {
+            console.log('Results:', results);
+            if (error) {
+                res.status(500).json({ error: 'Internal server error' });
+            } else {
+                if (results.length > 0) {
+                    connection.query(
+                        'INSERT INTO list_collaborators (list_id, user_id,accept_invite) VALUES (?, ?,1)',
+                        [list_id, results[0].user_id],
+                        (error, results) => {
+                            if (error) {
+                                res.status(500).json({ error: 'Internal server error' });
+                            } else {
+                                res.json({ success: true });
+                                const mailOptions = {
+                                    from: mailCredentials.user,
+                                    to: user_mail,
+                                    subject: 'Invitation to collaborate on a list',
+                                    text: `Someone has invited you to collaborate on a list.`
+                                };
+                                transporter.sendMail(mailOptions, (error, info) => {
+                                    if (error) {
+                                        res.status(500).json({ error: 'Internal server error' });
+                                    } else {
+                                        res.json({ success: true });
+                                    }
+                                });
+                            }
+                        }
+                    );
+                } else {
+                    res.json({ success: false });
+                }
+            }
+        }
+    );
+});
 
 app.listen(port, host, () => {
     console.log(`Hola mundo on http://${host}:${port}`);

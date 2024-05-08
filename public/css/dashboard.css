@@ -105,21 +105,16 @@ DASHBOARD.HTML
 
 /* Cambios Pau */
 #createListDiv {
-    background-color: #ffffff;
-    color: black;
+    background-color: var(--hover-green);
+    border-radius: 15px;
+    color: #fff;
     display: none;
-    /* Centra horizontalmente */
     align-items: center;
-    /* Centra verticalmente */
     position: fixed;
-    /* Permite que el div se mantenga en la misma posiciÃ³n en la pantalla incluso cuando se desplaza */
     top: 50%;
-    /* Coloca el div a la mitad de la pantalla verticalmente */
     left: 50%;
-    /* Coloca el div a la mitad de la pantalla horizontalmente */
     transform: translate(-50%, -50%);
-    /* Centra exactamente en el medio */
-    border: 1px solid white;
+    border: 1px solid var(--main-green);
     width: 500px;
     height: 250px;
     padding: 20px;
@@ -133,7 +128,7 @@ DASHBOARD.HTML
         'myLists'
         'saveToList';
     justify-items: center;
-    width: 50%;
+    width: 75%;
 }
 
 nav {
@@ -163,23 +158,53 @@ nav {
 }
 
 
-.navigation ul{
+.navigation ul {
     display: none;
 }
 
-@media (prefers-color-scheme: dark) {
-    #createListDiv {
-        background-color: #121212;
-        /* Fondo oscuro */
-        color: #ffffff;
-        /* Texto claro */
-    }
+#submitElements {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
 }
+
+#closeListsView {
+    background-color: red
+}
+
+#createListInput {
+    background-color: #0c9c07
+}
+
+#createListInput,
+#closeListsView {
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    margin: 0 20px;
+}
+
+.form__input[type="text"] {
+    width: 200px;
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    border: 2px solid var(--outline-input);
+    border-radius: 5px;
+    background-color: transparent;
+    color: #fff;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
 
 @media (max-width: 768px) {
     body {
         overflow-x: hidden;
     }
+
 
     .dashboard-body {
         /* Deshabilita el scroll vertical */
@@ -197,7 +222,10 @@ nav {
     .navigation {
         display: block;
     }
-    #createList, #search, #signOut {
+
+    #createList,
+    #search,
+    #signOut {
         display: none;
         /* Oculta el menú principal en dispositivos móviles */
     }

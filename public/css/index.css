@@ -16,7 +16,7 @@ body {
     position: fixed
 }
 
-header {
+.mobileHeader {
     display: none;
 }
 
@@ -403,10 +403,11 @@ style the top border. */
         display: none;
     }
 
-    header {
+    .mobileHeader {
         display: block;
-        font-size: 40px;
+        font-size: 50px;
         margin-top: 20px;
+        text-align: center;
     }
 
     .left-content {

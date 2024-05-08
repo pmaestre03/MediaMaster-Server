@@ -11,6 +11,7 @@
         media-src *;
         img-src * 'self' data: content:;
         connect-src 'self' https://cdn.jsdelivr.net/npm/toastify-js https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css https://www.googleapis.com https://mediamaster.ieti.site https://mediamaster.ieti.site https://api.themoviedb.org https://www.gamespot.com;
+        connect-src 'self' https://cdn.jsdelivr.net/npm/toastify-js https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css https://www.googleapis.com https://mediamaster.ieti.site https://mediamaster.ieti.site https://api.themoviedb.org https://www.gamespot.com;
     ">
         <link rel="stylesheet" href="css/viewDetailedList.css">
 
@@ -29,6 +30,7 @@
         <header>
             <nav class="navigation">
                 <a href="https://mediamaster.ieti.site/dashboard" id="search">
+                <a href="https://mediamaster.ieti.site/dashboard" id="search">
                     Dashboard
                 </a>
                 <a href="https://mediamaster.ieti.site/" id="signOut">
@@ -39,6 +41,10 @@
 
         <h1 id="listName"></h1>
         <div class="button-container"><button class="delete-list">Delete this list</button></div>
+        <form action="" id="inviteForm">
+            <input type="email" id="email" class="form__input" placeholder="Write an email to invite the user" >
+            <button type="submit">Invite</button>
+        </form>
         <div id="detailedList">
 
         </div>

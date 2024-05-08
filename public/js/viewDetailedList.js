@@ -161,6 +161,10 @@ $(document).ready(function () {
             console.log(data);
             lists = data.lists;
             $("#listName").text("List: " + data.list_name);
+            if (data.owner == user_id) {
+                $("#inviteForm").css('display', 'block');
+                $(".delete-list").css('display', 'block');
+            }
             for (const category in lists) {
                 if (lists.hasOwnProperty(category) && lists[category].length > 0) {
                     const items = lists[category];
@@ -186,4 +190,37 @@ $(document).ready(function () {
                 showNotification('List deleted successfully', 'green');
             });
     });
+
+    $("#inviteForm").submit(function (e) {
+        e.preventDefault();
+        var email = $("#email").val();
+        if (!email) {
+            showNotification('Please enter an email', 'red');
+            return;
+        } else if (email === user_mail) {
+            showNotification('You cannot invite yourself', 'red');
+            return;
+        }
+        var list_id = localStorage.getItem('list_id');
+        $.ajax({
+            url: 'https://mediamaster.ieti.site/inviteUser',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ list_id: list_id, user_mail: email }),
+            success: function (data) {
+                console.log(data);
+                if (data.success) {
+                    showNotification('User invited successfully', 'green');
+                } else {
+                    showNotification("User doesn't exist or there was an error", 'red');
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                showNotification("User doesn't exist or there was an error", 'red');
+            }
+        });
+
+    });
+
 });

@@ -195,16 +195,30 @@ $(document).ready(function () {
         })
             .done(function (data) {
                 listas = data;
-                $("#myLists").empty();
-                html = '<form action="" method="" id="addElementOnList">';
                 data.forEach(function (list) {
-                    html += "<div id=allLists>"
                     $("#myLists").append('<p><a value="' + list.list_id + '" id="' + list.list_id + '">' + list.list_name + '</p>');
-                    html += '<label><input type="checkbox" name="list" value="' + list.list_id + '" id="' + list.list_id + '"> ' + list.list_name + '</label><br>';
+                    html = '<label><input type="checkbox" name="list" value="' + list.list_id + '" id="' + list.list_id + '"> ' + list.list_name + '</label><br>';
                 });
+                $("#addElementOnList").append(html);
+            });
+    }
 
-                html += '</div></form>';
-                $("#addToLists").append(html);
+    function getUsersCollaborationList(user_id) {
+        $.ajax({
+            url: 'https://mediamaster.ieti.site/viewCollaboratorLists',
+            type: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                user_id: user_id
+            },
+        })
+            .done(function (data) {
+                listas = data;
+                data.forEach(function (list) {
+                    $("#sharedLists").append('<p><a value="' + list.list_id + '" id="' + list.list_id + '">' + list.list_name + '</p>');
+                    html = '<label><input type="checkbox" name="list" value="' + list.list_id + '" id="' + list.list_id + '"> ' + list.list_name + '</label><br>';
+                });
+                $("#addElementOnList").append(html);
             });
     }
 
@@ -218,15 +232,12 @@ $(document).ready(function () {
             //console.log(item_id);
             $("#addToLists").css('display', 'grid');
 
-
             $(".layout").css('filter', 'blur(5px)');
             $(".layout").addClass('disable-buttons');
         });
 
         $("#saveToList").on('click', function (event) {
             event.preventDefault();
-            $("#success").html('Added on Lists:');
-            $("#duplicated").html('Duplicated on Lists:');
             $("input[name='list']:checked").each(function () {
                 //console.log($(this).val());
                 if (category === 'books') {
@@ -265,9 +276,9 @@ $(document).ready(function () {
             }),
             success: function (data) {
                 if (data.success) {
-                    $("#success").append(' ' + data.lists).css('color', 'green');
+                    showNotification('Item added successfully on '+data.lists, 'green');
                 } else {
-                    $("#duplicated").append(' ' + data.lists).css('color', 'orange');
+                    showNotification('Item already exists on '+data.lists, 'orange');
                 }
                 $("input[name='list']").prop('checked', false);
                 list_id = null;
@@ -277,7 +288,7 @@ $(document).ready(function () {
         })
     }
 
-    $("#myLists").on('click', 'a', function (event) {
+    $("#myLists, #sharedLists").on('click', 'a', function (event) {
         event.preventDefault();
         var list_id = $(this).attr('value');
         localStorage.setItem('list_id', list_id);
@@ -285,5 +296,6 @@ $(document).ready(function () {
     });
 
     getUsersList(user_mail, user_id);
+    getUsersCollaborationList(user_id);
 
 });

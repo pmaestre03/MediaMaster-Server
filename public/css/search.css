@@ -331,21 +331,16 @@ main .radio-image-group {
 }
 
 #addToLists {
-    background-color: #ffffff;
-    color: black;
+    background-color: var(--hover-green);
+    border-radius: 15px;
+    color: #fff;
     display: none;
-    /* Centra horizontalmente */
     align-items: center;
-    /* Centra verticalmente */
     position: fixed;
-    /* Permite que el div se mantenga en la misma posiciÃ³n en la pantalla incluso cuando se desplaza */
     top: 50%;
-    /* Coloca el div a la mitad de la pantalla verticalmente */
     left: 50%;
-    /* Coloca el div a la mitad de la pantalla horizontalmente */
     transform: translate(-50%, -50%);
-    /* Centra exactamente en el medio */
-    border: 1px solid white;
+    border: 1px solid var(--main-green);
     width: 500px;
     height: 250px;
     padding: 20px;
@@ -359,7 +354,12 @@ main .radio-image-group {
         'myLists'
         'saveToList';
     justify-items: center;
-    width: 50%;
+    width: 75%;
+    align-items: end;
+}
+
+#addToLists h1 {
+    text-align: center;
 }
 
 #saveToList {
@@ -368,33 +368,19 @@ main .radio-image-group {
     text-align: center;
 }
 
-#success {
-    color: green;
-}
 
-#duplicated {
-    color: orange;
-}
-
-
-@media (prefers-color-scheme: dark) {
-    #addToLists {
-        background-color: #121212;
-        /* Fondo oscuro */
-        color: #ffffff;
-        /* Texto claro */
-    }
-}
 
 #lists {
     text-align: center;
 }
 
-#myLists {
+#myLists,
+#sharedLists {
     display: grid;
 }
 
-#myLists a {
+#myLists a,
+#sharedLists a {
     padding: 7.5px;
     color: white;
     background-color: rgba(0, 0, 0, 0.5);
@@ -531,6 +517,25 @@ main .radio-image-group {
     vertical-align: middle;
 }
 
+#closeListsView {
+    background-color: red
+}
+
+#saveToList,
+#saveItem {
+    background-color: #0c9c07
+}
+
+#saveToList,
+#closeListsView,
+#saveItem {
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    margin: 0 20px;
+}
+
 /* Animación Carga */
 
 @import url('//fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,900&display=swap');
@@ -599,4 +604,17 @@ main .radio-image-group {
         box-shadow: 0 -2em #0c9c07;
         height: 5em;
     }
+}
+
+
+/* pruebas checkbox*/
+
+#addElementOnList label {
+    font-size: 20px;
+    margin: 0 10px;
+}
+
+#addElementOnList input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
 }

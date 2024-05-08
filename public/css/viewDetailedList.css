@@ -100,6 +100,50 @@ a {
     margin-bottom: 5px;
 }
 
+#inviteForm,
+.delete-list {
+    display: none;
+    justify-content: center;
+}
+
+
+/* Estilo para el input de correo electrónico */
+.form__input[type="email"] {
+    width: 300px;
+    /* Ancho fijo de 300px */
+    display: block;
+    /* Convertir en bloque para centrar */
+    margin: 10px auto;
+    /* Margen superior e inferior de 10px y centrado horizontal */
+    padding: 10px;
+    border: 2px solid var(--outline-input);
+    border-radius: 5px;
+    background-color: transparent;
+    color: #fff;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+/* Estilo para el botón de enviar dentro del formulario */
+#inviteForm button[type="submit"] {
+    background-color: var(--secondary-green);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100px;
+    text-align: center;
+    margin: 10px auto;
+    display: block;
+}
+
+/* Estilo para el botón de enviar cuando se pasa el ratón por encima */
+#inviteForm button[type="submit"]:hover {
+    background-color: var(--hover-green);
+}
+
 .delete-button {
     margin-top: auto;
     border-radius: 10px;
