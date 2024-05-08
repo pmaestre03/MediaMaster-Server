@@ -414,7 +414,9 @@ main .radio-image-group {
         font-size: 20px;
     }
 
-
+    #myLists {
+        grid-template-columns: 1fr 1fr;
+    }
 
     main .search-container {
         margin: 20px;
