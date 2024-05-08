@@ -195,9 +195,10 @@ $(document).ready(function () {
         })
             .done(function (data) {
                 listas = data;
+                html = "";
                 data.forEach(function (list) {
                     $("#myLists").append('<p><a value="' + list.list_id + '" id="' + list.list_id + '">' + list.list_name + '</p>');
-                    html = '<label><input type="checkbox" name="list" value="' + list.list_id + '" id="' + list.list_id + '"> ' + list.list_name + '</label><br>';
+                    html += '<label><input type="checkbox" name="list" value="' + list.list_id + '" id="' + list.list_id + '"> ' + list.list_name + '</label><br>';
                 });
                 $("#addElementOnList").append(html);
             });
@@ -214,9 +215,10 @@ $(document).ready(function () {
         })
             .done(function (data) {
                 listas = data;
+                html = "";
                 data.forEach(function (list) {
                     $("#sharedLists").append('<p><a value="' + list.list_id + '" id="' + list.list_id + '">' + list.list_name + '</p>');
-                    html = '<label><input type="checkbox" name="list" value="' + list.list_id + '" id="' + list.list_id + '"> ' + list.list_name + '</label><br>';
+                    html += '<label><input type="checkbox" name="list" value="' + list.list_id + '" id="' + list.list_id + '"> ' + list.list_name + '</label><br>';
                 });
                 $("#addElementOnList").append(html);
             });
