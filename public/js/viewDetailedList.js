@@ -1,16 +1,17 @@
 var user_mail = localStorage.getItem('user_mail');
 var user_id = localStorage.getItem('user_id');
 var user_name = localStorage.getItem('user_name');
+const url = "https://mediamaster.ieti.site";
 
 $(document).ready(function () {
 
     if (window.location.pathname === '/search' || window.location.pathname === '/dashboard') {
         if (!user_mail) {
-            window.location.href = 'https://mediamaster.ieti.site/';
+            window.location.href = url;
         }
     } else if (window.location.pathname === '/login' || window.location.pathname === '/register' || window.location.pathname === '/forgot' || window.location.pathname === '/resetPassword' || window.location.pathname === '/') {
         if (user_mail) {
-            window.location.href = 'https://mediamaster.ieti.site/dashboard';
+            window.location.href = url + '/dashboard';
         }
     }
 
@@ -35,7 +36,7 @@ $(document).ready(function () {
         $("#details").empty();
         var category = $("input[name='category']:checked").val() || category;
         var infoURL = '';
-        infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + (selectedInfo.id ? selectedInfo.id : selectedInfo);
+        infoURL = url + "/api/details?category=" + category + "&id=" + (selectedInfo.id ? selectedInfo.id : selectedInfo);
 
         $.ajax({
             url: infoURL,
@@ -95,9 +96,29 @@ $(document).ready(function () {
                         '<p><strong>Genres:</strong> ' + data.genres.map(genre => genre.name).join(', ') + '</p>' +
                         '<p><strong>Franchises:</strong> ' + data.franchises.map(franchise => franchise.name).join(', ') + '</p>';
                 }
-                html += '<button class="addToList" id="' + (selectedInfo.id ? selectedInfo.id : selectedInfo) + '">Delete</button></div>';
                 $("#detailedList").append(html);
 
+                // delete button logic
+                let itemId = selectedInfo.id ? selectedInfo.id : selectedInfo
+                let itemCategory = ""
+
+                if (category == "movie") {
+                    itemCategory = "movie_id";
+                }
+                else if (category == "tv") {
+                    itemCategory = "serie_id";
+                }
+                else if (category == "games") {
+                    itemCategory = "game_id";
+                } else {
+                    itemCategory = "book_id";
+                }
+                
+
+                $("#" + itemId).append(`<button class='delete-button' data='${itemId}'><img class='delete-logo' src='img/delete.png'></button>`)
+                $("#" + itemId).find(".delete-button").click(function () {
+                    deleteListItem(itemId, itemCategory);
+                })
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log("Error en la solicitud:", jqXHR);
@@ -107,18 +128,31 @@ $(document).ready(function () {
         });
     }
 
+    function deleteListItem(itemId, itemCategory) {
+        $.ajax({
+            url: url + '/deleteItem',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ list_id: localStorage.getItem('list_id'), category: itemCategory, item_id: itemId }),
+        })
+            .done(function (data) {
+                $("#" + itemId).remove();
+                showNotification('Item deleted successfully', 'green');
+            });
+    }
+
     $("#signOut").click(function () {
         localStorage.removeItem('user_mail');
         localStorage.removeItem('user_id');
         localStorage.removeItem('user_name');
-        window.location.href = 'https://mediamaster.ieti.site/';
+        window.location.href = url;
     });
 
     var list_id = localStorage.getItem('list_id');
     $(".delete-list").attr('id', list_id);
 
     $.ajax({
-        url: 'https://mediamaster.ieti.site/viewDetailedList',
+        url: url + '/viewDetailedList',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({ list_id: list_id }),
@@ -145,14 +179,14 @@ $(document).ready(function () {
     $(".delete-list").click(function () {
         var list_id = $(this).attr('id');
         $.ajax({
-            url: 'https://mediamaster.ieti.site/deleteList',
+            url: url + '/deleteList',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({ list_id: list_id }),
         })
             .done(function (data) {
                 localStorage.removeItem('list_id');
-                location.href = 'https://mediamaster.ieti.site/dashboard';
+                location.href = url + '/dashboard';
                 showNotification('List deleted successfully', 'green');
             });
     });

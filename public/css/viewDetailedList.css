@@ -144,6 +144,43 @@ a {
     background-color: var(--hover-green);
 }
 
+.delete-button {
+    margin-top: auto;
+    border-radius: 10px;
+    border: none;
+    border: 2px solid red;
+    background-color: #970000;
+    transition: background-color 0.5s;
+}
+
+.delete-button:hover {
+    background-color: red;
+}
+
+.delete-button img {
+    width: 40px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.delete-list {
+    padding: 7px;
+    font-size: 15px;
+    border-radius: 5px;
+    border: none;
+    border: 2px solid red;
+    background-color: #970000;
+    transition: background-color 0.5s;
+    color: white;
+}
+
+.delete-list:hover {
+    background-color: red;
+}
+
 @media (max-width: 768px) {
     #detailedList {
         display: flex;

@@ -1,10 +1,18 @@
 var user_mail = localStorage.getItem('user_mail');
 var user_id = localStorage.getItem('user_id');
 var user_name = localStorage.getItem('user_name');
+const url = "https://mediamaster.ieti.site";
 
 $(document).ready(function () {
-    if (user_mail) {
-        window.location.href = 'https://mediamaster.ieti.site/dashboard';
+
+    if (window.location.pathname === '/search' || window.location.pathname === '/dashboard') {
+        if (!user_mail) {
+            window.location.href = url;
+        }
+    } else if (window.location.pathname === '/login' || window.location.pathname === '/register' || window.location.pathname === '/forgot' || window.location.pathname === '/resetPassword' || window.location.pathname === '/') {
+        if (user_mail) {
+            window.location.href = url + '/dashboard';
+        }
     }
 
     // Busqueda de información para Index y Search
@@ -18,7 +26,7 @@ $(document).ready(function () {
                     // Mostrar el indicador de carga
                     $("#contenedor-carga").css("display", "grid");
                     $.ajax({
-                        url: 'https://mediamaster.ieti.site/api/search?category=' + category + '&query=' + query,
+                        url: url + '/api/search?category=' + category + '&query=' + query,
                         dataType: "json",
                         success: function (data) {
                             // Ocultar el indicador de carga
@@ -67,7 +75,7 @@ $(document).ready(function () {
         $("#details").empty();
         var category = $("input[name='category']:checked").val() || category;
         var infoURL = '';
-        infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + (selectedInfo.id ? selectedInfo.id : selectedInfo);
+        infoURL = url + "/api/details?category=" + category + "&id=" + (selectedInfo.id ? selectedInfo.id : selectedInfo);
 
         $.ajax({
             url: infoURL,

@@ -1,16 +1,17 @@
 var user_mail = localStorage.getItem('user_mail');
 var user_id = localStorage.getItem('user_id');
 var user_name = localStorage.getItem('user_name');
+const url = "https://mediamaster.ieti.site";
 
 $(document).ready(function () {
 
     if (window.location.pathname === '/search' || window.location.pathname === '/dashboard') {
         if (!user_mail) {
-            window.location.href = 'https://mediamaster.ieti.site/';
+            window.location.href = url;
         }
     } else if (window.location.pathname === '/login' || window.location.pathname === '/register' || window.location.pathname === '/forgot' || window.location.pathname === '/resetPassword' || window.location.pathname === '/') {
         if (user_mail) {
-            window.location.href = 'https://mediamaster.ieti.site/dashboard';
+            window.location.href = url + '/dashboard';
         }
     }
 
@@ -39,7 +40,7 @@ $(document).ready(function () {
     function forgotPassword(email) {
         //console.log(email);
         $.ajax({
-            url: 'https://mediamaster.ieti.site/forgot',
+            url: url + '/forgot',
             method: 'POST',
             data: {
                 email: email

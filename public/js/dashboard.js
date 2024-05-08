@@ -1,16 +1,17 @@
 var user_mail = localStorage.getItem('user_mail');
 var user_id = localStorage.getItem('user_id');
 var user_name = localStorage.getItem('user_name');
+const url = "https://mediamaster.ieti.site";
 
 $(document).ready(function () {
 
     if (window.location.pathname === '/search' || window.location.pathname === '/dashboard') {
         if (!user_mail) {
-            window.location.href = 'https://mediamaster.ieti.site/';
+            window.location.href = url;
         }
     } else if (window.location.pathname === '/login' || window.location.pathname === '/register' || window.location.pathname === '/forgot' || window.location.pathname === '/resetPassword' || window.location.pathname === '/') {
         if (user_mail) {
-            window.location.href = 'https://mediamaster.ieti.site/dashboard';
+            window.location.href = url + '/dashboard';
         }
     }
 
@@ -34,13 +35,13 @@ $(document).ready(function () {
         localStorage.removeItem('user_mail');
         localStorage.removeItem('user_id');
         localStorage.removeItem('user_name');
-        window.location.href = 'https://mediamaster.ieti.site/';
+        window.location.href = url;
     });
 
 
     function getUsersList(user_id) {
         $.ajax({
-            url: 'https://mediamaster.ieti.site/viewUserLists',
+            url: url + '/viewUserLists',
             type: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -84,7 +85,7 @@ $(document).ready(function () {
                     //console.log(selectedPosters);
 
                     if (isEmpty(ids)) { // meter feedback al usuario de que la lista esta vacia
-                        listContainer = "<h3>" + list.list_name + "</h3><h4 class='empty-feedback'>This list is empty!</h4><a class='get-started-button' href='https://mediamaster.ieti.site/search'>Get Started</a>";
+                        listContainer = "<h3>" + list.list_name + "</h3><h4 class='empty-feedback'>This list is empty!</h4><a class='get-started-button' href='" + url + "/search'>Get Started</a>";
                         //console.log("esta vacio");
                         $("#mylists").append(listContainer);
                     } else {
@@ -175,12 +176,7 @@ $(document).ready(function () {
                 });
                 // mirar si el usuario no tiene listas
                 if ($("#mySharedLists").is(':empty')) {
-                    console.log("entramos en esta vacio el div")
-                    $("#mySharedLists").append("<h3 class='no-list-message'>You currently do not have any lists!</h3><button id='start-creating' class='get-started-button'>Get Started</button>");
-
-                    $("#start-creating").click(function () {
-                        $("#createList").click();
-                    })
+                    $("#mySharedLists").append("<h3 class='no-list-message'>You currently do not have any shared lists!</h3>");
                 }
             });
     }
@@ -269,11 +265,11 @@ $(document).ready(function () {
         var infoURL = '';
 
         if (category == 'movie' || category == 'tv') {
-            infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + id;
+            infoURL = url + "/api/details?category=" + category + "&id=" + id;
         } else if (category == 'books') {
-            infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + id;
+            infoURL = url + "/api/details?category=" + category + "&id=" + id;
         } else if (category == 'games') {
-            infoURL = "https://mediamaster.ieti.site/api/details?category=" + category + "&id=" + id;
+            infoURL = url + "/api/details?category=" + category + "&id=" + id;
         }
 
         // Devolver una promesa
@@ -337,7 +333,7 @@ $(document).ready(function () {
 
     function createList(userId, listName) {
         $.ajax({
-            url: 'https://mediamaster.ieti.site/createList',
+            url: url + '/createList',
             type: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -369,7 +365,7 @@ $(document).ready(function () {
         var list_id = $(this).find('ul').attr('id');
         localStorage.setItem('list_id', list_id);
         console.log(list_id);
-        window.location.href = 'https://mediamaster.ieti.site/viewDetailedList';
+        window.location.href = url + '/viewDetailedList';
     });
 
     // execute dashboard things here
