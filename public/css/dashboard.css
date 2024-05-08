@@ -87,6 +87,8 @@ DASHBOARD.HTML
     border-radius: 5px;
     font-size: 25px;
     transition: color 0.5s ease, background-color 0.5s ease;
+    margin: auto;
+    max-width: fit-content;
 }
 
 .dashboard-body .get-started-button:hover {
