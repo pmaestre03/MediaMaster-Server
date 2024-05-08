@@ -117,6 +117,11 @@ a {
     width: 40px;
 }
 
+.button-container {
+    display: flex;
+    justify-content: center;
+}
+
 .delete-list {
     padding: 7px;
     font-size: 15px;
