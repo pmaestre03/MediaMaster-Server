@@ -1,0 +1,189 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Anta", sans-serif;
+    background-color: #043603;
+    color: #fff;
+}
+
+:root {
+    --main-green: #067202;
+    --secondary-green: #0c9c07;
+    --hover-green: #043603;
+    --outline-input: #c2c8d0;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: var(--main-green);
+    color: white;
+    font-size: 20px;
+}
+
+#createList {
+    cursor: pointer;
+}
+
+#signOutLogo {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+
+a {
+    text-decoration: none;
+    /* Quita el subrayado predeterminado */
+    color: inherit;
+    transition: opacity 0.5s;
+}
+
+#listName {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#detailedList {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 1rem;
+    margin: 0 10px;
+}
+
+.details-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-width: 600px;
+}
+
+.details-container h2 {
+    margin-top: 0;
+}
+
+.description {
+    margin: 20px;
+    text-align: justify;
+}
+
+.info {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.info img {
+    max-width: 200px;
+    height: auto;
+}
+
+.info p {
+    margin: 0;
+}
+
+.additional-info {
+    text-align: center;
+}
+
+.genres {
+    margin-top: 10px;
+}
+
+.genres strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#inviteForm,
+.delete-list {
+    display: none;
+    justify-content: center;
+}
+
+
+/* Estilo para el input de correo electrónico */
+.form__input[type="email"] {
+    width: 300px;
+    /* Ancho fijo de 300px */
+    display: block;
+    /* Convertir en bloque para centrar */
+    margin: 10px auto;
+    /* Margen superior e inferior de 10px y centrado horizontal */
+    padding: 10px;
+    border: 2px solid var(--outline-input);
+    border-radius: 5px;
+    background-color: transparent;
+    color: #fff;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+/* Estilo para el botón de enviar dentro del formulario */
+#inviteForm button[type="submit"] {
+    background-color: var(--secondary-green);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100px;
+    text-align: center;
+    margin: 10px auto;
+    display: block;
+}
+
+/* Estilo para el botón de enviar cuando se pasa el ratón por encima */
+#inviteForm button[type="submit"]:hover {
+    background-color: var(--hover-green);
+}
+
+.delete-button {
+    margin-top: auto;
+    border-radius: 10px;
+    border: none;
+    border: 2px solid red;
+    background-color: #970000;
+    transition: background-color 0.5s;
+}
+
+.delete-button:hover {
+    background-color: red;
+}
+
+.delete-button img {
+    width: 40px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.delete-list {
+    padding: 7px;
+    font-size: 15px;
+    border-radius: 5px;
+    border: none;
+    border: 2px solid red;
+    background-color: #970000;
+    transition: background-color 0.5s;
+    color: white;
+}
+
+.delete-list:hover {
+    background-color: red;
+}
+
+@media (max-width: 768px) {
+    #detailedList {
+        display: flex;
+        flex-direction: column;
+    }
+}

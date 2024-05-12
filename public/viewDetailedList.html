@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self' https://fonts.gstatic.com https://ajax.googleapis.com https://www.googleapis.com https://kit.fontawesome.com data: https://musicbrainz.org gap: https://ssl.gstatic.com 'unsafe-eval';
+        style-src 'self' https://fonts.googleapis.com https://ajax.googleapis.com https://cdn.jsdelivr.net 'unsafe-inline';
+        script-src 'self' https://cdn.jsdelivr.net https://ajax.googleapis.com 'unsafe-inline';
+        media-src *;
+        img-src * 'self' data: content:;
+        connect-src 'self' https://cdn.jsdelivr.net/npm/toastify-js https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css https://www.googleapis.com https://mediamaster.ieti.site https://mediamaster.ieti.site https://api.themoviedb.org https://www.gamespot.com;
+        connect-src 'self' https://cdn.jsdelivr.net/npm/toastify-js https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css https://www.googleapis.com https://mediamaster.ieti.site https://mediamaster.ieti.site https://api.themoviedb.org https://www.gamespot.com;
+    ">
+        <link rel="stylesheet" href="css/viewDetailedList.css">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
+        <link rel="shortcut icon" href="img/logo.png" type="image/png">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link rel="stylesheet"
+            href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <title>Document</title>
+    </head>
+
+    <body>
+        <header>
+            <nav class="navigation">
+                <a href="https://mediamaster.ieti.site/dashboard" id="search">
+                    Dashboard
+                </a>
+                <a href="https://mediamaster.ieti.site/" id="signOut">
+                    Sign out <img id="signOutLogo" src="img/signOut.png">
+                </a>
+            </nav>
+        </header>
+
+        <h1 id="listName"></h1>
+        <div class="button-container"><button class="delete-list">Delete this list</button></div>
+        <form action="" id="inviteForm">
+            <input type="email" id="email" class="form__input" placeholder="Write an email to invite the user" >
+            <button type="submit">Invite</button>
+        </form>
+        <div id="detailedList">
+
+        </div>
+
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+        <script src="js/viewDetailedList.js"></script>
+    </body>
+
+</html>
