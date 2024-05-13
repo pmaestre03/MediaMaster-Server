@@ -1,32 +1,33 @@
 body {
-         margin: 0;
-         padding: 0;
-         font-family: "Anta", sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: "Anta", sans-serif;
+    color: white;
 }
 
 :root {
-         --main-green: #067202;
-         --secondary-green: #0c9c07;
-         --hover-green: #043603;
-         --outline-input: #c2c8d0;
+    --main-green: #067202;
+    --secondary-green: #0c9c07;
+    --hover-green: #043603;
+    --outline-input: #c2c8d0;
 
 }
 
 /* search bar styles */
 .form__input {
-         width: clamp(120px, 50vw, 420px);
-         height: 2.5rem;
-         padding: 0 1.25rem;
-         border: 1px solid var(--outline-input);
-         border-radius: 5px;
-         margin: 0.625rem auto;
-         transition: all 250ms;
+    width: clamp(120px, 50vw, 420px);
+    height: 2.5rem;
+    padding: 0 1.25rem;
+    border: 1px solid var(--outline-input);
+    border-radius: 5px;
+    margin: 0.625rem auto;
+    transition: all 250ms;
 }
 
 .form__input:focus {
-         outline: none;
-         border: 1px solid var(--main-white);
-         border-top-color: rgba(0, 0, 0, 0.1);
+    outline: none;
+    border: 1px solid var(--main-white);
+    border-top-color: rgba(0, 0, 0, 0.1);
 }
 
 /* When the input field (.form__input) is in focus, 
@@ -35,8 +36,8 @@ body {
     transform the .form__label and change colors. */
 .form__input:focus+.form__label,
 .form__input:not(:placeholder-shown)+.form__label {
-         transform: translateY(-4.50rem) scale(1);
-         color: var(--main-white);
+    transform: translateY(-4.50rem) scale(1);
+    color: var(--main-white);
 }
 
 /* THIS PART IS IMPORTANT!! */
@@ -47,105 +48,108 @@ body {
 /* The placeholder is just invisible. We need the placeholder to exist for
     some weird CSS stuff. If we skip this, we can't make it CSS-only. */
 .form__input::placeholder {
-         display: none;
-         color: transparent;
+    display: none;
+    color: transparent;
 
-         -webkit-user-select: none;
-         /* Safari */
-         -ms-user-select: none;
-         /* IE 10 and IE 11 */
-         user-select: none;
-         /* Standard syntax */
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE 10 and IE 11 */
+    user-select: none;
+    /* Standard syntax */
 }
 
 /* When the placeholder is NOT shown,
     style the top border. */
 /* This makes the top border fade-out when the placeholder disappears. */
 .form__input:not(:placeholder-shown) {
-         border-top-color: rgba(0, 0, 0, 0.5);
+    border-top-color: rgba(0, 0, 0, 0.5);
 }
 
 .form__label {
-         font-size: 1rem;
-         color: grey;
-         display: block;
+    font-size: 1rem;
+    color: grey;
+    display: block;
 
-         /* Moves the label on TOP of the placeholder */
-         /* You'll need to change this as needed */
-         transform: translate(0, -2.8rem);
-         transform-origin: 0 0;
-         /* Used later for transitions */
-         transition: all 500ms;
+    /* Moves the label on TOP of the placeholder */
+    /* You'll need to change this as needed */
+    transform: translate(0, -2.8rem);
+    transform-origin: 0 0;
+    /* Used later for transitions */
+    transition: all 500ms;
 
-         -webkit-user-select: none;
-         /* Safari */
-         -ms-user-select: none;
-         /* IE 10 and IE 11 */
-         user-select: none;
-         /* Standard syntax */
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE 10 and IE 11 */
+    user-select: none;
+    /* Standard syntax */
 
-         /* THIS PART IS IMPORTANT! */
-         /* This line prevents the label from being selected.*/
-         /* This is crucial because if this line doesn't exist, users can
+    /* THIS PART IS IMPORTANT! */
+    /* This line prevents the label from being selected.*/
+    /* This is crucial because if this line doesn't exist, users can
         click on the label, instead of the input field. That's bad UX! */
-         pointer-events: none;
+    pointer-events: none;
 }
 
 .forgot-body footer {
-         position: absolute;
-         bottom: 0;
-         width: 100%;
-         /* Asegura que el pie de página ocupe todo el ancho del contenedor */
-         text-align: center;
-         /* Centra el texto del pie de página */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Asegura que el pie de página ocupe todo el ancho del contenedor */
+    text-align: center;
+    /* Centra el texto del pie de página */
 }
 
 .forgot-body {
-         background-color: #043603;
-         align-items: center;
-         text-align: center;
+    background-color: #043603;
+    align-items: center;
+    text-align: center;
 }
 
 .forgot {
-         display: flex;
-         justify-content: center;
-         /* Centrar horizontalmente */
-         align-items: center;
-         /* Centrar verticalmente */
-         height: 70vh;
-         /* Establecer la altura del contenedor al 100% de la ventana */
+    display: flex;
+    justify-content: center;
+    /* Centrar horizontalmente */
+    align-items: center;
+    /* Centrar verticalmente */
+    height: 70vh;
+    /* Establecer la altura del contenedor al 100% de la ventana */
 }
 
 nav input {
-         color: black;
-         background-color: white;
-         text-decoration: none;
-         border: 1px solid white;
-         border-radius: 10px;
-         padding: 13px;
-         padding-left: 50px;
-         padding-right: 50px;
-         transition: background-color 0.5s;
-         width: 200px;
-         /* Ancho fijo para los botones */
-         box-sizing: border-box;
-         /* Incluye el padding en el ancho total del botón */
-         white-space: nowrap;
-         /* Evita el salto de línea si el texto es muy largo */
-         overflow: hidden;
-         /* Oculta el contenido que se desborda del botón */
-         text-overflow: ellipsis;
-         text-align: center;
-         font-weight: bold;
-         font-family: "Anta", sans-serif;
+    color: black;
+    background-color: white;
+    text-decoration: none;
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 13px;
+    padding-left: 50px;
+    padding-right: 50px;
+    transition: background-color 0.5s;
+    width: 200px;
+    /* Ancho fijo para los botones */
+    box-sizing: border-box;
+    /* Incluye el padding en el ancho total del botón */
+    white-space: nowrap;
+    /* Evita el salto de línea si el texto es muy largo */
+    overflow: hidden;
+    /* Oculta el contenido que se desborda del botón */
+    text-overflow: ellipsis;
+    text-align: center;
+    font-weight: bold;
+    font-family: "Anta", sans-serif;
 }
 
 nav input:hover {
-         background-color: rgb(212, 212, 212);
-         cursor: pointer;
+    background-color: rgb(212, 212, 212);
+    cursor: pointer;
+}
+
+h1 a {
+    text-decoration: none;
 }
 
 a {
-         color: #ffffff;
-         text-decoration: none;
+    color: #ffffff;
 }
