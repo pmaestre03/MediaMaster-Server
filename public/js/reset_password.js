@@ -48,6 +48,7 @@ $(document).ready(function () {
                     if (data.success) {
                         $("#recoverPasswd").hide();
                         showNotification(data.message, 'green');
+                        window.location.href = url + '/login';
                     } else {
                         showNotification(data.error, 'red');
                     }
