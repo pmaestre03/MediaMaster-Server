@@ -412,10 +412,17 @@ app.post('/forgot', (req, res) => {
                                 res.status(500).json({ error: 'Internal server error' });
                             } else {
                                 const mailOptions = {
-                                    from: mailCredentials.user,
+                                    from: `MediaMaster Team <${mailCredentials.user}>`,
                                     to: email,
                                     subject: 'Password Recovery',
-                                    text: `Click on the following link to recover your password: https://mediamaster.ieti.site/resetPassword?token=${token}`
+                                    html: `
+                                        <p>Dear User,</p>
+                                        <p>We received a request to reset your password for your MediaMaster account.</p>
+                                        <p>To proceed with the password reset, please click on the following link:</p>
+                                        <p><a href="https://mediamaster.ieti.site/resetPassword?token=${token}">Reset Password</a></p>
+                                        <p>If you did not request this password reset, please ignore this email.</p>
+                                        <p>Best regards,<br>MediaMaster Team</p>
+                                    `
                                 };
                                 transporter.sendMail(mailOptions, (error, info) => {
                                     if (error) {
@@ -629,10 +636,16 @@ app.post('/inviteUser', (req, res) => {
                             } else {
                                 res.json({ success: true });
                                 const mailOptions = {
-                                    from: mailCredentials.user,
+                                    from: `MediaMaster Team <${mailCredentials.user}>`,
                                     to: user_mail,
-                                    subject: 'Invitation to collaborate on a list',
-                                    text: `Someone has invited you to collaborate on a list.`
+                                    subject: 'Invitation to Collaborate on a List',
+                                    html: `
+                                        <p>Dear Colleague,</p>
+                                        <p>You have been invited to collaborate on a list in MediaMaster.</p>
+                                        <p>This collaboration opportunity will allow you to contribute and work together efficiently.</p>
+                                        <p>If you have any questions or need assistance, please feel free to contact us.</p>
+                                        <p>Best regards,<br>MediaMaster Team</p>
+                                    `
                                 };
                                 transporter.sendMail(mailOptions, (error, info) => {
                                     if (error) {
