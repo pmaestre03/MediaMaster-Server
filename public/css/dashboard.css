@@ -234,9 +234,6 @@ nav {
         cursor: pointer;
     }
 
-    .navigation ul {
-        display: none;
-    }
 
     .navigation ul li {
         display: inline;
