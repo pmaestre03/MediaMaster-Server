@@ -209,9 +209,7 @@ nav {
 
 
     .dashboard-body {
-        /* Deshabilita el scroll vertical */
         white-space: nowrap;
-        /* Evita que los elementos se envuelvan a la siguiente línea */
     }
 
     .dashboard-body .list {
@@ -229,13 +227,28 @@ nav {
     #search,
     #signOut {
         display: none;
-        /* Oculta el menú principal en dispositivos móviles */
     }
 
     .mobile-menu-btn {
         display: block;
-        /* Muestra el botón en dispositivos móviles */
         cursor: pointer;
+    }
+
+    .navigation ul {
+        display: none;
+    }
+
+    .navigation ul li {
+        display: inline;
+        margin: 0 5px;
+    }
+
+    .navigation ul li:first-child {
+        margin: 0;
+    }
+
+    .navigation ul li:last-child {
+        margin: 0;
     }
 
 }
