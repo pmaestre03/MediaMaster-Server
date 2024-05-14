@@ -181,7 +181,7 @@ a {
     background-color: red;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 480px) {
     #detailedList {
         display: flex;
         flex-direction: column;

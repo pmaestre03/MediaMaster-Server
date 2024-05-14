@@ -202,11 +202,10 @@ nav {
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 480px) {
     body {
         overflow-x: hidden;
     }
-
 
     .dashboard-body {
         white-space: nowrap;
@@ -216,6 +215,7 @@ nav {
         flex-direction: row;
         margin: 25px;
         overflow-x: auto;
+        justify-content: flex-start;
         /* Cambia la dirección de los elementos a columna */
     }
 
