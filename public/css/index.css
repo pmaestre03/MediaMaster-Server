@@ -40,6 +40,10 @@ body {
 
 }
 
+.search-container {
+    margin-top: 20px;
+}
+
 .right-content {
     grid-area: right-container;
     display: flex;

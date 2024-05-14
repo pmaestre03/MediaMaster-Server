@@ -89,6 +89,7 @@ main .search-container {
     max-width: 70%;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
 }
@@ -420,7 +421,7 @@ main .radio-image-group {
     }
 
     main .search-container {
-        margin: 20px;
+        margin: 40px;
     }
 
     .form__input {
