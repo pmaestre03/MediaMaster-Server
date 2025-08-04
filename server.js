@@ -51,15 +51,14 @@ const connection = mysql.createConnection({
 
 // Nodemailer
 let transporter = nodemailer.createTransport({
-    host: mailCredentials.host,          // smtp.ionos.es
-    port: mailCredentials.port,          // 587
-    secure: mailCredentials.secure,      // false (TLS)
+    host: mailCredentials.host,
+    port: mailCredentials.port,
+    secure: mailCredentials.secure,
     auth: {
         user: mailCredentials.auth.user,
         pass: mailCredentials.auth.pass
     }
 });
-
 
 
 app.post('/', (req, res) => {
@@ -421,14 +420,14 @@ app.post('/forgot', (req, res) => {
                 connection.query(
                     'INSERT INTO forgotPassword (user_mail, token, used) VALUES (?, ?, 0)',
                     [email, token],
+                    console.log(mailCredentials.auth.user, email, token),
                     (error, results) => {
                         if (error) {
                             console.error('Error en INSERT:', error);
                             return res.status(500).json({ error: 'Error en INSERT', details: error.message });
                         }
-
                         const mailOptions = {
-                            from: '"MediaMaster Team" <soporte@mediamaster.pmaestrefernandez.com>',
+                            from: `"MediaMaster Team" <${mailCredentials.auth.user}>`,
                             to: email,
                             subject: 'Password Recovery',
                             html: `
