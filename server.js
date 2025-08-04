@@ -300,13 +300,13 @@ app.post('/register', (req, res) => {
 
 app.post('/viewUserLists', (req, res) => {
     const userId = req.headers['user_id'];
-    console.log('User ID:', userId);
+    //console.log('User ID:', userId);
     connection.connect((err) => {
         if (err) {
             return;
         }
         connection.query('SELECT * FROM lists WHERE creator_id = ?', [userId], (err, results, fields) => {
-            console.log('Results:', results);
+            //console.log('Results:', results);
             if (err) {
                 console.error('Error al ejecutar la consulta:', err);
                 return;
@@ -530,7 +530,7 @@ app.post('/viewDetailedList', (req, res) => {
             if (error) {
                 res.status(500).json({ error: 'Internal server error' });
             } else {
-                console.log('Results:', results);
+                //console.log('Results:', results);
                 lists = {
                     movie: [],
                     tv: [],
@@ -552,7 +552,7 @@ app.post('/viewDetailedList', (req, res) => {
 
 app.post('/deleteList', (req, res) => {
     const { list_id } = req.body;
-    console.log('List ID:', list_id);
+    //console.log('List ID:', list_id);
     connection.beginTransaction(function (err) {
         if (err) {
             res.status(500).json({ error: 'Internal server error' });
@@ -563,7 +563,7 @@ app.post('/deleteList', (req, res) => {
             'DELETE FROM list_collaborators WHERE list_id = ?',
             [list_id],
             (error, results) => {
-                console.log('Results:', results);
+                //console.log('Results:', results);
                 if (error) {
                     connection.rollback(function () {
                         res.status(500).json({ error: 'Internal server error' });
@@ -573,7 +573,7 @@ app.post('/deleteList', (req, res) => {
                         'DELETE FROM lists WHERE list_id = ?',
                         [list_id],
                         (error, results) => {
-                            console.log('Results:', results);
+                            //console.log('Results:', results);
                             if (error) {
                                 connection.rollback(function () {
                                     res.status(500).json({ error: 'Internal server error' });
@@ -632,7 +632,7 @@ app.post('/inviteUser', (req, res) => {
         'SELECT * FROM users WHERE user_mail = ?',
         [user_mail],
         (error, results) => {
-            console.log('Results:', results);
+            //console.log('Results:', results);
             if (error) {
                 res.status(500).json({ error: 'Internal server error' });
             } else {
