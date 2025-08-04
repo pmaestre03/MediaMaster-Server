@@ -203,7 +203,7 @@ $(document).ready(function () {
         }
         var list_id = localStorage.getItem('list_id');
         $.ajax({
-            url: 'https://mediamaster.ieti.site/inviteUser',
+            url: 'https://mediamaster.pmaestrefernandez.com/inviteUser',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({ list_id: list_id, user_mail: email }),

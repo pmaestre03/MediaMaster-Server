@@ -114,7 +114,7 @@ $(document).ready(function () {
 
     function getUsersCollaborationList(user_id) {
         $.ajax({
-            url: 'https://mediamaster.ieti.site/viewCollaboratorLists',
+            url: 'https://mediamaster.pmaestrefernandez.com/viewCollaboratorLists',
             type: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -159,7 +159,7 @@ $(document).ready(function () {
                     //console.log(selectedPosters);
 
                     if (isEmpty(ids)) { // meter feedback al usuario de que la lista esta vacia
-                        listContainer = "<h3>" + list.list_name + "</h3><h4 class='empty-feedback'>This list is empty!</h4><a class='get-started-button' href='https://mediamaster.ieti.site/search'>Get Started</a>";
+                        listContainer = "<h3>" + list.list_name + "</h3><h4 class='empty-feedback'>This list is empty!</h4><a class='get-started-button' href='https://mediamaster.pmaestrefernandez.com/search'>Get Started</a>";
                         //console.log("esta vacio");
                         $("#mySharedLists").append(listContainer);
                     } else {

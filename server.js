@@ -429,7 +429,7 @@ app.post('/forgot', (req, res) => {
                                         <p>Dear User,</p>
                                         <p>We received a request to reset your password for your MediaMaster account.</p>
                                         <p>To proceed with the password reset, please click on the following link:</p>
-                                        <p><a href="https://mediamaster.ieti.site/resetPassword?token=${token}">Reset Password</a></p>
+                                        <p><a href="https://mediamaster.pmaestrefernandez.com//resetPassword?token=${token}">Reset Password</a></p>
                                         <p>If you did not request this password reset, please ignore this email.</p>
                                         <p>Best regards,<br>MediaMaster Team</p>
                                     `

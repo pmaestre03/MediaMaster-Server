@@ -462,7 +462,7 @@ $(document).ready(function () {
                 .done(function (data) {
                     $("#mylists").empty();
                     data.forEach(function (list) {
-                        /*$("#mylists").append("<li><h3>" + list.list_name + "</h3>" + "<a href='https://mediamaster.ieti.site/viewDetailedList?id=" + list.list_id + "'><ul></ul></a></li>");
+                        /*$("#mylists").append("<li><h3>" + list.list_name + "</h3>" + "<a href='https://mediamaster.pmaestrefernandez.com/viewDetailedList?id=" + list.list_id + "'><ul></ul></a></li>");
                         $("#mylists").append("<li>Movies: " + list.movie_id + "</li>");
                         $("#mylists").append("<li>Series: " + list.serie_id + "</li>");
                         $("#mylists").append("<li>Books: " + list.book_id + "</li>");
