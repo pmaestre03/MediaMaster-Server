@@ -176,6 +176,7 @@ footer {
 
 #disabledBooks {
     cursor: not-allowed;
+    background-color: #ccc;
 }
 
 .details-container {

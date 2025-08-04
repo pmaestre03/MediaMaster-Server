@@ -26,6 +26,7 @@ body {
 
 #disabledBooks {
     cursor: not-allowed;
+    background-color: #ccc;
 }
 
 .sidebar {
