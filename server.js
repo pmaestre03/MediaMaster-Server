@@ -420,7 +420,6 @@ app.post('/forgot', (req, res) => {
                 connection.query(
                     'INSERT INTO forgotPassword (user_mail, token, used) VALUES (?, ?, 0)',
                     [email, token],
-                    console.log(mailCredentials.auth.user, email, token),
                     (error, results) => {
                         if (error) {
                             console.error('Error en INSERT:', error);
@@ -440,13 +439,12 @@ app.post('/forgot', (req, res) => {
                             `
                         };
 
-
                         transporter.sendMail(mailOptions, (error, info) => {
                             if (error) {
                                 console.error('Error al enviar correo:', error);
                                 return res.status(500).json({ error: 'Error enviando email', details: error.message });
                             }
-
+                            console.log('Correo enviado:', info.response);
                             res.json({ success: true });
                         });
                     }
