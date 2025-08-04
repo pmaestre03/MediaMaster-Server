@@ -19,9 +19,10 @@ const mailCredentials = require('./mailCredentials.js');
 app.use(cors());
 app.use(bodyParser.json());
 
-app.listen(port, () => {
-  console.log(`Servidor escuchando en el puerto ${port}`);
+app.listen(port, '127.0.0.1', () => {
+  console.log('Servidor escuchando en http://127.0.0.1:3000');
 });
+
 
 
 
