@@ -428,7 +428,7 @@ app.post('/forgot', (req, res) => {
                         }
 
                         const mailOptions = {
-                            from: `MediaMaster Team <${mailCredentials.user}>`,
+                            from: '"MediaMaster Team" <soporte@mediamaster.pmaestrefernandez.com>',
                             to: email,
                             subject: 'Password Recovery',
                             html: `
@@ -440,6 +440,7 @@ app.post('/forgot', (req, res) => {
                                 <p>Best regards,<br>MediaMaster Team</p>
                             `
                         };
+
 
                         transporter.sendMail(mailOptions, (error, info) => {
                             if (error) {
