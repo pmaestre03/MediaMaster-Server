@@ -206,7 +206,7 @@ $(document).ready(function () {
 
     function getUsersCollaborationList(user_id) {
         $.ajax({
-            url: 'https://mediamaster.ieti.site/viewCollaboratorLists',
+            url: 'https://mediamaster.pmaestrefernandez.com/viewCollaboratorLists',
             type: 'POST',
             headers: {
                 'Content-Type': 'application/json',
