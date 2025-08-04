@@ -15,6 +15,14 @@ $(document).ready(function () {
         }
     }
 
+    $("#welcome").append('Welcome, ' + user_name + '!')
+    $("#signOut, .signOut").click(function () {
+        localStorage.removeItem('user_mail');
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('user_name');
+        window.location.href = url;
+    });
+
     function showNotification(text, color) {
         Toastify({
             text: text,
@@ -174,14 +182,6 @@ $(document).ready(function () {
             }
         });
     }
-
-    $("#welcome").append('Welcome, ' + user_name + '!')
-    $("#signOut, .signOut").click(function () {
-        localStorage.removeItem('user_mail');
-        localStorage.removeItem('user_id');
-        localStorage.removeItem('user_name');
-        window.location.href = url;
-    });
 
     function getUsersList(user_mail, user_id) {
         $.ajax({
