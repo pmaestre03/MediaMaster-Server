@@ -51,12 +51,15 @@ const connection = mysql.createConnection({
 
 // Nodemailer
 let transporter = nodemailer.createTransport({
-    service: 'smtp.ionos.es',
+    host: 'smtp.ionos.es',
+    port: 465,
+    secure: true,
     auth: {
         user: mailCredentials.user,
         pass: mailCredentials.password
     }
 });
+
 
 app.post('/', (req, res) => {
     const user_mail = req.headers['user_mail'];
