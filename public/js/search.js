@@ -176,7 +176,7 @@ $(document).ready(function () {
     }
 
     $("#welcome").append('Welcome, ' + user_name + '!')
-    $("#signOut").click(function () {
+    $("#signOut, .signOut").click(function () {
         localStorage.removeItem('user_mail');
         localStorage.removeItem('user_id');
         localStorage.removeItem('user_name');

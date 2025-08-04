@@ -103,7 +103,7 @@ $(document).ready(function () {
                 // mirar si el usuario no tiene listas
                 if ($("#mylists").is(':empty')) {
                     console.log("entramos en esta vacio el div")
-                    $("#mylists").append("<h3 class='no-list-message'>You currently do not have any lists!</h3><button id='start-creating' class='get-started-button'>Get Started</button>");
+                    $("#mylists").append("<h3 class='no-list-message'>You do not have any lists!</h3><button id='start-creating' class='get-started-button'>Get Started</button>");
 
                     $("#start-creating").click(function () {
                         $("#createList").click();
@@ -176,7 +176,7 @@ $(document).ready(function () {
                 });
                 // mirar si el usuario no tiene listas
                 if ($("#mySharedLists").is(':empty')) {
-                    $("#mySharedLists").append("<h3 class='no-list-message'>You currently do not have any shared lists!</h3>");
+                    $("#mySharedLists").append("<h3 class='no-list-message'>You do not have any shared lists!</h3>");
                 }
             });
     }
