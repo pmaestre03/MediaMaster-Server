@@ -445,6 +445,7 @@ app.post('/forgot', (req, res) => {
                                 return res.status(500).json({ error: 'Error enviando email', details: error.message });
                             }
                             console.log('Correo enviado:', info.response);
+
                             res.json({ success: true });
                         });
                     }
