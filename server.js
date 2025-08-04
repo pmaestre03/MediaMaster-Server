@@ -4,7 +4,7 @@ const cors = require('cors');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const app = express();
-const port = 3000; // Puerto en el que se ejecutará el servidorconst host = 'localhost'; // Esto escuchará en todas las interfaces de red
+const port = 3000; // Puerto en el que se ejecutará el servidor
 const path = require('path');
 const { list } = require('pm2');
 const crypto = require('crypto');
@@ -19,8 +19,8 @@ const mailCredentials = require('./mailCredentials.js');
 app.use(cors());
 app.use(bodyParser.json());
 
-app.listen(port, '127.0.0.1', () => {
-  console.log(`Servidor escuchando en http://${host}:${port}`);
+app.listen(port, () => {
+  console.log(`Servidor escuchando en el puerto ${port}`);
 });
 
 
