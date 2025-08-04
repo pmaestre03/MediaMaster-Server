@@ -21,7 +21,7 @@ SET time_zone = "+00:00";
 -- Base de datos: `mediamaster`
 --
 
-CREATE DATABASE IF NOT EXISTS `mediamaster` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+CREATE DATABASE IF NOT EXISTS `mediamaster` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `mediamaster`;
 
 -- --------------------------------------------------------
@@ -35,7 +35,7 @@ CREATE TABLE `forgotPassword` (
   `user_mail` varchar(255) NOT NULL,
   `token` varchar(255) NOT NULL,
   `used` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -52,7 +52,7 @@ CREATE TABLE `lists` (
   `serie_id` mediumtext,
   `book_id` mediumtext,
   `game_id` mediumtext
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -65,7 +65,7 @@ CREATE TABLE `list_collaborators` (
   `list_id` int NOT NULL,
   `user_id` int NOT NULL,
   `accept_invite` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -79,7 +79,7 @@ CREATE TABLE `users` (
   `user_mail` varchar(255) NOT NULL,
   `user_name` varchar(255) NOT NULL,
   `user_password` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Índices para tablas volcadas

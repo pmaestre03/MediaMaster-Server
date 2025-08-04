@@ -4,8 +4,7 @@ const cors = require('cors');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const app = express();
-const port = 3000;
-const host = '0.0.0.0'; // Esto escuchará en todas las interfaces de red
+const port = 3000; // Puerto en el que se ejecutará el servidorconst host = 'localhost'; // Esto escuchará en todas las interfaces de red
 const path = require('path');
 const { list } = require('pm2');
 const crypto = require('crypto');
@@ -19,6 +18,15 @@ const mailCredentials = require('./mailCredentials.js');
 // Usa cors en todos los directorios 
 app.use(cors());
 app.use(bodyParser.json());
+
+server.listen(port, '127.0.0.1', () => {
+  console.log(`Servidor escuchando en http://${host}:${port}`);
+});
+
+
+app.use(cors({
+  origin: 'http://localhost:3000', // o '*' para permitir todos (menos seguro)
+}));
 
 // Configura express para servir archivos estáticos desde el directorio "public"
 app.use(express.static('public'));

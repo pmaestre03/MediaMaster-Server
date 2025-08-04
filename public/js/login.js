@@ -1,7 +1,8 @@
 var user_mail = localStorage.getItem('user_mail');
 var user_id = localStorage.getItem('user_id');
 var user_name = localStorage.getItem('user_name');
-const url = "https://mediamaster.ieti.site";
+const url = "https://mediamaster.pmaestrefernandez.com"; // URL base de la aplicación
+
 
 $(document).ready(function () {
 

@@ -11,9 +11,14 @@
             * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
                 * Enable inline JS: add 'unsafe-inline' to default-src
         -->
-        <meta http-equiv="Content-Security-Policy"
-            content="default-src 'self' https://fonts.gstatic.com https://ajax.googleapis.com https://www.googleapis.com https://kit.fontawesome.com data: https://musicbrainz.org gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://ajax.googleapis.com https://cdn.jsdelivr.net 'unsafe-inline'; script-src 'self' https://cdn.jsdelivr.net https://ajax.googleapis.com 'unsafe-inline'; media-src *; img-src * 'self' data: content:; connect-src 'self' https://cdn.jsdelivr.net/npm/toastify-js https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css https://www.googleapis.com https://mediamaster.ieti.site https://mediamaster.ieti.site;">
-
+        <meta http-equiv="Content-Security-Policy" content="
+            default-src 'self' https://fonts.gstatic.com https://ajax.googleapis.com https://www.googleapis.com https://kit.fontawesome.com data: https://musicbrainz.org gap: https://ssl.gstatic.com 'unsafe-eval';
+            style-src 'self' https://fonts.googleapis.com https://ajax.googleapis.com https://cdn.jsdelivr.net 'unsafe-inline';
+            script-src 'self' https://cdn.jsdelivr.net https://ajax.googleapis.com 'unsafe-inline';
+            media-src *;
+            img-src * 'self' data: content:;
+            connect-src 'self' https://cdn.jsdelivr.net/npm/toastify-js https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css https://www.googleapis.com https://mediamaster.pmaestrefernandez.com https://api.themoviedb.org https://www.gamespot.com;
+        ">
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
@@ -33,10 +38,10 @@
 
     <body class="index-body">
         <nav class="navigation">
-            <a href="https://mediamaster.ieti.site/dashboard" id="search">
+            <a href="https://mediamaster.pmaestrefernandez.com/dashboard" id="search">
                 Dashboard
             </a>
-            <a href="https://mediamaster.ieti.site/" id="signOut">
+            <a href="https://mediamaster.pmaestrefernandez.com/" id="signOut">
                 Sign out <img id="signOutLogo" src="img/signOut.png">
             </a>
         </nav>
@@ -55,7 +60,7 @@
                 <div id="options">
                     <nav>
                         <a href="dashboard" id="dashboard">Dashboard</a>
-                        <a href="https://mediamaster.ieti.site/" id="signOut" style="text-decoration: none;">
+                        <a href="https://mediamaster.pmaestrefernandez.com/" id="signOut" style="text-decoration: none;">
                             Sign out <img src="img/signOut.png" width="20px" height="20px" alt=""
                                 style="vertical-align: middle;">
                         </a>
