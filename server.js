@@ -51,7 +51,7 @@ const connection = mysql.createConnection({
 
 // Nodemailer
 let transporter = nodemailer.createTransport({
-    service: 'Gmail',
+    service: 'smtp.ionos.es',
     auth: {
         user: mailCredentials.user,
         pass: mailCredentials.password
@@ -407,50 +407,53 @@ app.post('/forgot', (req, res) => {
         'SELECT * FROM users WHERE user_mail = ?',
         [email],
         (error, results) => {
-            //console.log('Results:', results);
-            //console.log('Error:', error);
             if (error) {
-                res.status(500).json({ error: 'Internal server error' });
-            } else {
-                if (results.length > 0) {
-                    const token = uuid.v4();
-                    connection.query(
-                        'INSERT INTO forgotPassword (user_mail,token,used) VALUES (?, ?, 0)',
-                        [email, token],
-                        (error, results) => {
-                            if (error) {
-                                res.status(500).json({ error: 'Internal server error' });
-                            } else {
-                                const mailOptions = {
-                                    from: `MediaMaster Team <${mailCredentials.user}>`,
-                                    to: email,
-                                    subject: 'Password Recovery',
-                                    html: `
-                                        <p>Dear User,</p>
-                                        <p>We received a request to reset your password for your MediaMaster account.</p>
-                                        <p>To proceed with the password reset, please click on the following link:</p>
-                                        <p><a href="https://mediamaster.pmaestrefernandez.com//resetPassword?token=${token}">Reset Password</a></p>
-                                        <p>If you did not request this password reset, please ignore this email.</p>
-                                        <p>Best regards,<br>MediaMaster Team</p>
-                                    `
-                                };
-                                transporter.sendMail(mailOptions, (error, info) => {
-                                    if (error) {
-                                        res.status(500).json({ error: 'Internal server error' });
-                                    } else {
-                                        res.json({ success: true });
-                                    }
-                                });
-                            }
+                console.error('Error en SELECT:', error);
+                return res.status(500).json({ error: 'Error en SELECT', details: error.message });
+            }
+
+            if (results.length > 0) {
+                const token = uuid.v4();
+                connection.query(
+                    'INSERT INTO forgotPassword (user_mail, token, used) VALUES (?, ?, 0)',
+                    [email, token],
+                    (error, results) => {
+                        if (error) {
+                            console.error('Error en INSERT:', error);
+                            return res.status(500).json({ error: 'Error en INSERT', details: error.message });
                         }
-                    );
-                } else {
-                    res.json({ success: false });
-                }
+
+                        const mailOptions = {
+                            from: `MediaMaster Team <${mailCredentials.user}>`,
+                            to: email,
+                            subject: 'Password Recovery',
+                            html: `
+                                <p>Dear User,</p>
+                                <p>We received a request to reset your password for your MediaMaster account.</p>
+                                <p>To proceed with the password reset, please click on the following link:</p>
+                                <p><a href="https://mediamaster.pmaestrefernandez.com/resetPassword?token=${token}">Reset Password</a></p>
+                                <p>If you did not request this password reset, please ignore this email.</p>
+                                <p>Best regards,<br>MediaMaster Team</p>
+                            `
+                        };
+
+                        transporter.sendMail(mailOptions, (error, info) => {
+                            if (error) {
+                                console.error('Error al enviar correo:', error);
+                                return res.status(500).json({ error: 'Error enviando email', details: error.message });
+                            }
+
+                            res.json({ success: true });
+                        });
+                    }
+                );
+            } else {
+                res.json({ success: false });
             }
         }
     );
 });
+
 
 
 app.post('/resetPassword', (req, res) => {
