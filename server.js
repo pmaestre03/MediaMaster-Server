@@ -673,7 +673,3 @@ app.post('/inviteUser', (req, res) => {
         }
     );
 });
-
-app.listen(port, host, () => {
-    console.log(`Hola mundo on http://${host}:${port}`);
-});
