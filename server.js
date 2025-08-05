@@ -24,11 +24,22 @@ app.listen(port, '127.0.0.1', () => {
 });
 
 
-
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:8000'
+];
 
 app.use(cors({
-  origin: 'http://localhost:3000', // o '*' para permitir todos (menos seguro)
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
 }));
+
 
 // Configura express para servir archivos estáticos desde el directorio "public"
 app.use(express.static('public'));
