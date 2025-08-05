@@ -26,16 +26,22 @@ app.listen(port, '127.0.0.1', () => {
 
 const allowedOrigins = [
   'http://localhost:3000',
-  'http://localhost:8000'
+  'http://localhost:8000',
+  'https://localhost'
 ];
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
+    // Si no hay origin (peticiones desde apps móviles o herramientas)
+    if (!origin) {
+      return callback(null, true);
     }
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    console.log('❌ Origin bloqueado por CORS:', origin);
+    // No pasar error, solo denegar con null + false para no romper la app
+    return callback(null, false);
   },
   credentials: true
 }));
